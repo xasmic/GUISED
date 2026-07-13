@@ -1,9 +1,15 @@
 @import "tailwindcss";
-@import "./styles/gothic.css";
-@import "./styles/maison-reliquary.css";
 
 @theme inline {
-  --font-sans: var(--font-cormorant);
+  --font-display: var(--font-cinzel-face), "Times New Roman", serif;
+  --font-body: var(--font-cormorant-face), Georgia, serif;
+  --color-hygen-primary: #c4a35a;
+  --color-hygen-secondary: #9a8f86;
+  --color-hygen-bg: #100e10;
+  --color-hygen-surface: #100e10;
+  --color-hygen-text: #ebe4dc;
+  --color-hygen-muted: #9a8f86;
+  --color-hygen-media: #000000;
 }
 
 * {
@@ -17,8 +23,16 @@ html {
 body {
   margin: 0;
   min-height: 100%;
-  background: #09080a;
-  color: #efe8df;
+  background: #000000;
+  color: #ebe4dc;
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #7a1717;
+  color: #ebe4dc;
 }
 
 a {
@@ -32,9 +46,17 @@ video {
   max-width: 100%;
 }
 
-button,
-input {
+button {
   font: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.font-display {
+  font-family: var(--font-display);
 }
 
 @media (prefers-reduced-motion: reduce) {

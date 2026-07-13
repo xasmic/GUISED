@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "hygen-concept",
+      "settings": {
+        "title": "404",
+        "body": "Page not found.",
+        "body_secondary": ""
+      }
+    }
+  },
+  "order": ["main"]
+}

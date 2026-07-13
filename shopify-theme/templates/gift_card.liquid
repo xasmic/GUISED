@@ -1,0 +1,16 @@
+{% layout none %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Gift card</title>
+    {{ content_for_header }}
+  </head>
+  <body>
+    {% if gift_card %}
+      <h1>{{ gift_card.balance | money }}</h1>
+      <p>{{ gift_card.code }}</p>
+    {% endif %}
+  </body>
+</html>

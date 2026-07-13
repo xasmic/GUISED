@@ -1,0 +1,92 @@
+{%- liquid
+  assign poster = section.settings.image_url | default: 'https://atelierguised.com/cdn/shop/files/Guised_Faye_1.jpg?v=1761817444&width=1920'
+  assign video_src = section.settings.video_url | default: 'https://atelierguised.com/cdn/shop/videos/c/vp/f500300d62c1401c9ff39fb3b45c7c8b/f500300d62c1401c9ff39fb3b45c7c8b.HD-1080p-7.2Mbps-61322588.mp4?v=0'
+-%}
+
+<section class="hygen-hero" data-hygen-hero>
+  {% if section.settings.video != blank %}
+    {{
+      section.settings.video
+      | video_tag:
+        autoplay: true,
+        loop: true,
+        muted: true,
+        controls: false,
+        image_size: '1920x',
+        class: 'hygen-hero__video'
+    }}
+  {% else %}
+    <video
+      class="hygen-hero__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="{% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 1920 }}{% else %}{{ poster }}{% endif %}"
+    >
+      <source src="{{ video_src }}" type="video/mp4">
+    </video>
+  {% endif %}
+
+  {% if section.settings.image != blank %}
+    {{
+      section.settings.image
+      | image_url: width: 2400
+      | image_tag:
+        class: 'hygen-hero__image',
+        loading: 'eager',
+        widths: '750,1100,1500,1920,2400',
+        sizes: '100vw',
+        alt: section.settings.image.alt | default: shop.name
+    }}
+  {% else %}
+    <img
+      class="hygen-hero__image"
+      src="{{ poster }}"
+      alt="{{ shop.name | escape }}"
+      loading="eager"
+      width="1920"
+      height="1080"
+    >
+  {% endif %}
+
+  <div class="hygen-hero__veil"></div>
+  <a class="hygen-hero__down" href="#concept" aria-label="Scroll to concept">↓</a>
+</section>
+
+{% schema %}
+{
+  "name": "Hygen hero",
+  "tag": "section",
+  "class": "hygen-section-hero",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Defaults use the same Atelier Guised CDN media as the site. Override anytime with Shopify files."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Poster / mobile image (optional override)"
+    },
+    {
+      "type": "text",
+      "id": "image_url",
+      "label": "Poster image URL",
+      "default": "https://atelierguised.com/cdn/shop/files/Guised_Faye_1.jpg?v=1761817444&width=1920"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Shopify-hosted video (optional override)"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Hero MP4 URL",
+      "default": "https://atelierguised.com/cdn/shop/videos/c/vp/f500300d62c1401c9ff39fb3b45c7c8b/f500300d62c1401c9ff39fb3b45c7c8b.HD-1080p-7.2Mbps-61322588.mp4?v=0"
+    }
+  ],
+  "presets": [{ "name": "Hygen hero" }]
+}
+{% endschema %}

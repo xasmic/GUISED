@@ -1,0 +1,178 @@
+<section class="hygen-stockist" id="stockist">
+  {% render 'hygen-nav', active: 'stockist' %}
+
+  <div class="hygen-stockist__inner">
+    <p class="hygen-stockist__online">
+      <a href="{{ section.settings.online_link | default: routes.root_url }}">
+        {{ section.settings.online_label }}
+      </a>
+    </p>
+
+    <div class="hygen-stockist__row">
+      {% for block in section.blocks %}
+        {% if block.type == 'region' and block.settings.row == 'primary' %}
+          <div class="hygen-stockist__col" {{ block.shopify_attributes }}>
+            <h2 class="hygen-stockist__region">{{ block.settings.region }}</h2>
+            <ul class="hygen-stockist__list">
+              {% if block.settings.city_1 != blank %}
+                <li>
+                  <p class="hygen-stockist__city">{{ block.settings.city_1 }}</p>
+                  {% if block.settings.link_1 != blank %}
+                    <a class="hygen-stockist__name" href="{{ block.settings.link_1 }}">{{ block.settings.name_1 }}</a>
+                  {% else %}
+                    <p class="hygen-stockist__name">{{ block.settings.name_1 }}</p>
+                  {% endif %}
+                  {% if block.settings.phone_1 != blank %}
+                    <p class="hygen-stockist__tel">{{ block.settings.phone_1 }}</p>
+                  {% endif %}
+                </li>
+              {% endif %}
+              {% if block.settings.city_2 != blank %}
+                <li>
+                  <p class="hygen-stockist__city">{{ block.settings.city_2 }}</p>
+                  {% if block.settings.link_2 != blank %}
+                    <a class="hygen-stockist__name" href="{{ block.settings.link_2 }}">{{ block.settings.name_2 }}</a>
+                  {% else %}
+                    <p class="hygen-stockist__name">{{ block.settings.name_2 }}</p>
+                  {% endif %}
+                  {% if block.settings.phone_2 != blank %}
+                    <p class="hygen-stockist__tel">{{ block.settings.phone_2 }}</p>
+                  {% endif %}
+                </li>
+              {% endif %}
+              {% if block.settings.city_3 != blank %}
+                <li>
+                  <p class="hygen-stockist__city">{{ block.settings.city_3 }}</p>
+                  {% if block.settings.link_3 != blank %}
+                    <a class="hygen-stockist__name" href="{{ block.settings.link_3 }}">{{ block.settings.name_3 }}</a>
+                  {% else %}
+                    <p class="hygen-stockist__name">{{ block.settings.name_3 }}</p>
+                  {% endif %}
+                  {% if block.settings.phone_3 != blank %}
+                    <p class="hygen-stockist__tel">{{ block.settings.phone_3 }}</p>
+                  {% endif %}
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="hygen-stockist__world hygen-stockist__row">
+      {% for block in section.blocks %}
+        {% if block.type == 'region' and block.settings.row == 'secondary' %}
+          <div class="hygen-stockist__col" {{ block.shopify_attributes }}>
+            <h2 class="hygen-stockist__region">{{ block.settings.region }}</h2>
+            <ul class="hygen-stockist__list">
+              {% if block.settings.city_1 != blank %}
+                <li>
+                  <p class="hygen-stockist__city">{{ block.settings.city_1 }}</p>
+                  <p class="hygen-stockist__name">{{ block.settings.name_1 }}</p>
+                  {% if block.settings.phone_1 != blank %}
+                    <p class="hygen-stockist__tel">{{ block.settings.phone_1 }}</p>
+                  {% endif %}
+                </li>
+              {% endif %}
+              {% if block.settings.city_2 != blank %}
+                <li>
+                  <p class="hygen-stockist__city">{{ block.settings.city_2 }}</p>
+                  <p class="hygen-stockist__name">{{ block.settings.name_2 }}</p>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hygen stockist",
+  "tag": "section",
+  "class": "hygen-section-stockist",
+  "settings": [
+    {
+      "type": "text",
+      "id": "online_label",
+      "label": "Online store label",
+      "default": "Online Store"
+    },
+    {
+      "type": "url",
+      "id": "online_link",
+      "label": "Online store link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "region",
+      "name": "Region",
+      "settings": [
+        {
+          "type": "select",
+          "id": "row",
+          "label": "Row",
+          "options": [
+            { "value": "primary", "label": "Primary row" },
+            { "value": "secondary", "label": "International row" }
+          ],
+          "default": "primary"
+        },
+        { "type": "text", "id": "region", "label": "Region", "default": "Singapore" },
+        { "type": "text", "id": "city_1", "label": "City 1", "default": "Singapore" },
+        { "type": "text", "id": "name_1", "label": "Store 1", "default": "Atelier Guised" },
+        { "type": "text", "id": "phone_1", "label": "Phone 1", "default": "By appointment" },
+        { "type": "url", "id": "link_1", "label": "Link 1" },
+        { "type": "text", "id": "city_2", "label": "City 2" },
+        { "type": "text", "id": "name_2", "label": "Store 2" },
+        { "type": "text", "id": "phone_2", "label": "Phone 2" },
+        { "type": "url", "id": "link_2", "label": "Link 2" },
+        { "type": "text", "id": "city_3", "label": "City 3" },
+        { "type": "text", "id": "name_3", "label": "Store 3" },
+        { "type": "text", "id": "phone_3", "label": "Phone 3" },
+        { "type": "url", "id": "link_3", "label": "Link 3" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hygen stockist",
+      "blocks": [
+        {
+          "type": "region",
+          "settings": {
+            "row": "primary",
+            "region": "Singapore",
+            "city_1": "Singapore",
+            "name_1": "Atelier Guised",
+            "phone_1": "By appointment"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "row": "primary",
+            "region": "Online",
+            "city_1": "Worldwide",
+            "name_1": "atelierguised.com"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "row": "secondary",
+            "region": "International",
+            "city_1": "Enquire",
+            "name_1": "Archive request",
+            "city_2": "Wholesale",
+            "name_2": "info via contact"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

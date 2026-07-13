@@ -1,61 +1,23 @@
 import type { Metadata } from "next";
-import {
-  Baskervville,
-  Bodoni_Moda,
-  Cinzel,
-  Cormorant_Garamond,
-  IBM_Plex_Serif,
-  Outfit,
-  Roboto_Serif,
-} from "next/font/google";
+import { Cinzel, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 
-const robotoSerif = Roboto_Serif({
-  variable: "--font-roboto-serif",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-});
-
-const baskervville = Baskervville({
-  variable: "--font-baskervville",
-  subsets: ["latin"],
-  weight: "400",
-});
-
-const ibmPlexSerif = IBM_Plex_Serif({
-  variable: "--font-ibm-plex-serif",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-});
-
 const cinzel = Cinzel({
-  variable: "--font-cinzel",
+  variable: "--font-cinzel-face",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });
 
 const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+  variable: "--font-cormorant-face",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-});
-
-const bodoni = Bodoni_Moda({
-  variable: "--font-bodoni",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
 });
 
 export const metadata: Metadata = {
-  title: "GUISED — Design Versions",
+  title: "GUISED",
   description:
-    "Classic, gothic, and maison editorial design variations of the GUISED leather atelier homepage.",
+    "Leather goods that wear your story. Slowly and obsessively crafted.",
 };
 
 export default function RootLayout({
@@ -66,9 +28,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${robotoSerif.variable} ${baskervville.variable} ${ibmPlexSerif.variable} ${cinzel.variable} ${cormorant.variable} ${bodoni.variable} ${outfit.variable} h-full antialiased`}
+      className={`${cinzel.variable} ${cormorant.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full font-body antialiased">{children}</body>
     </html>
   );
 }

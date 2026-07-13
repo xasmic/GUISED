@@ -1,0 +1,779 @@
+/*
+  GUISED — Hygen archive homepage
+  Design tokens from saddamteissy.com aesthetic
+*/
+
+:root {
+  --hygen-primary: #000000;
+  --hygen-secondary: #ababab;
+  --hygen-bg: #f3f3f3;
+  --hygen-surface: #f3f3f3;
+  --hygen-text: #000000;
+  --hygen-muted: #ababab;
+  --hygen-media: #000000;
+  --hygen-font: "Amiri", YuMincho, "Hiragino Mincho ProN", "MS PMincho", Meiryo, serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body.hygen-body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--hygen-media);
+  color: var(--hygen-text);
+  font-family: var(--hygen-font);
+}
+
+.hygen-body ::selection {
+  background: #000;
+  color: #f3f3f3;
+}
+
+.hygen-body a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hygen-body img,
+.hygen-body video {
+  display: block;
+  max-width: 100%;
+}
+
+.hygen-body button {
+  font: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 0;
+  color: inherit;
+}
+
+.hygen-main {
+  min-width: 0;
+  background: var(--hygen-media);
+  color: var(--hygen-text);
+}
+
+@media (min-width: 1220px) {
+  .hygen-main {
+    min-width: 1220px;
+  }
+}
+
+/* Fixed wordmark */
+.hygen-logo-fixed {
+  position: fixed;
+  top: 30px;
+  left: 45px;
+  z-index: 9999;
+  display: none;
+  font-size: 35px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #fff;
+  mix-blend-mode: difference;
+  transition: opacity 0.5s;
+}
+
+.hygen-logo-fixed:hover {
+  opacity: 0.5;
+}
+
+@media (min-width: 1025px) {
+  .hygen-logo-fixed {
+    display: block;
+  }
+}
+
+@media (min-width: 1320px) {
+  .hygen-logo-fixed {
+    font-size: 45px;
+  }
+}
+
+/* Section nav */
+.hygen-nav {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 20px;
+  padding: 32px 45px 0 0;
+}
+
+.hygen-nav a {
+  font-size: 15px;
+  line-height: 1;
+  color: var(--hygen-text);
+  opacity: 0.7;
+  transition: opacity 0.5s;
+}
+
+.hygen-nav a:hover,
+.hygen-nav a.is-active {
+  opacity: 1;
+}
+
+.hygen-nav a:hover {
+  opacity: 0.5;
+}
+
+.hygen-sns {
+  position: absolute;
+  bottom: 20px;
+  left: 45px;
+  z-index: 40;
+  display: flex;
+  gap: 16px;
+}
+
+.hygen-sns a {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hygen-text);
+  transition: opacity 0.5s;
+}
+
+.hygen-sns a:hover {
+  opacity: 0.5;
+}
+
+/* Hero */
+.hygen-hero {
+  position: relative;
+  min-height: 100svh;
+  width: 100%;
+  background: var(--hygen-media);
+}
+
+.hygen-hero__video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hygen-hero__image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 1025px) {
+  .hygen-hero__video {
+    display: block;
+  }
+  .hygen-hero__image {
+    display: none;
+  }
+}
+
+.hygen-hero__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.hygen-hero__down {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  z-index: 10;
+  margin-left: -20px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 28px;
+  line-height: 40px;
+  color: #fff;
+  transition: bottom 0.2s;
+}
+
+.hygen-hero__down:hover {
+  bottom: 40px;
+}
+
+/* Concept */
+.hygen-concept {
+  position: relative;
+  height: 700px;
+  width: 100%;
+  background: var(--hygen-bg);
+  color: var(--hygen-text);
+}
+
+.hygen-concept__inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(620px, 90vw);
+  transform: translate(-50%, -50%);
+}
+
+.hygen-concept__title {
+  margin: 0 0 2rem;
+  text-align: center;
+  font-size: 35px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  line-height: normal;
+}
+
+@media (min-width: 1320px) {
+  .hygen-concept__title {
+    font-size: 45px;
+  }
+}
+
+.hygen-concept__body {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+.hygen-concept__secondary {
+  margin: 1.5rem 0 0;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Parallax */
+.hygen-parallax {
+  position: relative;
+  height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--hygen-media);
+}
+
+.hygen-parallax__bg {
+  position: absolute;
+  inset: 0;
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+@media (min-width: 1025px) {
+  .hygen-parallax__bg {
+    background-attachment: fixed;
+  }
+}
+
+/* Collection */
+.hygen-collection {
+  position: relative;
+  height: 1000px;
+  width: 100%;
+  background: var(--hygen-bg);
+  color: var(--hygen-text);
+}
+
+@media (min-width: 1500px) {
+  .hygen-collection {
+    height: 1250px;
+  }
+}
+
+.hygen-collection__index {
+  position: absolute;
+  top: 123px;
+  left: 100px;
+  z-index: 20;
+  max-width: 280px;
+  font-size: 18px;
+  line-height: 2;
+}
+
+@media (min-width: 1500px) {
+  .hygen-collection__index {
+    top: 150px;
+  }
+}
+
+.hygen-collection__heading {
+  margin: 0 0 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.hygen-collection__index ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hygen-collection__index button {
+  display: inline-block;
+  transition: opacity 0.5s;
+}
+
+.hygen-collection__index button:hover,
+.hygen-collection__index button.is-active {
+  opacity: 0.5;
+}
+
+.hygen-collection__index button.is-active {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+}
+
+.hygen-collection__stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  width: 467px;
+  transform: translate(-50%, -50%);
+  background: var(--hygen-surface);
+}
+
+@media (min-width: 1500px) {
+  .hygen-collection__stage {
+    width: 600px;
+  }
+}
+
+.hygen-collection__media {
+  position: relative;
+  background: var(--hygen-media);
+}
+
+.hygen-collection__media img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.hygen-collection__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 9999;
+  display: none;
+  width: 61px;
+  height: 116px;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  font-size: 42px;
+  color: var(--hygen-text);
+  transition: opacity 0.2s;
+}
+
+.hygen-collection__arrow:hover {
+  opacity: 0.5;
+}
+
+.hygen-collection__arrow--prev {
+  left: -200px;
+}
+
+.hygen-collection__arrow--next {
+  right: -200px;
+}
+
+@media (min-width: 1220px) {
+  .hygen-collection__arrow {
+    display: flex;
+  }
+}
+
+.hygen-collection__index-btn {
+  position: relative;
+  top: -50px;
+  left: 100%;
+  margin-left: 8px;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: opacity 0.5s;
+}
+
+.hygen-collection__index-btn:hover {
+  opacity: 0.5;
+}
+
+.hygen-season {
+  display: none;
+}
+
+.hygen-season.is-active {
+  display: block;
+}
+
+.hygen-slide {
+  display: none;
+}
+
+.hygen-slide.is-active {
+  display: block;
+}
+
+/* Modal */
+.hygen-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.hygen-modal.is-open {
+  display: flex;
+}
+
+.hygen-modal__close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: opacity 0.2s;
+}
+
+.hygen-modal__close:hover {
+  opacity: 0.5;
+}
+
+.hygen-modal__panel {
+  z-index: 10000;
+  max-height: 90vh;
+  max-width: 900px;
+  overflow: auto;
+  background: var(--hygen-bg);
+  padding: 8px;
+}
+
+.hygen-modal__grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.hygen-modal__thumb {
+  padding: 5px;
+  transition: opacity 0.2s;
+}
+
+.hygen-modal__thumb:hover {
+  opacity: 0.5;
+}
+
+.hygen-modal__thumb img {
+  width: 120px;
+  height: 160px;
+  object-fit: cover;
+}
+
+.hygen-modal-season {
+  display: none;
+}
+
+.hygen-modal-season.is-active {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Stockist */
+.hygen-stockist {
+  position: relative;
+  min-height: 1000px;
+  width: 100%;
+  padding: 96px 0;
+  background: var(--hygen-bg);
+  color: var(--hygen-text);
+}
+
+@media (min-width: 1220px) {
+  .hygen-stockist {
+    height: 1672px;
+    padding: 0;
+  }
+}
+
+.hygen-stockist__inner {
+  position: relative;
+  width: min(720px, 92vw);
+  margin: 0 auto;
+}
+
+@media (min-width: 1220px) {
+  .hygen-stockist__inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 720px;
+    height: 1400px;
+    margin: 0;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.hygen-stockist__online {
+  margin: 0 0 40px;
+  font-size: 18px;
+  line-height: 2;
+}
+
+.hygen-stockist__online a {
+  font-weight: 700;
+  letter-spacing: 2px;
+  transition: opacity 0.5s;
+}
+
+.hygen-stockist__online a:hover {
+  opacity: 0.3;
+}
+
+.hygen-stockist__col {
+  float: left;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+@media (min-width: 700px) {
+  .hygen-stockist__col {
+    width: 240px;
+    margin-bottom: 0;
+  }
+}
+
+.hygen-stockist__region {
+  display: inline-block;
+  margin: 0 0 40px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--hygen-text);
+}
+
+.hygen-stockist__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hygen-stockist__list li {
+  margin: 0 0 24px;
+}
+
+.hygen-stockist__city {
+  margin: 0 0 15px;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--hygen-muted);
+}
+
+.hygen-stockist__name {
+  display: block;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1;
+  transition: opacity 0.5s;
+}
+
+a.hygen-stockist__name:hover {
+  opacity: 0.3;
+}
+
+.hygen-stockist__tel {
+  margin: 4px 0 0;
+  font-size: 15px;
+}
+
+.hygen-stockist__row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.hygen-stockist__world {
+  clear: both;
+  margin-top: 80px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile collection fallback */
+@media (max-width: 900px) {
+  .hygen-collection {
+    height: auto;
+    min-height: 100svh;
+    padding: 120px 20px 80px;
+  }
+
+  .hygen-collection__index {
+    position: relative;
+    top: auto;
+    left: auto;
+    max-width: none;
+    margin-bottom: 40px;
+  }
+
+  .hygen-collection__stage {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    max-width: 467px;
+    margin: 0 auto;
+    transform: none;
+  }
+
+  .hygen-collection__index-btn {
+    top: 12px;
+    left: auto;
+    display: block;
+    margin: 12px 0 0;
+  }
+
+.hygen-nav {
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  padding: 20px 16px 0 0;
+  max-width: 70%;
+}
+}
+
+/* About */
+.hygen-about {
+  position: relative;
+  min-height: 780px;
+  width: 100%;
+  background: var(--hygen-bg);
+  color: var(--hygen-text);
+}
+
+.hygen-about__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 48px;
+  width: min(960px, 92vw);
+  min-height: 780px;
+  margin: 0 auto;
+  padding: 112px 0;
+}
+
+@media (min-width: 900px) {
+  .hygen-about__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+}
+
+.hygen-about__media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--hygen-media);
+}
+
+.hygen-about__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hygen-about__eyebrow {
+  margin: 0 0 1rem;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--hygen-muted);
+}
+
+.hygen-about__title {
+  margin: 0 0 2rem;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.hygen-about__body {
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.hygen-about__secondary {
+  margin-top: 1.5rem;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--hygen-muted);
+}
+
+.hygen-about__meta {
+  margin: 3rem 0 0;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.hygen-about__meta div {
+  margin-bottom: 1.25rem;
+}
+
+.hygen-about__meta dt {
+  margin: 0 0 0.25rem;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--hygen-muted);
+}
+
+.hygen-about__meta dd {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.hygen-about__link {
+  display: inline-block;
+  margin-top: 2.5rem;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: opacity 0.5s;
+}
+
+.hygen-about__link:hover {
+  opacity: 0.5;
+}
