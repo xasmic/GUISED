@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import {
   Baskervville,
+  Bodoni_Moda,
   Cinzel,
   Cormorant_Garamond,
   IBM_Plex_Serif,
+  Outfit,
   Roboto_Serif,
 } from "next/font/google";
 import "./globals.css";
@@ -38,10 +40,22 @@ const cormorant = Cormorant_Garamond({
   weight: ["400", "500", "600"],
 });
 
+const bodoni = Bodoni_Moda({
+  variable: "--font-bodoni",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+});
+
 export const metadata: Metadata = {
   title: "GUISED — Design Versions",
   description:
-    "Classic and dark gothic design variations of the GUISED leather atelier homepage.",
+    "Classic, gothic, and maison editorial design variations of the GUISED leather atelier homepage.",
 };
 
 export default function RootLayout({
@@ -52,7 +66,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${robotoSerif.variable} ${baskervville.variable} ${ibmPlexSerif.variable} ${cinzel.variable} ${cormorant.variable} h-full antialiased`}
+      className={`${robotoSerif.variable} ${baskervville.variable} ${ibmPlexSerif.variable} ${cinzel.variable} ${cormorant.variable} ${bodoni.variable} ${outfit.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

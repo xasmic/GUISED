@@ -8,8 +8,9 @@ export default function VersionsHub() {
         <p>GUISED atelier</p>
         <h1>Versions</h1>
         <p>
-          The classic storefront is preserved. Four dark gothic variations sit
-          beside it — open any of them anytime from here or the floating switcher.
+          Classic, Reliquary I, and Maison Reliquary I are preserved. We&apos;re
+          iterating on Maison Reliquary — open it from here or the floating
+          switcher.
         </p>
       </div>
 

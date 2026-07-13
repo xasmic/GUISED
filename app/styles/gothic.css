@@ -52,13 +52,26 @@
   color: var(--v-accent, #c15045);
 }
 
-.theme-classic .version-chrome {
+.theme-classic .version-chrome,
+.maison ~ .version-chrome,
+.maison + .version-chrome {
   border-color: rgba(17, 17, 17, 0.12);
   background: rgba(247, 245, 242, 0.92);
   color: #111;
 }
 
 .theme-classic .version-chrome__hub {
+  border-right-color: rgba(17, 17, 17, 0.14);
+}
+
+/* Light chrome only for the cream Maison version */
+body:has(.maison:not(.maison--gothic):not(.maison--gothic-v1)) .version-chrome {
+  border-color: rgba(17, 17, 17, 0.12);
+  background: rgba(246, 244, 239, 0.94);
+  color: #111;
+}
+
+body:has(.maison:not(.maison--gothic):not(.maison--gothic-v1)) .version-chrome__hub {
   border-right-color: rgba(17, 17, 17, 0.14);
 }
 
@@ -120,7 +133,13 @@
 
 @media (min-width: 1100px) {
   .hub__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1400px) {
+  .hub__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -206,35 +225,6 @@
     radial-gradient(800px 420px at 50% -10%, rgba(143, 29, 29, 0.35), transparent 60%),
     radial-gradient(600px 400px at 100% 40%, rgba(80, 10, 10, 0.25), transparent 55%),
     #050304;
-}
-
-[data-gothic="nocturne"] {
-  --g-bg: #080b10;
-  --g-accent: #a8b4c4;
-  --g-accent-soft: #d7dde6;
-  background:
-    radial-gradient(900px 480px at 80% -5%, rgba(168, 180, 196, 0.16), transparent 55%),
-    radial-gradient(700px 500px at 0% 30%, rgba(40, 55, 80, 0.35), transparent 50%),
-    #080b10;
-}
-
-[data-gothic="scarred"] {
-  --g-bg: #0c0707;
-  --g-accent: #b84a3a;
-  --g-accent-soft: #e0b2a8;
-  background:
-    radial-gradient(700px 500px at 20% 0%, rgba(184, 74, 58, 0.22), transparent 55%),
-    linear-gradient(180deg, #120909, #0c0707 40%, #160c0b);
-}
-
-[data-gothic="vespers"] {
-  --g-bg: #0a0908;
-  --g-accent: #c4a35a;
-  --g-accent-soft: #e8d7a8;
-  background:
-    radial-gradient(800px 420px at 50% 0%, rgba(196, 163, 90, 0.14), transparent 55%),
-    radial-gradient(600px 500px at 100% 80%, rgba(90, 60, 20, 0.2), transparent 50%),
-    #0a0908;
 }
 
 .g-header {
@@ -324,10 +314,6 @@
 
 [data-gothic="reliquary"] .g-hero__frame {
   border-color: rgba(143, 29, 29, 0.45);
-}
-
-[data-gothic="vespers"] .g-hero__frame {
-  border-color: rgba(196, 163, 90, 0.35);
 }
 
 .g-hero__copy {
@@ -651,17 +637,4 @@
 /* Theme-specific flourishes */
 [data-gothic="reliquary"] .g-hero__media {
   filter: contrast(1.15) saturate(0.65) brightness(0.62) sepia(0.18);
-}
-
-[data-gothic="nocturne"] .g-hero__media {
-  filter: contrast(1.12) saturate(0.45) brightness(0.68) hue-rotate(190deg);
-}
-
-[data-gothic="scarred"] .g-card__media {
-  border-color: rgba(184, 74, 58, 0.35);
-}
-
-[data-gothic="vespers"] .g-btn {
-  border-color: var(--g-accent);
-  box-shadow: 0 0 24px rgba(196, 163, 90, 0.12);
 }

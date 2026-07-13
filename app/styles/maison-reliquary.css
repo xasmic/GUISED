@@ -1,0 +1,1016 @@
+/* Reliquary II — elevated gothic */
+
+.reliquary2 {
+  --bg: #070405;
+  --ink: #f3ebe3;
+  --muted: rgba(243, 235, 227, 0.68);
+  --blood: #9a1c1c;
+  --blood-soft: #d4a39a;
+  --line: rgba(243, 235, 227, 0.14);
+  min-height: 100vh;
+  background:
+    radial-gradient(900px 480px at 50% -8%, rgba(154, 28, 28, 0.28), transparent 58%),
+    #070405;
+  color: var(--ink);
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+.r2-header {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 8;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 1.25rem clamp(1rem, 4vw, 2.5rem);
+}
+
+.r2-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 2rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.r2-menu span {
+  display: block;
+  width: 18px;
+  height: 1px;
+  background: var(--ink);
+}
+
+.r2-mark {
+  justify-self: center;
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  text-transform: uppercase;
+}
+
+.r2-actions {
+  justify-self: end;
+  display: flex;
+  gap: 1rem;
+  font-family: var(--font-ibm-plex-serif), serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.r2-actions a {
+  opacity: 0.75;
+}
+
+.r2-actions a:hover {
+  opacity: 1;
+  color: var(--blood-soft);
+}
+
+.r2-hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #000;
+}
+
+.r2-hero__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.r2-hero__slide.is-active {
+  opacity: 1;
+}
+
+.r2-hero__slide :is(img, video) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.18) saturate(0.55) brightness(0.55) sepia(0.22);
+}
+
+.r2-hero__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 35%, transparent 10%, rgba(0, 0, 0, 0.55) 70%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 35%, rgba(0, 0, 0, 0.82));
+}
+
+.r2-hero__ornament {
+  position: absolute;
+  inset: 1.25rem;
+  border: 1px solid rgba(154, 28, 28, 0.45);
+  pointer-events: none;
+}
+
+.r2-hero__ornament span {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(243, 235, 227, 0.25);
+}
+
+.r2-hero__ornament span:first-child {
+  top: -1px;
+  left: -1px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.r2-hero__ornament span:last-child {
+  right: -1px;
+  bottom: -1px;
+  border-left: 0;
+  border-top: 0;
+}
+
+.r2-hero__copy {
+  position: absolute;
+  inset: auto 0 12vh;
+  z-index: 2;
+  text-align: center;
+  padding: 0 1.25rem;
+  animation: r2-rise 1s ease both;
+}
+
+.r2-kicker {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-ibm-plex-serif), serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--blood-soft);
+}
+
+.r2-hero__copy h1 {
+  margin: 0;
+  font-family: var(--font-cinzel), serif;
+  font-size: clamp(3rem, 10vw, 6.5rem);
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
+  line-height: 0.9;
+}
+
+.r2-line {
+  margin: 1.1rem auto 0.55rem;
+  max-width: 18ch;
+  font-family: var(--font-cinzel), serif;
+  font-size: clamp(1rem, 2.4vw, 1.45rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.r2-sub {
+  margin: 0 auto 1.5rem;
+  max-width: 34ch;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.r2-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.7rem;
+  padding: 0 1.35rem;
+  border: 1px solid var(--blood);
+  background: color-mix(in srgb, var(--blood) 22%, transparent);
+  font-family: var(--font-ibm-plex-serif), serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.r2-cta:hover {
+  background: var(--blood);
+  color: #fff;
+}
+
+.r2-cta--ghost {
+  background: transparent;
+}
+
+.r2-campaign {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 900px) {
+  .r2-campaign {
+    grid-template-columns: 1.15fr 0.85fr;
+    min-height: 78vh;
+  }
+}
+
+.r2-campaign__media {
+  position: relative;
+  min-height: 420px;
+}
+
+.r2-campaign__media img {
+  object-fit: cover;
+  filter: contrast(1.1) saturate(0.7) brightness(0.72);
+}
+
+.r2-campaign__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 6vw, 4rem);
+  background: #0c0607;
+}
+
+.r2-campaign__copy h2 {
+  margin: 0 0 1rem;
+  font-family: var(--font-cinzel), serif;
+  font-size: clamp(1.5rem, 3vw, 2.3rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.r2-campaign__copy p {
+  margin: 0 0 1.5rem;
+  max-width: 34ch;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.r2-relics {
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem);
+  border-top: 1px solid var(--line);
+}
+
+.r2-section-head {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.r2-section-head h2 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-cinzel), serif;
+  font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.r2-section-head p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.r2-relics__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .r2-relics__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+.r2-relic__media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid rgba(154, 28, 28, 0.35);
+  background: #12080a;
+  margin-bottom: 0.75rem;
+}
+
+.r2-relic__media img {
+  object-fit: cover;
+  filter: saturate(0.8) contrast(1.05);
+  transition: transform 0.9s ease;
+}
+
+.r2-relic:hover .r2-relic__media img {
+  transform: scale(1.04);
+}
+
+.r2-relic__media span {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid var(--blood);
+  background: rgba(0, 0, 0, 0.72);
+  font-family: var(--font-ibm-plex-serif), serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blood-soft);
+}
+
+.r2-relic h3 {
+  margin: 0;
+  font-family: var(--font-cinzel), serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.r2-relic p {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.r2-split {
+  display: grid;
+}
+
+@media (min-width: 768px) {
+  .r2-split {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.r2-split__panel {
+  position: relative;
+  min-height: 460px;
+  overflow: hidden;
+}
+
+.r2-split__panel img {
+  object-fit: cover;
+  filter: brightness(0.62) contrast(1.1) saturate(0.7);
+  transition: transform 1s ease;
+}
+
+.r2-split__panel:hover img {
+  transform: scale(1.04);
+}
+
+.r2-split__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.75));
+}
+
+.r2-split__panel div {
+  position: absolute;
+  left: 1.4rem;
+  bottom: 1.4rem;
+  z-index: 1;
+}
+
+.r2-split__panel h2 {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.r2-split__panel span {
+  font-family: var(--font-ibm-plex-serif), serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blood-soft);
+}
+
+.r2-altar {
+  display: grid;
+  gap: 1.5rem;
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem);
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, #0d0607, #070405);
+}
+
+@media (min-width: 900px) {
+  .r2-altar {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+}
+
+.r2-altar__copy h2 {
+  margin: 0 0 1rem;
+  font-family: var(--font-cinzel), serif;
+  font-size: clamp(1.45rem, 3vw, 2.1rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.r2-altar__copy p {
+  margin: 0 0 1.4rem;
+  max-width: 36ch;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+.r2-altar__rail {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.r2-altar__item {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.r2-altar__item img {
+  object-fit: cover;
+  filter: brightness(0.75) contrast(1.08);
+}
+
+.r2-footer {
+  padding: 3rem 1.25rem 5.5rem;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.r2-footer .r2-mark {
+  display: inline-block;
+  margin-bottom: 0.6rem;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+}
+
+.r2-footer p:last-child {
+  margin: 0;
+  color: var(--muted);
+}
+
+@keyframes r2-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Maison — LV-inspired editorial luxury for GUISED */
+
+.maison {
+  --m-bg: #f6f4ef;
+  --m-ink: #111111;
+  --m-muted: rgba(17, 17, 17, 0.58);
+  --m-line: rgba(17, 17, 17, 0.12);
+  min-height: 100vh;
+  background: var(--m-bg);
+  color: var(--m-ink);
+  font-family: var(--font-outfit), "Helvetica Neue", sans-serif;
+}
+
+.m-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: 4.25rem;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+  background: rgba(246, 244, 239, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+}
+
+.m-icon-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 2.25rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.m-icon-btn span {
+  display: block;
+  width: 18px;
+  height: 1.2px;
+  background: currentColor;
+}
+
+.m-logo {
+  justify-self: center;
+  font-family: var(--font-bodoni), "Times New Roman", serif;
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  text-transform: uppercase;
+}
+
+.m-header__right {
+  justify-self: end;
+  display: flex;
+  gap: 1.1rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.m-drawer {
+  position: fixed;
+  inset: 4.25rem 0 auto;
+  z-index: 29;
+  padding: 1.5rem clamp(1rem, 3vw, 2rem) 2rem;
+  background: rgba(246, 244, 239, 0.98);
+  border-bottom: 1px solid var(--m-line);
+}
+
+.m-drawer nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.m-drawer a {
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.m-campaign {
+  position: relative;
+  min-height: 92svh;
+  overflow: hidden;
+  color: #fff;
+  background: #111;
+}
+
+.m-campaign--short {
+  min-height: 72svh;
+}
+
+.m-campaign__media {
+  position: absolute;
+  inset: 0;
+}
+
+.m-campaign__media :is(img, video) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.78);
+}
+
+.m-campaign__media img {
+  position: absolute;
+  inset: 0;
+}
+
+.m-campaign__copy {
+  position: absolute;
+  inset: auto 1.25rem 12%;
+  left: 50%;
+  width: min(92vw, 40rem);
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 1;
+}
+
+.m-campaign__copy p {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.m-campaign__copy h1,
+.m-campaign__copy h2 {
+  margin: 0 0 1.35rem;
+  font-family: var(--font-bodoni), "Times New Roman", serif;
+  font-size: clamp(1.7rem, 4.5vw, 3.2rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+}
+
+.m-campaign__copy a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.6rem;
+  padding: 0 1.2rem;
+  border: 1px solid #fff;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.m-campaign__copy a:hover {
+  background: #fff;
+  color: #111;
+}
+
+.m-selection,
+.m-products,
+.m-services {
+  padding: clamp(2.75rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem);
+}
+
+.m-selection__intro {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.m-selection__intro h2,
+.m-services h2 {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--font-bodoni), serif;
+  font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+.m-selection__intro a {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: 1px solid currentColor;
+}
+
+.m-selection__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .m-selection__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+.m-tile__media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #e8e4dc;
+  margin-bottom: 0.75rem;
+}
+
+.m-tile__media img {
+  object-fit: cover;
+  transition: transform 0.9s ease;
+}
+
+.m-tile:hover .m-tile__media img {
+  transform: scale(1.03);
+}
+
+.m-tile span {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.m-products__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(200px, 240px);
+  gap: 1.1rem;
+  overflow-x: auto;
+  padding-bottom: 0.4rem;
+  scroll-snap-type: x mandatory;
+}
+
+.m-product {
+  scroll-snap-align: start;
+}
+
+.m-product__media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #ebe7df;
+  margin-bottom: 0.7rem;
+}
+
+.m-product__media img {
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.m-product:hover .m-product__media img {
+  transform: scale(1.03);
+}
+
+.m-product__media span {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  padding: 0.3rem 0.45rem;
+  background: #fff;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.m-product h3 {
+  margin: 0;
+  font-family: var(--font-bodoni), serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.m-product p {
+  margin: 0.25rem 0 0;
+  color: var(--m-muted);
+  font-size: 0.88rem;
+}
+
+.m-services {
+  border-top: 1px solid var(--m-line);
+  text-align: center;
+}
+
+.m-services h2 {
+  margin: 0 auto 2rem;
+}
+
+.m-services__grid {
+  display: grid;
+  gap: 1.5rem;
+  text-align: left;
+}
+
+@media (min-width: 800px) {
+  .m-services__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+.m-services article {
+  padding-top: 1rem;
+  border-top: 1px solid var(--m-line);
+}
+
+.m-services h3 {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.m-services p {
+  margin: 0;
+  color: var(--m-muted);
+  line-height: 1.5;
+}
+
+.m-footer {
+  padding: 3rem clamp(1.25rem, 4vw, 3rem) 5.5rem;
+  border-top: 1px solid var(--m-line);
+  text-align: center;
+}
+
+.m-footer .m-logo {
+  display: inline-block;
+  margin-bottom: 0.65rem;
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+}
+
+.m-footer p {
+  margin: 0;
+  color: var(--m-muted);
+}
+
+.m-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 1.4rem;
+  margin-top: 1.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Maison + Reliquary II — same editorial structure, gothic palette */
+.maison--gothic {
+  --m-bg: #070405;
+  --m-ink: #f3ebe3;
+  --m-muted: rgba(243, 235, 227, 0.68);
+  --m-line: rgba(243, 235, 227, 0.14);
+  --m-blood: #9a1c1c;
+  --m-blood-soft: #d4a39a;
+  background:
+    radial-gradient(900px 480px at 50% -8%, rgba(154, 28, 28, 0.22), transparent 58%),
+    var(--m-bg);
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+.maison--gothic .m-header {
+  background: rgba(7, 4, 5, 0.88);
+  border-bottom-color: var(--m-line);
+}
+
+.maison--gothic .m-logo {
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+
+.maison--gothic .m-header__right a:hover {
+  color: var(--m-blood-soft);
+}
+
+.maison--gothic .m-drawer {
+  background: rgba(12, 6, 7, 0.98);
+  border-bottom-color: var(--m-line);
+}
+
+.maison--gothic .m-campaign {
+  background: #050304;
+}
+
+.maison--gothic .m-campaign__media :is(img, video) {
+  filter: contrast(1.14) saturate(0.58) brightness(0.58) sepia(0.18);
+}
+
+.maison--gothic .m-campaign__copy p {
+  color: var(--m-blood-soft);
+}
+
+.maison--gothic .m-campaign__copy h1,
+.maison--gothic .m-campaign__copy h2 {
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.maison--gothic .m-campaign__copy a {
+  border-color: var(--m-blood);
+  background: color-mix(in srgb, var(--m-blood) 22%, transparent);
+}
+
+.maison--gothic .m-campaign__copy a:hover {
+  background: var(--m-blood);
+  color: #fff;
+}
+
+.maison--gothic .m-selection__intro h2,
+.maison--gothic .m-services h2,
+.maison--gothic .m-product h3 {
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.maison--gothic .m-selection__intro a {
+  color: var(--m-blood-soft);
+}
+
+.maison--gothic .m-tile__media,
+.maison--gothic .m-product__media {
+  background: #12080a;
+  border: 1px solid rgba(154, 28, 28, 0.28);
+}
+
+.maison--gothic .m-tile__media img,
+.maison--gothic .m-product__media img {
+  filter: saturate(0.82) contrast(1.06) brightness(0.88);
+}
+
+.maison--gothic .m-product__media span {
+  background: rgba(0, 0, 0, 0.78);
+  border: 1px solid var(--m-blood);
+  color: var(--m-blood-soft);
+}
+
+.maison--gothic .m-services h3 {
+  color: var(--m-blood-soft);
+}
+
+.maison--gothic .m-footer .m-logo {
+  font-family: var(--font-cinzel), serif;
+}
+
+/* Maison Reliquary I — frozen snapshot; do not edit for new iterations */
+.maison--gothic-v1 {
+  --m-bg: #070405;
+  --m-ink: #f3ebe3;
+  --m-muted: rgba(243, 235, 227, 0.68);
+  --m-line: rgba(243, 235, 227, 0.14);
+  --m-blood: #9a1c1c;
+  --m-blood-soft: #d4a39a;
+  background:
+    radial-gradient(900px 480px at 50% -8%, rgba(154, 28, 28, 0.22), transparent 58%),
+    var(--m-bg);
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+.maison--gothic-v1 .m-header {
+  background: rgba(7, 4, 5, 0.88);
+  border-bottom-color: var(--m-line);
+}
+
+.maison--gothic-v1 .m-logo {
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+
+.maison--gothic-v1 .m-header__right a:hover {
+  color: var(--m-blood-soft);
+}
+
+.maison--gothic-v1 .m-drawer {
+  background: rgba(12, 6, 7, 0.98);
+  border-bottom-color: var(--m-line);
+}
+
+.maison--gothic-v1 .m-campaign {
+  background: #050304;
+}
+
+.maison--gothic-v1 .m-campaign__media :is(img, video) {
+  filter: contrast(1.14) saturate(0.58) brightness(0.58) sepia(0.18);
+}
+
+.maison--gothic-v1 .m-campaign__copy p {
+  color: var(--m-blood-soft);
+}
+
+.maison--gothic-v1 .m-campaign__copy h1,
+.maison--gothic-v1 .m-campaign__copy h2 {
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.maison--gothic-v1 .m-campaign__copy a {
+  border-color: var(--m-blood);
+  background: color-mix(in srgb, var(--m-blood) 22%, transparent);
+}
+
+.maison--gothic-v1 .m-campaign__copy a:hover {
+  background: var(--m-blood);
+  color: #fff;
+}
+
+.maison--gothic-v1 .m-selection__intro h2,
+.maison--gothic-v1 .m-services h2,
+.maison--gothic-v1 .m-product h3 {
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.maison--gothic-v1 .m-selection__intro a {
+  color: var(--m-blood-soft);
+}
+
+.maison--gothic-v1 .m-tile__media,
+.maison--gothic-v1 .m-product__media {
+  background: #12080a;
+  border: 1px solid rgba(154, 28, 28, 0.28);
+}
+
+.maison--gothic-v1 .m-tile__media img,
+.maison--gothic-v1 .m-product__media img {
+  filter: saturate(0.82) contrast(1.06) brightness(0.88);
+}
+
+.maison--gothic-v1 .m-product__media span {
+  background: rgba(0, 0, 0, 0.78);
+  border: 1px solid var(--m-blood);
+  color: var(--m-blood-soft);
+}
+
+.maison--gothic-v1 .m-services h3 {
+  color: var(--m-blood-soft);
+}
+
+.maison--gothic-v1 .m-footer .m-logo {
+  font-family: var(--font-cinzel), serif;
+}
