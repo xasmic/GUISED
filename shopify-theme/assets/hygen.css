@@ -105,29 +105,43 @@ body.hygen-body {
 .hygen-burger__lines span {
   position: absolute;
   left: 0;
+  top: 50%;
   display: block;
   width: 100%;
   height: 1.5px;
+  margin-top: -0.75px;
   background: #fff;
-  transition: transform 0.3s ease, opacity 0.2s ease, top 0.3s ease;
+  transform-origin: center;
+  will-change: transform, opacity;
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.hygen-burger__lines span:nth-child(1) { top: 0; }
-.hygen-burger__lines span:nth-child(2) { top: 6px; }
-.hygen-burger__lines span:nth-child(3) { top: 12px; }
+.hygen-burger__lines span:nth-child(1) {
+  transform: translateY(-6px);
+}
+
+.hygen-burger__lines span:nth-child(2) {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.hygen-burger__lines span:nth-child(3) {
+  transform: translateY(6px);
+}
 
 .hygen-burger.is-open .hygen-burger__lines span:nth-child(1) {
-  top: 6px;
-  transform: rotate(45deg);
+  transform: translateY(0) rotate(45deg);
 }
 
 .hygen-burger.is-open .hygen-burger__lines span:nth-child(2) {
+  transform: scaleX(0);
   opacity: 0;
 }
 
 .hygen-burger.is-open .hygen-burger__lines span:nth-child(3) {
-  top: 6px;
-  transform: rotate(-45deg);
+  transform: translateY(0) rotate(-45deg);
 }
 
 /* Fixed top-right nav */
@@ -143,6 +157,15 @@ body.hygen-body {
   gap: 12px 16px;
   max-width: 75%;
   padding: 28px 16px 0 0;
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hygen-burger.is-open ~ .hygen-nav {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
 }
 
 @media (min-width: 700px) {
@@ -188,17 +211,51 @@ body.hygen-body {
   flex-direction: column;
   padding: 112px 40px 48px;
   background: rgba(243, 243, 243, 0.95);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hygen-menu.is-open {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+}
+
+@keyframes hygen-menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hygen-menu.is-open .hygen-menu__brand,
+.hygen-menu.is-open .hygen-menu__nav a,
+.hygen-menu.is-open .hygen-menu__sns {
+  animation: hygen-menu-item-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hygen-menu.is-open .hygen-menu__brand {
+  animation-delay: 0.08s;
+}
+
+.hygen-menu.is-open .hygen-menu__nav a:nth-child(1) { animation-delay: 0.14s; }
+.hygen-menu.is-open .hygen-menu__nav a:nth-child(2) { animation-delay: 0.195s; }
+.hygen-menu.is-open .hygen-menu__nav a:nth-child(3) { animation-delay: 0.25s; }
+.hygen-menu.is-open .hygen-menu__nav a:nth-child(4) { animation-delay: 0.305s; }
+.hygen-menu.is-open .hygen-menu__nav a:nth-child(5) { animation-delay: 0.36s; }
+.hygen-menu.is-open .hygen-menu__nav a:nth-child(6) { animation-delay: 0.415s; }
+
+.hygen-menu.is-open .hygen-menu__sns {
+  animation-delay: 0.48s;
 }
 
 .hygen-menu__brand {
@@ -422,8 +479,17 @@ html.hygen-menu-lock {
   .hygen-hero__brand,
   .hygen-hero__tagline,
   .hygen-hero__cta,
-  .hygen-hero__down {
+  .hygen-hero__down,
+  .hygen-menu.is-open .hygen-menu__brand,
+  .hygen-menu.is-open .hygen-menu__nav a,
+  .hygen-menu.is-open .hygen-menu__sns {
     animation: none;
+  }
+
+  .hygen-burger__lines span,
+  .hygen-nav,
+  .hygen-menu {
+    transition: none;
   }
 }
 

@@ -83,27 +83,17 @@ function SiteHeader() {
         className="fixed top-[28px] left-[28px] z-[10001] flex h-11 w-11 items-center justify-center mix-blend-difference min-[1025px]:top-[30px] min-[1025px]:left-[45px]"
       >
         <span className="relative block h-[14px] w-[22px]" aria-hidden>
-          <span
-            className={`absolute left-0 block h-[1.5px] w-full bg-white transition-transform duration-300 ease-out ${
-              menuOpen ? "top-[6px] rotate-45" : "top-0"
-            }`}
-          />
-          <span
-            className={`absolute left-0 top-[6px] block h-[1.5px] w-full bg-white transition-opacity duration-200 ${
-              menuOpen ? "opacity-0" : "opacity-100"
-            }`}
-          />
-          <span
-            className={`absolute left-0 block h-[1.5px] w-full bg-white transition-transform duration-300 ease-out ${
-              menuOpen ? "top-[6px] -rotate-45" : "top-[12px]"
-            }`}
-          />
+          <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
+          <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
+          <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
         </span>
       </button>
 
       <nav
-        className={`font-display fixed top-0 right-0 z-[10000] flex items-start justify-end gap-5 px-4 pt-7 transition-opacity duration-300 min-[700px]:gap-5 min-[700px]:px-[45px] min-[700px]:pt-8 ${
-          menuOpen ? "pointer-events-none opacity-0" : "opacity-100"
+        className={`font-display fixed top-0 right-0 z-[10000] flex items-start justify-end gap-5 px-4 pt-7 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] min-[700px]:gap-5 min-[700px]:px-[45px] min-[700px]:pt-8 ${
+          menuOpen
+            ? "pointer-events-none -translate-y-1 opacity-0"
+            : "translate-y-0 opacity-100"
         }`}
         aria-label="Primary"
         aria-hidden={menuOpen}
@@ -129,21 +119,22 @@ function SiteHeader() {
         role="dialog"
         aria-modal="true"
         aria-label="Site menu"
-        className={`fixed inset-0 z-[10000] flex flex-col bg-hygen-bg/95 px-10 pt-28 pb-12 backdrop-blur-sm transition-[opacity,visibility] duration-300 ${
+        className={`site-menu-panel fixed inset-0 z-[10000] flex flex-col bg-hygen-bg/95 px-10 pt-28 pb-12 backdrop-blur-md ${
           menuOpen
-            ? "visible opacity-100"
+            ? "is-open visible opacity-100"
             : "invisible pointer-events-none opacity-0"
         }`}
       >
         <a
           href="#concept"
           onClick={() => setMenuOpen(false)}
-          className="font-display mb-12 text-[28px] font-medium tracking-[0.28em] text-hygen-text"
+          className="site-menu-item font-display mb-12 text-[28px] font-medium tracking-[0.28em] text-hygen-text"
+          style={{ animationDelay: menuOpen ? "80ms" : undefined }}
         >
           GUISED
         </a>
         <nav className="font-display flex flex-col gap-6" aria-label="Menu">
-          {navLinks.map((link) => (
+          {navLinks.map((link, i) => (
             <a
               key={link.id}
               href={link.href}
@@ -151,7 +142,8 @@ function SiteHeader() {
               {...("external" in link && link.external
                 ? { target: "_blank", rel: "noreferrer" }
                 : undefined)}
-              className={`text-[15px] font-medium tracking-[0.18em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50 ${
+              style={{ animationDelay: menuOpen ? `${140 + i * 55}ms` : undefined }}
+              className={`site-menu-item text-[15px] font-medium tracking-[0.18em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50 ${
                 active === link.id ? "opacity-100" : "opacity-70"
               }`}
             >
@@ -159,7 +151,10 @@ function SiteHeader() {
             </a>
           ))}
         </nav>
-        <div className="mt-auto flex gap-6">
+        <div
+          className="site-menu-item mt-auto flex gap-6"
+          style={{ animationDelay: menuOpen ? "480ms" : undefined }}
+        >
           <a
             href="https://www.instagram.com/"
             target="_blank"
