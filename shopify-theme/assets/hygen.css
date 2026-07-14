@@ -70,56 +70,104 @@ body.hygen-body {
   }
 }
 
-/* Fixed wordmark */
-.hygen-logo-fixed {
+/* Fixed hamburger */
+.hygen-burger {
   position: fixed;
-  top: 30px;
-  left: 45px;
-  z-index: 9999;
-  display: none;
-  font-size: 35px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  top: 28px;
+  left: 28px;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  mix-blend-mode: difference;
+}
+
+@media (min-width: 1025px) {
+  .hygen-burger {
+    top: 30px;
+    left: 45px;
+  }
+}
+
+.hygen-burger__lines {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 14px;
+}
+
+.hygen-burger__lines span {
+  position: absolute;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: #fff;
+  transition: transform 0.3s ease, opacity 0.2s ease, top 0.3s ease;
+}
+
+.hygen-burger__lines span:nth-child(1) { top: 0; }
+.hygen-burger__lines span:nth-child(2) { top: 6px; }
+.hygen-burger__lines span:nth-child(3) { top: 12px; }
+
+.hygen-burger.is-open .hygen-burger__lines span:nth-child(1) {
+  top: 6px;
+  transform: rotate(45deg);
+}
+
+.hygen-burger.is-open .hygen-burger__lines span:nth-child(2) {
+  opacity: 0;
+}
+
+.hygen-burger.is-open .hygen-burger__lines span:nth-child(3) {
+  top: 6px;
+  transform: rotate(-45deg);
+}
+
+/* Fixed top-right nav */
+.hygen-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  max-width: 75%;
+  padding: 28px 16px 0 0;
+}
+
+@media (min-width: 700px) {
+  .hygen-nav {
+    gap: 20px;
+    max-width: none;
+    padding: 32px 45px 0 0;
+  }
+}
+
+.hygen-nav a {
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: #fff;
+  opacity: 0.75;
   mix-blend-mode: difference;
   transition: opacity 0.5s;
 }
 
-.hygen-logo-fixed:hover {
-  opacity: 0.5;
-}
-
-@media (min-width: 1025px) {
-  .hygen-logo-fixed {
-    display: block;
+@media (min-width: 700px) {
+  .hygen-nav a {
+    font-size: 13px;
   }
-}
-
-@media (min-width: 1320px) {
-  .hygen-logo-fixed {
-    font-size: 45px;
-  }
-}
-
-/* Section nav */
-.hygen-nav {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 40;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  gap: 20px;
-  padding: 32px 45px 0 0;
-}
-
-.hygen-nav a {
-  font-size: 15px;
-  line-height: 1;
-  color: var(--hygen-text);
-  opacity: 0.7;
-  transition: opacity 0.5s;
 }
 
 .hygen-nav a:hover,
@@ -129,6 +177,78 @@ body.hygen-body {
 
 .hygen-nav a:hover {
   opacity: 0.5;
+}
+
+/* Full-screen menu */
+.hygen-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  padding: 112px 40px 48px;
+  background: rgba(243, 243, 243, 0.95);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.hygen-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.hygen-menu__brand {
+  margin-bottom: 48px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: var(--hygen-text);
+}
+
+.hygen-menu__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hygen-menu__nav a {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--hygen-text);
+  opacity: 0.7;
+  transition: opacity 0.5s;
+}
+
+.hygen-menu__nav a:hover {
+  opacity: 0.5;
+}
+
+.hygen-menu__sns {
+  display: flex;
+  gap: 24px;
+  margin-top: auto;
+}
+
+.hygen-menu__sns a {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hygen-text);
+  transition: opacity 0.5s;
+}
+
+.hygen-menu__sns a:hover {
+  opacity: 0.5;
+}
+
+html.hygen-menu-lock {
+  overflow: hidden;
 }
 
 .hygen-sns {
@@ -192,7 +312,79 @@ body.hygen-body {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.hygen-hero__copy {
+  position: absolute;
+  top: 42%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px;
+  text-align: center;
+  color: #fff;
+  transform: translateY(-50%);
+}
+
+.hygen-hero__brand {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  animation: hygen-hero-fade 1.1s ease-out both;
+}
+
+@media (min-width: 700px) {
+  .hygen-hero__brand {
+    font-size: 56px;
+  }
+}
+
+@media (min-width: 1320px) {
+  .hygen-hero__brand {
+    font-size: 68px;
+  }
+}
+
+.hygen-hero__tagline {
+  margin: 20px 0 0;
+  max-width: 30rem;
+  font-size: 20px;
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.85);
+  animation: hygen-hero-fade 1.1s ease-out 0.2s both;
+}
+
+@media (min-width: 700px) {
+  .hygen-hero__tagline {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 1320px) {
+  .hygen-hero__tagline {
+    font-size: 26px;
+  }
+}
+
+.hygen-hero__cta {
+  margin-top: 40px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: opacity 0.5s;
+  animation: hygen-hero-fade 1.1s ease-out 0.4s both;
+}
+
+.hygen-hero__cta:hover {
+  opacity: 0.5;
 }
 
 .hygen-hero__down {
@@ -208,10 +400,31 @@ body.hygen-body {
   line-height: 40px;
   color: #fff;
   transition: bottom 0.2s;
+  animation: hygen-hero-fade 1.1s ease-out 0.6s both;
 }
 
 .hygen-hero__down:hover {
   bottom: 40px;
+}
+
+@keyframes hygen-hero-fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hygen-hero__brand,
+  .hygen-hero__tagline,
+  .hygen-hero__cta,
+  .hygen-hero__down {
+    animation: none;
+  }
 }
 
 /* Concept */
@@ -664,13 +877,6 @@ a.hygen-stockist__name:hover {
     display: block;
     margin: 12px 0 0;
   }
-
-.hygen-nav {
-  flex-wrap: wrap;
-  gap: 12px 16px;
-  padding: 20px 16px 0 0;
-  max-width: 70%;
-}
 }
 
 /* About */

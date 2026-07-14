@@ -24,9 +24,56 @@
   </head>
 
   <body class="hygen-body template-{{ template.name }}">
-    <a href="#concept" class="hygen-logo-fixed" aria-label="{{ shop.name }}">
-      {{ shop.name | upcase }}
-    </a>
+    <button
+      type="button"
+      class="hygen-burger"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="hygen-menu"
+      data-hygen-burger
+    >
+      <span class="hygen-burger__lines" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+
+    <nav class="hygen-nav" aria-label="Primary" data-hygen-nav>
+      <a href="#concept" data-nav-id="concept">Concept</a>
+      <a href="#about" data-nav-id="about">About</a>
+      <a href="#collection" data-nav-id="collection">Collection</a>
+      <a href="#stockist" data-nav-id="stockist">Stockist</a>
+      <a href="{{ pages.contact.url | default: '/pages/contact' }}">Contact</a>
+      <a href="{{ routes.root_url }}" target="_blank" rel="noreferrer">Online Store</a>
+    </nav>
+
+    <div
+      id="hygen-menu"
+      class="hygen-menu"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site menu"
+      data-hygen-menu
+    >
+      <a href="#concept" class="hygen-menu__brand" data-hygen-menu-close>{{ shop.name | upcase }}</a>
+      <nav class="hygen-menu__nav" aria-label="Menu">
+        <a href="#concept" data-hygen-menu-close>Concept</a>
+        <a href="#about" data-hygen-menu-close>About</a>
+        <a href="#collection" data-hygen-menu-close>Collection</a>
+        <a href="#stockist" data-hygen-menu-close>Stockist</a>
+        <a href="{{ pages.contact.url | default: '/pages/contact' }}" data-hygen-menu-close>Contact</a>
+        <a href="{{ routes.root_url }}" target="_blank" rel="noreferrer" data-hygen-menu-close>Online Store</a>
+      </nav>
+      <div class="hygen-menu__sns">
+        {% if settings.social_instagram_link != blank %}
+          <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noreferrer">IG</a>
+        {% else %}
+          <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">IG</a>
+        {% endif %}
+        <a href="mailto:{{ shop.email }}">Mail</a>
+      </div>
+    </div>
 
     <main class="hygen-main" id="MainContent" role="main">
       {{ content_for_layout }}

@@ -197,6 +197,13 @@ export const heroVideo = {
       : heroSlides[0].src,
 };
 
+export const heroCopy = {
+  brand: "GUISED",
+  tagline: "obsessively crafted",
+  cta: "Explore",
+  ctaHref: "#concept",
+};
+
 export const parallaxImages = {
   mid: images.craft,
   lower: images.collab,

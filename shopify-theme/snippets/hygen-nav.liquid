@@ -1,13 +1,4 @@
-{%- comment -%} Shared section navigation {%- endcomment -%}
-<nav class="hygen-nav" aria-label="Primary">
-  <a href="#concept"{% if active == 'concept' %} class="is-active"{% endif %}>Concept</a>
-  <a href="#about"{% if active == 'about' %} class="is-active"{% endif %}>About</a>
-  <a href="#collection"{% if active == 'collection' %} class="is-active"{% endif %}>Collection</a>
-  <a href="#stockist"{% if active == 'stockist' %} class="is-active"{% endif %}>Stockist</a>
-  <a href="{{ pages.contact.url | default: '/pages/contact' }}">Contact</a>
-  <a href="{{ routes.root_url }}" target="_blank" rel="noreferrer">Online Store</a>
-</nav>
-
+{%- comment -%} Section social links (primary nav lives in theme.liquid) {%- endcomment -%}
 <div class="hygen-sns">
   {% if settings.social_instagram_link != blank %}
     <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noreferrer">IG</a>

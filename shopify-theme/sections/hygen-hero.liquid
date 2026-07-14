@@ -51,6 +51,21 @@
   {% endif %}
 
   <div class="hygen-hero__veil"></div>
+
+  <div class="hygen-hero__copy">
+    <h1 class="hygen-hero__brand">
+      {{ section.settings.brand | default: shop.name | upcase }}
+    </h1>
+    {% if section.settings.tagline != blank %}
+      <p class="hygen-hero__tagline">{{ section.settings.tagline }}</p>
+    {% endif %}
+    {% if section.settings.cta_label != blank %}
+      <a class="hygen-hero__cta" href="{{ section.settings.cta_link | default: '#concept' }}">
+        {{ section.settings.cta_label }}
+      </a>
+    {% endif %}
+  </div>
+
   <a class="hygen-hero__down" href="#concept" aria-label="Scroll to concept">↓</a>
 </section>
 
@@ -63,6 +78,30 @@
     {
       "type": "paragraph",
       "content": "Defaults use the same Atelier Guised CDN media as the site. Override anytime with Shopify files."
+    },
+    {
+      "type": "text",
+      "id": "brand",
+      "label": "Brand wordmark",
+      "default": "GUISED"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "obsessively crafted"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Explore"
+    },
+    {
+      "type": "text",
+      "id": "cta_link",
+      "label": "CTA link",
+      "default": "#concept"
     },
     {
       "type": "image_picker",

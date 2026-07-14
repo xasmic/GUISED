@@ -123,7 +123,70 @@
     setSeason(0);
   }
 
+  function initChrome() {
+    var burger = document.querySelector("[data-hygen-burger]");
+    var menu = document.querySelector("[data-hygen-menu]");
+    var nav = document.querySelector("[data-hygen-nav]");
+    if (!burger || !menu) return;
+
+    function setOpen(open) {
+      burger.classList.toggle("is-open", open);
+      menu.classList.toggle("is-open", open);
+      burger.setAttribute("aria-expanded", open ? "true" : "false");
+      burger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      document.documentElement.classList.toggle("hygen-menu-lock", open);
+    }
+
+    burger.addEventListener("click", function () {
+      setOpen(!menu.classList.contains("is-open"));
+    });
+
+    menu.querySelectorAll("[data-hygen-menu-close]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        setOpen(false);
+      });
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && menu.classList.contains("is-open")) {
+        setOpen(false);
+      }
+    });
+
+    if (!nav || !("IntersectionObserver" in window)) return;
+
+    var ids = ["concept", "about", "collection", "stockist"];
+    var elements = ids
+      .map(function (id) {
+        return document.getElementById(id);
+      })
+      .filter(Boolean);
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        var visible = entries
+          .filter(function (e) {
+            return e.isIntersecting;
+          })
+          .sort(function (a, b) {
+            return b.intersectionRatio - a.intersectionRatio;
+          });
+        if (!visible[0]) return;
+        var id = visible[0].target.id;
+        nav.querySelectorAll("[data-nav-id]").forEach(function (link) {
+          link.classList.toggle("is-active", link.getAttribute("data-nav-id") === id);
+        });
+      },
+      { rootMargin: "-20% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75] }
+    );
+
+    elements.forEach(function (el) {
+      observer.observe(el);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("[data-hygen-collection]").forEach(initCollection);
+    initChrome();
   });
 })();
