@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cinzel, Cormorant_Garamond } from "next/font/google";
+import { Cinzel, Cormorant_Garamond, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
 const cinzel = Cinzel({
@@ -12,6 +12,12 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant-face",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+});
+
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-mono-face",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -28,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cinzel.variable} ${cormorant.variable} h-full`}
+      className={`${cinzel.variable} ${cormorant.variable} ${plexMono.variable} h-full`}
     >
       <body className="min-h-full font-body antialiased">{children}</body>
     </html>

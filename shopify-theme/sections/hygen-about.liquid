@@ -1,63 +1,55 @@
-<section class="hygen-about" id="about">
-  {% render 'hygen-nav', active: 'about' %}
+{%- liquid
+  assign left_url = section.settings.left_image_url | default: 'https://atelierguised.com/cdn/shop/files/Guised-02087_SHOPIFY_CROP.jpg?v=1761817097&width=2000'
+  assign right_url = section.settings.right_image_url | default: 'https://atelierguised.com/cdn/shop/collections/C3D43191-4BEE-44D3-8E07-B58AE4E95CD9.jpg?v=1765362909&width=2000'
+-%}
 
-  <div class="hygen-about__inner">
-    <div class="hygen-about__media">
-      {% if section.settings.image != blank %}
+<section class="hygen-about" id="about">
+  <div class="hygen-about__split" aria-hidden="true">
+    <div class="hygen-about__panel hygen-about__panel--left">
+      {% if section.settings.left_image != blank %}
         {{
-          section.settings.image
-          | image_url: width: 1400
-          | image_tag: loading: 'lazy', class: 'hygen-about__img', alt: section.settings.image.alt | default: section.settings.title
+          section.settings.left_image
+          | image_url: width: 1800
+          | image_tag: loading: 'lazy', class: 'hygen-about__img hygen-about__img--mono', alt: ''
         }}
       {% else %}
-        <img
-          class="hygen-about__img"
-          src="{{ section.settings.image_url }}"
-          alt="{{ section.settings.title | escape }}"
-          loading="lazy"
-          width="700"
-          height="933"
-        >
+        <img class="hygen-about__img hygen-about__img--mono" src="{{ left_url }}" alt="" loading="lazy" width="1200" height="1600">
       {% endif %}
     </div>
-
-    <div class="hygen-about__copy">
-      {% if section.settings.eyebrow != blank %}
-        <p class="hygen-about__eyebrow">{{ section.settings.eyebrow }}</p>
+    <div class="hygen-about__panel hygen-about__panel--right">
+      {% if section.settings.right_image != blank %}
+        {{
+          section.settings.right_image
+          | image_url: width: 1800
+          | image_tag: loading: 'lazy', class: 'hygen-about__img', alt: ''
+        }}
+      {% else %}
+        <img class="hygen-about__img" src="{{ right_url }}" alt="" loading="lazy" width="1200" height="1600">
       {% endif %}
-      <h2 class="hygen-about__title">{{ section.settings.title }}</h2>
-      {% if section.settings.body != blank %}
-        <div class="hygen-about__body">{{ section.settings.body }}</div>
-      {% endif %}
-      {% if section.settings.body_secondary != blank %}
-        <div class="hygen-about__secondary">{{ section.settings.body_secondary }}</div>
-      {% endif %}
+    </div>
+  </div>
 
-      <dl class="hygen-about__meta">
-        {% if section.settings.detail_1_label != blank %}
-          <div>
-            <dt>{{ section.settings.detail_1_label }}</dt>
-            <dd>{{ section.settings.detail_1_value }}</dd>
-          </div>
-        {% endif %}
-        {% if section.settings.detail_2_label != blank %}
-          <div>
-            <dt>{{ section.settings.detail_2_label }}</dt>
-            <dd>{{ section.settings.detail_2_value }}</dd>
-          </div>
-        {% endif %}
-        {% if section.settings.detail_3_label != blank %}
-          <div>
-            <dt>{{ section.settings.detail_3_label }}</dt>
-            <dd>{{ section.settings.detail_3_value }}</dd>
-          </div>
-        {% endif %}
-      </dl>
+  <div class="hygen-about__veil"></div>
 
-      {% if section.settings.link != blank %}
-        <a class="hygen-about__link" href="{{ section.settings.link }}">
-          {{ section.settings.link_label }}
-        </a>
+  <div class="hygen-about__copy">
+    <div class="hygen-about__copy-inner">
+      <h2 class="hygen-about__headline">
+        {{ section.settings.headline | default: 'ABOUT' }}
+      </h2>
+      {% if section.settings.paragraph_1 != blank %}
+        <p class="hygen-about__body">{{ section.settings.paragraph_1 }}</p>
+      {% endif %}
+      {% if section.settings.paragraph_2 != blank %}
+        <p class="hygen-about__body">{{ section.settings.paragraph_2 }}</p>
+      {% endif %}
+      {% if section.settings.paragraph_3 != blank %}
+        <p class="hygen-about__body">{{ section.settings.paragraph_3 }}</p>
+      {% endif %}
+      {% if section.settings.paragraph_4 != blank %}
+        <p class="hygen-about__body">{{ section.settings.paragraph_4 }}</p>
+      {% endif %}
+      {% if section.settings.paragraph_5 != blank %}
+        <p class="hygen-about__body">{{ section.settings.paragraph_5 }}</p>
       {% endif %}
     </div>
   </div>
@@ -71,85 +63,61 @@
   "settings": [
     {
       "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "The atelier"
-    },
-    {
-      "type": "text",
-      "id": "title",
-      "label": "Title",
-      "default": "About"
+      "id": "headline",
+      "label": "Headline",
+      "default": "ABOUT"
     },
     {
       "type": "textarea",
-      "id": "body",
-      "label": "Body",
-      "default": "GUISED is a Singapore leather atelier making goods meant to be lived in — cut, burnished, and finished by hand so each piece carries the marks of its making."
+      "id": "paragraph_1",
+      "label": "Paragraph 1",
+      "default": "Born from a small corner of a Singapore bedroom in September 2022, Guised began as a quiet obsession with leathercraft. A place to experiment, to study material, and to reshape what traditional leatherwork could look and feel like. What started as a hobby grew into a philosophy carried forward in every piece we make today."
     },
     {
       "type": "textarea",
-      "id": "body_secondary",
-      "label": "Secondary body",
-      "default": "We work slowly: culatta, belts, wallets, bags. Made to order when needed. Built to age with you, not against you."
+      "id": "paragraph_2",
+      "label": "Paragraph 2",
+      "default": "We work exclusively with horse culatta, a rare and unpredictable leather taken from the horse rump. Its fibres are dense, textured, and naturally marked, making each cut impossible to replicate. That means no two Guised items ever look the same. Every order receives the full integrity of culatta leather. One continuous piece, unique in its own patterning. Custom cuts are available, but unless requested, the selection is shaped entirely by the nature of the hide."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_3",
+      "label": "Paragraph 3",
+      "default": "Each product is meticulously handcrafted and fully handsewn. The process is slow, intentional, and rooted in respect for craft. The materials we use are ethically sourced from trusted tanneries, chosen for their transparency and their commitment to responsible practices."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_4",
+      "label": "Paragraph 4",
+      "default": "Guised is built around the tension between who we show and who we really are. The brand reflects the quiet struggle of trying to feel comfortable in one's own skin and the ways we hide, reshape, or harden ourselves to navigate the world. Our pieces are designed to age with you, scar with you, and become a companion through those internal shifts."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_5",
+      "label": "Paragraph 5",
+      "default": "Guised isn't about perfection. It's about honesty in form, texture, and self."
     },
     {
       "type": "image_picker",
-      "id": "image",
-      "label": "Image (optional override)"
+      "id": "left_image",
+      "label": "Left image"
     },
     {
       "type": "text",
-      "id": "image_url",
-      "label": "Image URL",
+      "id": "left_image_url",
+      "label": "Left image URL",
       "default": "https://atelierguised.com/cdn/shop/files/Guised-02087_SHOPIFY_CROP.jpg?v=1761817097&width=2000"
     },
     {
-      "type": "text",
-      "id": "detail_1_label",
-      "label": "Detail 1 label",
-      "default": "Based in"
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Right image"
     },
     {
       "type": "text",
-      "id": "detail_1_value",
-      "label": "Detail 1 value",
-      "default": "Singapore"
-    },
-    {
-      "type": "text",
-      "id": "detail_2_label",
-      "label": "Detail 2 label",
-      "default": "Practice"
-    },
-    {
-      "type": "text",
-      "id": "detail_2_value",
-      "label": "Detail 2 value",
-      "default": "Handcrafted leather goods"
-    },
-    {
-      "type": "text",
-      "id": "detail_3_label",
-      "label": "Detail 3 label",
-      "default": "Ethos"
-    },
-    {
-      "type": "text",
-      "id": "detail_3_value",
-      "label": "Detail 3 value",
-      "default": "Evolving through imperfections"
-    },
-    {
-      "type": "url",
-      "id": "link",
-      "label": "Read more link"
-    },
-    {
-      "type": "text",
-      "id": "link_label",
-      "label": "Read more label",
-      "default": "Read more"
+      "id": "right_image_url",
+      "label": "Right image URL",
+      "default": "https://atelierguised.com/cdn/shop/collections/C3D43191-4BEE-44D3-8E07-B58AE4E95CD9.jpg?v=1765362909&width=2000"
     }
   ],
   "presets": [{ "name": "Hygen about" }]

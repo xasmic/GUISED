@@ -13,27 +13,58 @@
     },
     "hygen_concept": {
       "type": "hygen-concept",
-      "settings": {
-        "title": "GUISED",
-        "body": "A product has a concept that gives you a feeling of tension — reconsidered from the basic style. Leather goods that wear your story. Slowly and obsessively crafted, evolving through imperfections.",
-        "body_secondary": "Handcrafted in Singapore. Culatta, belts, wallets, bags — arranged as an archive."
-      }
+      "blocks": {
+        "product_1": {
+          "type": "product",
+          "settings": {
+            "title": "Soot Belt",
+            "price": "$180.00",
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/B5BD8FE3-26C0-41FA-B5E4-817314E6A776.jpg?v=1770042305&width=1200",
+            "href": "https://atelierguised.com/products/soot-belt"
+          }
+        },
+        "product_2": {
+          "type": "product",
+          "settings": {
+            "title": "Guised x Rei Gloom Belt (Abstract)",
+            "price": "$360.00",
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/74715193-EE59-42D1-AF02-00B58DA0FB48.jpg?v=1724904754&width=1200",
+            "href": "https://atelierguised.com/products/guised-x-rei-gloom-belt-tan"
+          }
+        },
+        "product_3": {
+          "type": "product",
+          "settings": {
+            "title": "Forager Satchel (Black)",
+            "price": "$760.00",
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200",
+            "href": "https://atelierguised.com/products/forager-satchel-black"
+          }
+        },
+        "product_4": {
+          "type": "product",
+          "settings": {
+            "title": "Girded Tote",
+            "price": "$990.00",
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200",
+            "href": "https://atelierguised.com/products/untitled-jan12_14-09"
+          }
+        }
+      },
+      "block_order": ["product_1", "product_2", "product_3", "product_4"],
+      "settings": {}
     },
     "hygen_about": {
       "type": "hygen-about",
       "settings": {
-        "eyebrow": "The atelier",
-        "title": "About",
-        "body": "GUISED is a Singapore leather atelier making goods meant to be lived in — cut, burnished, and finished by hand so each piece carries the marks of its making.",
-        "body_secondary": "We work slowly: culatta, belts, wallets, bags. Made to order when needed. Built to age with you, not against you.",
-        "image_url": "https://atelierguised.com/cdn/shop/files/Guised-02087_SHOPIFY_CROP.jpg?v=1761817097&width=2000",
-        "detail_1_label": "Based in",
-        "detail_1_value": "Singapore",
-        "detail_2_label": "Practice",
-        "detail_2_value": "Handcrafted leather goods",
-        "detail_3_label": "Ethos",
-        "detail_3_value": "Evolving through imperfections",
-        "link_label": "Read more"
+        "headline": "ABOUT",
+        "paragraph_1": "Born from a small corner of a Singapore bedroom in September 2022, Guised began as a quiet obsession with leathercraft. A place to experiment, to study material, and to reshape what traditional leatherwork could look and feel like. What started as a hobby grew into a philosophy carried forward in every piece we make today.",
+        "paragraph_2": "We work exclusively with horse culatta, a rare and unpredictable leather taken from the horse rump. Its fibres are dense, textured, and naturally marked, making each cut impossible to replicate. That means no two Guised items ever look the same. Every order receives the full integrity of culatta leather. One continuous piece, unique in its own patterning. Custom cuts are available, but unless requested, the selection is shaped entirely by the nature of the hide.",
+        "paragraph_3": "Each product is meticulously handcrafted and fully handsewn. The process is slow, intentional, and rooted in respect for craft. The materials we use are ethically sourced from trusted tanneries, chosen for their transparency and their commitment to responsible practices.",
+        "paragraph_4": "Guised is built around the tension between who we show and who we really are. The brand reflects the quiet struggle of trying to feel comfortable in one's own skin and the ways we hide, reshape, or harden ourselves to navigate the world. Our pieces are designed to age with you, scar with you, and become a companion through those internal shifts.",
+        "paragraph_5": "Guised isn't about perfection. It's about honesty in form, texture, and self.",
+        "left_image_url": "https://atelierguised.com/cdn/shop/files/Guised-02087_SHOPIFY_CROP.jpg?v=1761817097&width=2000",
+        "right_image_url": "https://atelierguised.com/cdn/shop/collections/C3D43191-4BEE-44D3-8E07-B58AE4E95CD9.jpg?v=1765362909&width=2000"
       }
     },
     "hygen_parallax_1": {

@@ -1,44 +1,140 @@
-<section class="hygen-concept" id="concept">
+{%- comment -%} Featured product row (replaces manifesto copy) {%- endcomment -%}
+<section class="hygen-concept hygen-shop" id="concept">
   {% render 'hygen-nav', active: 'concept' %}
 
-  <div class="hygen-concept__inner">
-    <h1 class="hygen-concept__title">
-      {{ section.settings.title | default: shop.name | upcase }}
-    </h1>
-    {% if section.settings.body != blank %}
-      <div class="hygen-concept__body">{{ section.settings.body }}</div>
-    {% endif %}
-    {% if section.settings.body_secondary != blank %}
-      <div class="hygen-concept__secondary">{{ section.settings.body_secondary }}</div>
-    {% endif %}
+  <div class="hygen-shop__inner">
+    <ul class="hygen-shop__grid">
+      {% for block in section.blocks %}
+        <li class="hygen-shop__item" {{ block.shopify_attributes }}>
+          <a
+            class="hygen-shop__link"
+            href="{{ block.settings.href | default: routes.root_url }}"
+            {% if block.settings.href contains 'http' %}target="_blank" rel="noreferrer"{% endif %}
+          >
+            <div class="hygen-shop__media">
+              {% if block.settings.image != blank %}
+                {{
+                  block.settings.image
+                  | image_url: width: 1200
+                  | image_tag:
+                    class: 'hygen-shop__img',
+                    loading: 'lazy',
+                    widths: '400,600,900,1200',
+                    sizes: '(min-width: 1100px) 22vw, (min-width: 600px) 40vw, 85vw',
+                    alt: block.settings.title
+                }}
+              {% elsif block.settings.image_url != blank %}
+                <img
+                  class="hygen-shop__img"
+                  src="{{ block.settings.image_url }}"
+                  alt="{{ block.settings.title | escape }}"
+                  loading="lazy"
+                  width="600"
+                  height="600"
+                >
+              {% endif %}
+            </div>
+            {% if block.settings.title != blank %}
+              <p class="hygen-shop__title">{{ block.settings.title }}</p>
+            {% endif %}
+            {% if block.settings.price != blank %}
+              <p class="hygen-shop__price">
+                {%- assign price_parts = block.settings.price | remove: '$' | split: '.' -%}
+                <span class="hygen-shop__dollars">${{ price_parts[0] }}</span>
+                {%- if price_parts.size > 1 -%}
+                  <span class="hygen-shop__cents">.{{ price_parts[1] }}</span>
+                {%- endif -%}
+              </p>
+            {% endif %}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Hygen concept",
+  "name": "Hygen shop row",
   "tag": "section",
   "class": "hygen-section-concept",
-  "settings": [
+  "blocks": [
     {
-      "type": "text",
-      "id": "title",
-      "label": "Title",
-      "default": "GUISED"
-    },
-    {
-      "type": "textarea",
-      "id": "body",
-      "label": "Body",
-      "default": "A product has a concept that gives you a feeling of tension — reconsidered from the basic style. Leather goods that wear your story. Slowly and obsessively crafted, evolving through imperfections."
-    },
-    {
-      "type": "textarea",
-      "id": "body_secondary",
-      "label": "Secondary body",
-      "default": "Handcrafted in Singapore. Culatta, belts, wallets, bags — arranged as an archive."
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Image URL (fallback)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Product"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "$0.00"
+        },
+        {
+          "type": "text",
+          "id": "href",
+          "label": "Link URL"
+        }
+      ]
     }
   ],
-  "presets": [{ "name": "Hygen concept" }]
+  "presets": [
+    {
+      "name": "Hygen shop row",
+      "blocks": [
+        {
+          "type": "product",
+          "settings": {
+            "title": "Soot Belt",
+            "price": "$180.00",
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/B5BD8FE3-26C0-41FA-B5E4-817314E6A776.jpg?v=1770042305&width=1200",
+            "href": "https://atelierguised.com/products/soot-belt"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Guised x Rei Gloom Belt (Abstract)",
+            "price": "$360.00",
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/74715193-EE59-42D1-AF02-00B58DA0FB48.jpg?v=1724904754&width=1200",
+            "href": "https://atelierguised.com/products/guised-x-rei-gloom-belt-tan"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Forager Satchel (Black)",
+            "price": "$760.00",
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200",
+            "href": "https://atelierguised.com/products/forager-satchel-black"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Girded Tote",
+            "price": "$990.00",
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200",
+            "href": "https://atelierguised.com/products/untitled-jan12_14-09"
+          }
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

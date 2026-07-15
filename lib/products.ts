@@ -126,3 +126,40 @@ export const images = {
   ),
   craft: shop("files/Guised-02087_SHOPIFY_CROP.jpg?v=1761817097&width=2000"),
 };
+
+/** Featured row after hero — layout matches atelier product-grid style */
+export const featuredProducts: Product[] = [
+  {
+    id: "soot-belt",
+    title: "Soot Belt",
+    price: "$180.00",
+    href: "https://atelierguised.com/products/soot-belt",
+    image:
+      "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/B5BD8FE3-26C0-41FA-B5E4-817314E6A776.jpg?v=1770042305&width=1200",
+  },
+  {
+    id: "rei-gloom-belt-abstract",
+    title: "Guised x Rei Gloom Belt (Abstract)",
+    price: "$360.00",
+    href: "https://atelierguised.com/products/guised-x-rei-gloom-belt-tan",
+    image:
+      "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/74715193-EE59-42D1-AF02-00B58DA0FB48.jpg?v=1724904754&width=1200",
+  },
+  {
+    id: "forager-satchel-black",
+    title: "Forager Satchel (Black)",
+    price: "$760.00",
+    href: "https://atelierguised.com/products/forager-satchel-black",
+    image:
+      "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200",
+  },
+  {
+    id: "girded-tote",
+    title: "Girded Tote",
+    price: "$990.00",
+    href: "https://atelierguised.com/products/untitled-jan12_14-09",
+    image:
+      "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200",
+  },
+];
+

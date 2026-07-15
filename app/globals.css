@@ -3,6 +3,7 @@
 @theme inline {
   --font-display: var(--font-cinzel-face), "Times New Roman", serif;
   --font-body: var(--font-cormorant-face), Georgia, serif;
+  --font-mono: var(--font-mono-face), ui-monospace, "Courier New", monospace;
   --color-hygen-primary: #c4a35a;
   --color-hygen-secondary: #9a8f86;
   --color-hygen-bg: #100e10;
@@ -10,6 +11,8 @@
   --color-hygen-text: #ebe4dc;
   --color-hygen-muted: #9a8f86;
   --color-hygen-media: #000000;
+  --color-hygen-shop: #ffffff;
+  --color-hygen-shop-text: #111111;
 }
 
 * {
@@ -57,6 +60,10 @@ button {
 
 .font-display {
   font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
 }
 
 @keyframes heroFade {

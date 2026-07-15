@@ -1,10 +1,13 @@
 import {
   categories,
   culattaProducts,
+  featuredProducts,
   heroSlides,
   images,
   latestReleases,
 } from "./products";
+
+export { featuredProducts };
 
 export const navLinks = [
   { id: "concept", label: "Concept", href: "#concept" },
@@ -33,15 +36,18 @@ export const concept = {
 
 export const about = {
   title: "About",
-  eyebrow: "The atelier",
-  body: "GUISED is a Singapore leather atelier making goods meant to be lived in — cut, burnished, and finished by hand so each piece carries the marks of its making.",
-  bodySecondary:
-    "We work slowly: culatta, belts, wallets, bags. Made to order when needed. Built to age with you, not against you.",
-  details: [
-    { label: "Based in", value: "Singapore" },
-    { label: "Practice", value: "Handcrafted leather goods" },
-    { label: "Ethos", value: "Evolving through imperfections" },
+  headline: "ABOUT",
+  paragraphs: [
+    "Born from a small corner of a Singapore bedroom in September 2022, Guised began as a quiet obsession with leathercraft. A place to experiment, to study material, and to reshape what traditional leatherwork could look and feel like. What started as a hobby grew into a philosophy carried forward in every piece we make today.",
+    "We work exclusively with horse culatta, a rare and unpredictable leather taken from the horse rump. Its fibres are dense, textured, and naturally marked, making each cut impossible to replicate. That means no two Guised items ever look the same. Every order receives the full integrity of culatta leather. One continuous piece, unique in its own patterning. Custom cuts are available, but unless requested, the selection is shaped entirely by the nature of the hide.",
+    "Each product is meticulously handcrafted and fully handsewn. The process is slow, intentional, and rooted in respect for craft. The materials we use are ethically sourced from trusted tanneries, chosen for their transparency and their commitment to responsible practices.",
+    "Guised is built around the tension between who we show and who we really are. The brand reflects the quiet struggle of trying to feel comfortable in one's own skin and the ways we hide, reshape, or harden ourselves to navigate the world. Our pieces are designed to age with you, scar with you, and become a companion through those internal shifts.",
+    "Guised isn't about perfection. It's about honesty in form, texture, and self.",
   ],
+  leftImage: images.craft,
+  rightImage: images.collab,
+  leftAlt: "Atelier craft",
+  rightAlt: "Leather in wear",
 };
 
 export type Season = {

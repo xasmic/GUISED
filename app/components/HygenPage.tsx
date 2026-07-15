@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import {
   about,
-  concept,
+  featuredProducts,
   heroCopy,
   heroVideo,
   navLinks,
@@ -31,6 +31,19 @@ function SectionSocial() {
         Mail
       </a>
     </div>
+  );
+}
+
+function ProductPrice({ price }: { price: string }) {
+  const match = price.match(/^\$?(\d+)\.(\d{2})$/);
+  if (!match) return <span>{price}</span>;
+  return (
+    <span className="inline-flex items-start">
+      <span>${match[1]}</span>
+      <span className="relative top-[0.05em] ml-px text-[0.65em] leading-none">
+        .{match[2]}
+      </span>
+    </span>
   );
 }
 
@@ -231,19 +244,39 @@ function ConceptSection() {
   return (
     <section
       id="concept"
-      className="relative h-[700px] w-full bg-hygen-bg text-hygen-text"
+      className="relative min-h-[700px] w-full bg-hygen-bg text-hygen-text"
     >
       <SectionSocial />
-      <div className="absolute top-1/2 left-1/2 w-[min(620px,90vw)] -translate-x-1/2 -translate-y-1/2">
-        <h1 className="font-display mb-8 text-center text-[34px] font-medium tracking-[0.22em] text-hygen-text min-[1320px]:text-[42px]">
-          {concept.title}
-        </h1>
-        <p className="text-[20px] font-normal leading-[1.65] text-hygen-text">
-          {concept.body}
-        </p>
-        <p className="mt-6 text-[17px] font-normal leading-[1.75] text-hygen-muted">
-          {concept.bodySecondary}
-        </p>
+      <div className="mx-auto flex min-h-[700px] w-full max-w-[1400px] items-center px-6 py-24 min-[700px]:px-10 min-[1100px]:px-14">
+        <ul className="m-0 grid w-full list-none grid-cols-1 gap-x-8 gap-y-14 p-0 min-[600px]:grid-cols-2 min-[1100px]:grid-cols-4">
+          {featuredProducts.map((product) => (
+            <li key={product.id} className="m-0 min-w-0">
+              <a
+                href={product.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group block transition-opacity duration-500 hover:opacity-50"
+              >
+                <div className="relative mb-5 aspect-[4/5] w-full overflow-hidden bg-hygen-media">
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    fill
+                    sizes="(min-width: 1100px) 22vw, (min-width: 600px) 40vw, 85vw"
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    unoptimized
+                  />
+                </div>
+                <p className="font-display m-0 text-[12px] font-medium leading-[1.35] tracking-[0.14em] uppercase text-hygen-text min-[700px]:text-[13px]">
+                  {product.title}
+                </p>
+                <p className="font-body mt-2 m-0 text-[15px] leading-none tracking-[0.04em] text-hygen-muted min-[700px]:text-[16px]">
+                  <ProductPrice price={product.price} />
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -253,51 +286,48 @@ function AboutSection() {
   return (
     <section
       id="about"
-      className="relative min-h-[780px] w-full bg-hygen-bg text-hygen-text"
+      className="relative min-h-[100svh] w-full overflow-hidden bg-hygen-media text-white"
     >
-      <SectionSocial />
-      <div className="mx-auto grid min-h-[780px] w-[min(960px,92vw)] items-center gap-12 px-0 py-28 min-[900px]:grid-cols-2 min-[900px]:gap-16">
-        <div className="relative aspect-[3/4] w-full overflow-hidden bg-hygen-media">
+      <div className="absolute inset-0 grid grid-cols-1 min-[800px]:grid-cols-2">
+        <div className="relative min-h-[42svh] min-[800px]:min-h-full">
           <Image
-            src={parallaxImages.mid}
-            alt="Atelier craft"
+            src={about.leftImage}
+            alt={about.leftAlt}
             fill
-            sizes="(min-width: 900px) 40vw, 92vw"
+            sizes="(min-width: 800px) 50vw, 100vw"
+            className="object-cover grayscale"
+            unoptimized
+          />
+        </div>
+        <div className="relative min-h-[42svh] min-[800px]:min-h-full">
+          <Image
+            src={about.rightImage}
+            alt={about.rightAlt}
+            fill
+            sizes="(min-width: 800px) 50vw, 100vw"
             className="object-cover"
             unoptimized
           />
         </div>
-        <div>
-          <p className="font-display mb-4 text-[12px] font-medium tracking-[0.22em] uppercase text-hygen-muted">
-            {about.eyebrow}
-          </p>
-          <h2 className="font-display mb-8 text-[28px] font-medium tracking-[0.2em] uppercase text-hygen-text min-[1320px]:text-[34px]">
-            {about.title}
+      </div>
+
+      <div className="absolute inset-0 z-[1] bg-black/55" />
+
+      <div className="absolute inset-0 z-10 flex items-center justify-center overflow-y-auto px-6 py-20 text-center min-[800px]:px-12">
+        <div className="max-w-[40rem] text-left min-[800px]:max-w-[36rem]">
+          <h2 className="font-display mb-8 text-[28px] font-medium tracking-[0.22em] uppercase text-white min-[700px]:text-[34px]">
+            {about.headline}
           </h2>
-          <p className="text-[19px] font-normal leading-[1.7] text-hygen-text">
-            {about.body}
-          </p>
-          <p className="mt-6 text-[17px] font-normal leading-[1.75] text-hygen-muted">
-            {about.bodySecondary}
-          </p>
-          <dl className="mt-12 space-y-5 border-t border-white/10 pt-8">
-            {about.details.map((row) => (
-              <div key={row.label} className="grid gap-1 min-[500px]:grid-cols-[140px_1fr]">
-                <dt className="font-display text-[11px] font-medium tracking-[0.18em] uppercase text-hygen-muted">
-                  {row.label}
-                </dt>
-                <dd className="m-0 text-[17px] leading-[1.45] text-hygen-text">
-                  {row.value}
-                </dd>
-              </div>
+          <div className="space-y-5">
+            {about.paragraphs.map((paragraph) => (
+              <p
+                key={paragraph.slice(0, 32)}
+                className="font-body m-0 text-[14px] font-normal leading-[1.7] text-white/90 min-[700px]:text-[16px]"
+              >
+                {paragraph}
+              </p>
             ))}
-          </dl>
-          <a
-            href="https://atelierguised.com/pages/about-us"
-            className="font-display mt-10 inline-block text-[12px] font-medium tracking-[0.18em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50"
-          >
-            Read more
-          </a>
+          </div>
         </div>
       </div>
     </section>
