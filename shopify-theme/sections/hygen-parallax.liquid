@@ -2,9 +2,9 @@
   assign fallback = section.settings.image_url
   if fallback == blank
     if section.settings.heading == 'Collaboration'
-      assign fallback = 'https://atelierguised.com/cdn/shop/collections/C3D43191-4BEE-44D3-8E07-B58AE4E95CD9.jpg?v=1765362909&width=2000'
+      assign fallback = 'hygen-parallax-lower.png' | asset_url
     else
-      assign fallback = 'https://atelierguised.com/cdn/shop/files/Guised-02087_SHOPIFY_CROP.jpg?v=1761817097&width=2000'
+      assign fallback = 'hygen-parallax-mid.png' | asset_url
     endif
   endif
 -%}
@@ -47,8 +47,8 @@
     {
       "type": "text",
       "id": "image_url",
-      "label": "Image URL (uses site CDN by default)",
-      "default": "https://atelierguised.com/cdn/shop/files/Guised-02087_SHOPIFY_CROP.jpg?v=1761817097&width=2000"
+      "label": "Image URL (blank = theme asset)",
+      "default": ""
     }
   ],
   "presets": [{ "name": "Hygen parallax" }]

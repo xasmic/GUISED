@@ -1143,27 +1143,28 @@ a.hygen-stockist__name:hover {
 }
 
 .hygen-about__headline {
-  margin: 0 0 2rem;
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  margin: 0 0 1.5rem;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+  text-transform: none;
   color: #fff;
 }
 
 @media (min-width: 700px) {
   .hygen-about__headline {
-    font-size: 34px;
+    margin-bottom: 2rem;
+    font-size: 28px;
   }
 }
 
 .hygen-about__body {
-  margin: 0 0 1.25rem;
+  margin: 0 0 1rem;
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .hygen-about__body:last-child {
@@ -1172,6 +1173,6 @@ a.hygen-stockist__name:hover {
 
 @media (min-width: 700px) {
   .hygen-about__body {
-    font-size: 16px;
+    font-size: 15px;
   }
 }

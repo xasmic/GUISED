@@ -315,14 +315,14 @@ function AboutSection() {
 
       <div className="absolute inset-0 z-10 flex items-center justify-center overflow-y-auto px-6 py-20 text-center min-[800px]:px-12">
         <div className="max-w-[40rem] text-left min-[800px]:max-w-[36rem]">
-          <h2 className="font-display mb-8 text-[28px] font-medium tracking-[0.22em] uppercase text-white min-[700px]:text-[34px]">
+          <h2 className="font-display mb-6 text-[22px] font-medium leading-[1.35] tracking-[0.08em] text-white min-[700px]:mb-8 min-[700px]:text-[28px]">
             {about.headline}
           </h2>
-          <div className="space-y-5">
+          <div className="space-y-4">
             {about.paragraphs.map((paragraph) => (
               <p
                 key={paragraph.slice(0, 32)}
-                className="font-body m-0 text-[14px] font-normal leading-[1.7] text-white/90 min-[700px]:text-[16px]"
+                className="font-body m-0 text-[14px] font-normal leading-[1.65] text-white/85 min-[700px]:text-[15px]"
               >
                 {paragraph}
               </p>

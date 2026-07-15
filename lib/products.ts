@@ -111,20 +111,32 @@ export const categories = [
   {
     title: "Belts",
     href: "https://atelierguised.com/collections/belts",
-    image: shop("files/Guised-01380.jpg?v=1761908067&width=1600"),
+    image: "/images/hygen/belts-look.png",
   },
   {
     title: "Wallets",
     href: "https://atelierguised.com/collections/wallets",
-    image: shop("files/bifoldculattagreyflatlay.png?v=1711951376&width=1600"),
+    image: "/images/hygen/craft-atelier.png",
   },
 ];
 
+/** Local editorial stills — used outside hero + featured product grid */
 export const images = {
-  collab: shop(
-    "collections/C3D43191-4BEE-44D3-8E07-B58AE4E95CD9.jpg?v=1765362909&width=2000",
-  ),
-  craft: shop("files/Guised-02087_SHOPIFY_CROP.jpg?v=1761817097&width=2000"),
+  aboutLeft: "/images/hygen/about-left.png",
+  aboutRight: "/images/hygen/about-right.png",
+  parallaxMid: "/images/hygen/parallax-mid.png",
+  parallaxLower: "/images/hygen/parallax-lower.png",
+  craft: "/images/hygen/craft-atelier.png",
+  collab: "/images/hygen/campaign-2.png",
+  campaign: [
+    "/images/hygen/campaign-1.png",
+    "/images/hygen/campaign-2.png",
+    "/images/hygen/campaign-3.png",
+    "/images/hygen/campaign-4.png",
+    "/images/hygen/campaign-5.png",
+    "/images/hygen/belts-hang.png",
+    "/images/hygen/field-atmosphere.png",
+  ] as const,
 };
 
 /** Featured row after hero — layout matches atelier product-grid style */

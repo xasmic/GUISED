@@ -36,16 +36,14 @@ export const concept = {
 
 export const about = {
   title: "About",
-  headline: "ABOUT",
+  headline: "Buy a piece for a lifetime",
   paragraphs: [
-    "Born from a small corner of a Singapore bedroom in September 2022, Guised began as a quiet obsession with leathercraft. A place to experiment, to study material, and to reshape what traditional leatherwork could look and feel like. What started as a hobby grew into a philosophy carried forward in every piece we make today.",
-    "We work exclusively with horse culatta, a rare and unpredictable leather taken from the horse rump. Its fibres are dense, textured, and naturally marked, making each cut impossible to replicate. That means no two Guised items ever look the same. Every order receives the full integrity of culatta leather. One continuous piece, unique in its own patterning. Custom cuts are available, but unless requested, the selection is shaped entirely by the nature of the hide.",
-    "Each product is meticulously handcrafted and fully handsewn. The process is slow, intentional, and rooted in respect for craft. The materials we use are ethically sourced from trusted tanneries, chosen for their transparency and their commitment to responsible practices.",
-    "Guised is built around the tension between who we show and who we really are. The brand reflects the quiet struggle of trying to feel comfortable in one's own skin and the ways we hide, reshape, or harden ourselves to navigate the world. Our pieces are designed to age with you, scar with you, and become a companion through those internal shifts.",
-    "Guised isn't about perfection. It's about honesty in form, texture, and self.",
+    "All of our leathers are hides taken with intent, never exploitation — sourced from tanneries we know, trust, and hold to the same standard we hold ourselves.",
+    "Each Guised piece begins as horse culatta: a dense, unruly hide scarred by the life it once carried. No two panels share a memory.",
+    "Pale and waxen at first, it darkens the longer it is touched — its fibres swelling, compressing, hardening into a second skin shaped by your habits alone. This is not leather that resists wear. It feeds on it. Every crease is a record. Every mark, a quiet confession between you and the hide.",
   ],
-  leftImage: images.craft,
-  rightImage: images.collab,
+  leftImage: images.aboutLeft,
+  rightImage: images.aboutRight,
   leftAlt: "Atelier craft",
   rightAlt: "Leather in wear",
 };
@@ -112,32 +110,39 @@ export const seasons: Season[] = [
     label: "GUISED  Campaign",
     images: [
       {
-        src:
-          heroSlides[0].type === "video"
-            ? heroSlides[0].poster
-            : heroSlides[0].src,
-        alt: heroSlides[0].headline,
-        href: heroSlides[0].href,
-      },
-      {
-        src: heroSlides[1].type === "image" ? heroSlides[1].src : "",
-        alt: heroSlides[1].headline,
-        href: heroSlides[1].href,
-      },
-      {
-        src: heroSlides[2].type === "image" ? heroSlides[2].src : "",
-        alt: heroSlides[2].headline,
-        href: heroSlides[2].href,
-      },
-      {
-        src: images.craft,
-        alt: "Craft",
+        src: images.campaign[0],
+        alt: "Campaign look",
         href: "https://atelierguised.com/collections/all",
       },
       {
-        src: images.collab,
-        alt: "Guised × Rei.Gloom",
-        href: "https://atelierguised.com/collections/guised-x-rei-gloom",
+        src: images.campaign[1],
+        alt: "Leather in the field",
+        href: "https://atelierguised.com/collections/all",
+      },
+      {
+        src: images.campaign[2],
+        alt: "Worn leather",
+        href: "https://atelierguised.com/collections/all",
+      },
+      {
+        src: images.campaign[3],
+        alt: "Studio portrait",
+        href: "https://atelierguised.com/collections/all",
+      },
+      {
+        src: images.campaign[4],
+        alt: "Outdoor campaign",
+        href: "https://atelierguised.com/collections/all",
+      },
+      {
+        src: images.campaign[5],
+        alt: "Belts archive",
+        href: "https://atelierguised.com/collections/belts",
+      },
+      {
+        src: images.campaign[6],
+        alt: "Field atmosphere",
+        href: "https://atelierguised.com/collections/all",
       },
     ],
   },
@@ -150,7 +155,17 @@ export const seasons: Season[] = [
         alt: "Guised × Rei.Gloom",
         href: "https://atelierguised.com/collections/guised-x-rei-gloom",
       },
-      ...latestReleases.map((p) => ({
+      {
+        src: images.campaign[0],
+        alt: "Collaboration campaign",
+        href: "https://atelierguised.com/collections/guised-x-rei-gloom",
+      },
+      {
+        src: images.aboutRight,
+        alt: "Leather in wear",
+        href: "https://atelierguised.com/collections/guised-x-rei-gloom",
+      },
+      ...latestReleases.slice(0, 3).map((p) => ({
         src: p.image,
         alt: p.title,
         href: p.href,
@@ -211,6 +226,6 @@ export const heroCopy = {
 };
 
 export const parallaxImages = {
-  mid: images.craft,
-  lower: images.collab,
+  mid: images.parallaxMid,
+  lower: images.parallaxLower,
 };
