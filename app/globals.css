@@ -149,3 +149,29 @@ button {
     scroll-behavior: auto !important;
   }
 }
+
+.currency-panel__list {
+  scrollbar-width: thin;
+  scrollbar-color: #c4c4c4 transparent;
+}
+
+.currency-panel__list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.currency-panel__list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.currency-panel__list::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.currency-panel__list::-webkit-scrollbar-button {
+  display: none;
+  height: 0;
+  width: 0;
+}

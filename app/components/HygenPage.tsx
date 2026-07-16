@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import {
   about,
   featuredProducts,
@@ -12,6 +12,9 @@ import {
   seasons,
   stockistRegions,
 } from "@/lib/site";
+import { formatConvertedPrice } from "@/lib/currency";
+import { CurrencyProvider, useCurrency } from "./CurrencyProvider";
+import { CurrencySelector } from "./CurrencySelector";
 
 function SectionSocial() {
   return (
@@ -35,13 +38,28 @@ function SectionSocial() {
 }
 
 function ProductPrice({ price }: { price: string }) {
-  const match = price.match(/^\$?(\d+)\.(\d{2})$/);
-  if (!match) return <span>{price}</span>;
+  const { market } = useCurrency();
+  const formatted = formatConvertedPrice(price, market);
+
+  if (!formatted.cents) {
+    return (
+      <span className="inline-flex items-start">
+        <span>
+          {market.symbol}
+          {formatted.whole}
+        </span>
+      </span>
+    );
+  }
+
   return (
     <span className="inline-flex items-start">
-      <span>${match[1]}</span>
+      <span>
+        {market.symbol}
+        {formatted.whole}
+      </span>
       <span className="relative top-[0.05em] ml-px text-[0.65em] leading-none">
-        .{match[2]}
+        .{formatted.cents}
       </span>
     </span>
   );
@@ -49,10 +67,12 @@ function ProductPrice({ price }: { price: string }) {
 
 function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [active, setActive] = useState("concept");
+  const [active, setActive] = useState("about");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
-    const ids = ["concept", "about", "collection", "stockist"];
+    const ids = ["about", "collection", "stockist"];
     const elements = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));
@@ -85,15 +105,46 @@ function SiteHeader() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!searchOpen) return;
+    const input = document.getElementById("site-search");
+    input?.focus();
+  }, [searchOpen]);
+
+  const onSearch = (e: FormEvent) => {
+    e.preventDefault();
+    const q = query.trim();
+    if (!q) return;
+    window.open(
+      `https://atelierguised.com/search?q=${encodeURIComponent(q)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+  };
+
+  const utilHidden = menuOpen
+    ? "pointer-events-none -translate-y-1 opacity-0"
+    : "translate-y-0 opacity-100";
+
   return (
     <>
+      <a
+        href="/"
+        aria-label="GUISED home"
+        className={`font-display fixed top-[26px] left-0 right-0 z-[10001] mx-auto w-max text-[13px] font-medium tracking-[0.32em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50 min-[700px]:top-[28px] min-[700px]:text-[15px] min-[1025px]:top-[30px] ${
+          menuOpen ? "pointer-events-none opacity-0" : "opacity-100"
+        }`}
+      >
+        <span className="block pr-[0.32em]">GUISED</span>
+      </a>
+
       <button
         type="button"
         aria-label={menuOpen ? "Close menu" : "Open menu"}
         aria-expanded={menuOpen}
         aria-controls="site-menu"
         onClick={() => setMenuOpen((o) => !o)}
-        className="fixed top-[28px] left-[28px] z-[10001] flex h-11 w-11 items-center justify-center mix-blend-difference min-[1025px]:top-[30px] min-[1025px]:left-[45px]"
+        className="fixed top-[28px] right-[28px] z-[10001] flex h-11 w-11 items-center justify-center mix-blend-difference min-[1025px]:hidden"
       >
         <span className="relative block h-[14px] w-[22px]" aria-hidden>
           <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
@@ -102,8 +153,95 @@ function SiteHeader() {
         </span>
       </button>
 
+      <div
+        className={`fixed top-[26px] right-[45px] z-[10001] hidden items-center gap-5 transition-[opacity,transform] duration-500 min-[1025px]:flex ${utilHidden}`}
+      >
+        <CurrencySelector />
+
+        <div className="relative flex items-center mix-blend-difference">
+          <form
+            role="search"
+            onSubmit={onSearch}
+            className={`mr-3 overflow-hidden transition-[width,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              searchOpen ? "w-40 opacity-100" : "w-0 opacity-0"
+            }`}
+          >
+            <label className="sr-only" htmlFor="site-search">
+              Search
+            </label>
+            <input
+              id="site-search"
+              type="search"
+              name="q"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search"
+              className="font-body w-full border-0 border-b border-white/40 bg-transparent pb-1 text-[13px] text-white outline-none placeholder:text-white/45"
+            />
+          </form>
+          <button
+            type="button"
+            aria-label="Search"
+            aria-expanded={searchOpen}
+            onClick={() => setSearchOpen((o) => !o)}
+            className="flex h-6 w-6 items-center justify-center text-white transition-opacity duration-500 hover:opacity-50"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <circle cx="11" cy="11" r="6.25" stroke="currentColor" strokeWidth="1.4" />
+              <path
+                d="M16.2 16.2L20.5 20.5"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <a
+          href="https://atelierguised.com/account"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Account"
+          className="flex h-6 w-6 items-center justify-center text-white mix-blend-difference transition-opacity duration-500 hover:opacity-50"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <circle cx="12" cy="8" r="3.25" stroke="currentColor" strokeWidth="1.4" />
+            <path
+              d="M5.5 19.5c1.4-3.2 3.7-4.75 6.5-4.75s5.1 1.55 6.5 4.75"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+            />
+          </svg>
+        </a>
+
+        <a
+          href="https://atelierguised.com/cart"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Bag"
+          className="flex h-6 w-6 items-center justify-center text-white mix-blend-difference transition-opacity duration-500 hover:opacity-50"
+        >
+          <svg width="17" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path
+              d="M7.5 8.5V7a4.5 4.5 0 0 1 9 0v1.5"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+            />
+            <path
+              d="M6 8.5h12l-.7 11.2a1.5 1.5 0 0 1-1.5 1.4H8.2a1.5 1.5 0 0 1-1.5-1.4L6 8.5Z"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </a>
+      </div>
+
       <nav
-        className={`font-display fixed top-0 right-0 z-[10000] flex items-start justify-end gap-5 px-4 pt-7 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] min-[700px]:gap-5 min-[700px]:px-[45px] min-[700px]:pt-8 ${
+        className={`font-display fixed top-0 left-0 z-[10000] flex items-start justify-start gap-5 px-4 pt-7 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] min-[700px]:gap-5 min-[700px]:px-[45px] min-[700px]:pt-8 ${
           menuOpen
             ? "pointer-events-none -translate-y-1 opacity-0"
             : "translate-y-0 opacity-100"
@@ -334,24 +472,45 @@ function AboutSection() {
   );
 }
 
-function ParallaxBand({ src, alt }: { src: string; alt: string }) {
+function ParallaxBand({
+  src,
+  alt,
+  videoSrc,
+}: {
+  src?: string;
+  alt: string;
+  videoSrc?: string;
+}) {
   return (
     <div className="relative h-svh w-full overflow-hidden bg-hygen-media">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-scroll min-[1025px]:bg-fixed"
-        style={{ backgroundImage: `url(${src})` }}
-        role="img"
-        aria-label={alt}
-      />
+      {videoSrc ? (
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-label={alt}
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+      ) : (
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-scroll min-[1025px]:bg-fixed"
+          style={{ backgroundImage: `url(${src})` }}
+          role="img"
+          aria-label={alt}
+        />
+      )}
     </div>
   );
 }
 
 function CollectionSection() {
-  const [seasonIndex, setSeasonIndex] = useState(0);
+  const season = seasons.find((s) => s.id === "culatta") ?? seasons[0];
   const [slideIndex, setSlideIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
-  const season = seasons[seasonIndex];
   const slide = season.images[slideIndex] ?? season.images[0];
 
   const go = useCallback(
@@ -363,10 +522,6 @@ function CollectionSection() {
     },
     [season.images.length],
   );
-
-  useEffect(() => {
-    setSlideIndex(0);
-  }, [seasonIndex]);
 
   useEffect(() => {
     if (!modalOpen) return;
@@ -390,21 +545,7 @@ function CollectionSection() {
         <p className="font-display mb-6 text-[14px] font-medium tracking-[0.2em] uppercase text-hygen-text">
           Collection
         </p>
-        <ul className="list-none p-0 m-0">
-          {seasons.map((s, i) => (
-            <li key={s.id} className="m-0">
-              <button
-                type="button"
-                onClick={() => setSeasonIndex(i)}
-                className={`inline-block text-hygen-text transition-[opacity] duration-500 hover:opacity-50 ${
-                  i === seasonIndex ? "opacity-100" : "opacity-70"
-                }`}
-              >
-                {s.label}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <p className="font-body m-0 text-hygen-text">{season.label}</p>
       </div>
 
       <div className="absolute top-1/2 left-1/2 z-10 w-[467px] -translate-x-1/2 -translate-y-1/2 bg-hygen-surface min-[1500px]:w-[600px]">
@@ -452,7 +593,7 @@ function CollectionSection() {
           className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/70 p-6"
           role="dialog"
           aria-modal="true"
-          aria-label="Lookbook index"
+          aria-label="Culatta lookbook index"
         >
           <button
             type="button"
@@ -576,15 +717,17 @@ function StockistSection() {
 
 export function HygenPage() {
   return (
-    <main className="min-w-0 bg-hygen-media text-hygen-text min-[1220px]:min-w-[1220px]">
-      <SiteHeader />
-      <HeroBand />
-      <ConceptSection />
-      <AboutSection />
-      <ParallaxBand src={parallaxImages.mid} alt="Craft" />
-      <CollectionSection />
-      <ParallaxBand src={parallaxImages.lower} alt="Collaboration" />
-      <StockistSection />
-    </main>
+    <CurrencyProvider>
+      <main className="min-w-0 bg-hygen-media text-hygen-text min-[1220px]:min-w-[1220px]">
+        <SiteHeader />
+        <HeroBand />
+        <ConceptSection />
+        <AboutSection />
+        <CollectionSection />
+        <ParallaxBand videoSrc="/GuisedVideo.mp4" alt="Craft" />
+        <ParallaxBand src={parallaxImages.lower} alt="Collaboration" />
+        <StockistSection />
+      </main>
+    </CurrencyProvider>
   );
 }

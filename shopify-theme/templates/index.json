@@ -71,69 +71,23 @@
       "type": "hygen-parallax",
       "settings": {
         "heading": "Craft",
+        "use_theme_video": true,
         "image_url": ""
       }
     },
     "hygen_collection": {
       "type": "hygen-collection",
       "blocks": {
-        "season_1": {
-          "type": "season",
-          "settings": {
-            "label": "GUISED  Latest Releases",
-            "preset": "latest",
-            "limit": 12
-          }
-        },
-        "season_2": {
+        "season_culatta": {
           "type": "season",
           "settings": {
             "label": "GUISED  Culatta",
             "preset": "culatta",
             "limit": 12
           }
-        },
-        "season_3": {
-          "type": "season",
-          "settings": {
-            "label": "GUISED  Belts",
-            "preset": "belts",
-            "limit": 12
-          }
-        },
-        "season_4": {
-          "type": "season",
-          "settings": {
-            "label": "GUISED  Wallets",
-            "preset": "wallets",
-            "limit": 12
-          }
-        },
-        "season_5": {
-          "type": "season",
-          "settings": {
-            "label": "GUISED  Campaign",
-            "preset": "campaign",
-            "limit": 12
-          }
-        },
-        "season_6": {
-          "type": "season",
-          "settings": {
-            "label": "Guised × Rei.Gloom",
-            "preset": "collab",
-            "limit": 12
-          }
         }
       },
-      "block_order": [
-        "season_1",
-        "season_2",
-        "season_3",
-        "season_4",
-        "season_5",
-        "season_6"
-      ],
+      "block_order": ["season_culatta"],
       "settings": {
         "heading": "Collection"
       }
@@ -189,8 +143,8 @@
     "hygen_hero",
     "hygen_concept",
     "hygen_about",
-    "hygen_parallax_1",
     "hygen_collection",
+    "hygen_parallax_1",
     "hygen_parallax_2",
     "hygen_stockist"
   ]

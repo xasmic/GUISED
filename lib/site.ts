@@ -10,19 +10,29 @@ import {
 export { featuredProducts };
 
 export const navLinks = [
-  { id: "concept", label: "Concept", href: "#concept" },
-  { id: "about", label: "About", href: "#about" },
-  { id: "collection", label: "Collection", href: "#collection" },
-  { id: "stockist", label: "Stockist", href: "#stockist" },
-  {
-    id: "contact",
-    label: "Contact",
-    href: "https://atelierguised.com/pages/contact",
-  },
   {
     id: "online",
     label: "Online Store",
     href: "https://atelierguised.com",
+    external: true,
+  },
+  { id: "about", label: "About", href: "#about" },
+  {
+    id: "contact",
+    label: "Contact",
+    href: "https://atelierguised.com/pages/contact",
+    external: true,
+  },
+  {
+    id: "customs",
+    label: "Customs",
+    href: "mailto:info@atelierguised.com?subject=Custom%20Order",
+  },
+  { id: "terms", label: "Terms of Service", href: "/terms" },
+  {
+    id: "collaborations",
+    label: "Collaborations",
+    href: "https://atelierguised.com/collections/guised-x-rei-gloom",
     external: true,
   },
 ] as const;

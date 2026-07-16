@@ -38,11 +38,11 @@
               <p class="hygen-shop__title">{{ block.settings.title }}</p>
             {% endif %}
             {% if block.settings.price != blank %}
-              <p class="hygen-shop__price">
+              <p class="hygen-shop__price" data-hygen-price data-hygen-price-base="{{ block.settings.price | escape }}">
                 {%- assign price_parts = block.settings.price | remove: '$' | split: '.' -%}
-                <span class="hygen-shop__dollars">${{ price_parts[0] }}</span>
+                <span class="hygen-shop__dollars" data-hygen-price-whole>${{ price_parts[0] }}</span>
                 {%- if price_parts.size > 1 -%}
-                  <span class="hygen-shop__cents">.{{ price_parts[1] }}</span>
+                  <span class="hygen-shop__cents" data-hygen-price-cents>.{{ price_parts[1] }}</span>
                 {%- endif -%}
               </p>
             {% endif %}

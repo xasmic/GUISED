@@ -1,4 +1,13 @@
 {%- liquid
+  assign use_video = false
+  if section.settings.video_url != blank
+    assign use_video = true
+    assign video_src = section.settings.video_url
+  elsif section.settings.use_theme_video
+    assign use_video = true
+    assign video_src = 'GuisedVideo.mp4' | asset_url
+  endif
+
   assign fallback = section.settings.image_url
   if fallback == blank
     if section.settings.heading == 'Collaboration'
@@ -10,7 +19,19 @@
 -%}
 
 <section class="hygen-parallax" aria-label="{{ section.settings.heading | escape }}">
-  {% if section.settings.image != blank %}
+  {% if use_video %}
+    <video
+      class="hygen-parallax__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      aria-label="{{ section.settings.heading | escape }}"
+    >
+      <source src="{{ video_src }}" type="video/mp4">
+    </video>
+  {% elsif section.settings.image != blank %}
     <div
       class="hygen-parallax__bg"
       style="background-image: url({{ section.settings.image | image_url: width: 2400 }});"
@@ -38,6 +59,18 @@
       "id": "heading",
       "label": "Accessibility label",
       "default": "Look"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_theme_video",
+      "label": "Use GuisedVideo.mp4 from theme assets",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video URL (optional override)",
+      "default": ""
     },
     {
       "type": "image_picker",

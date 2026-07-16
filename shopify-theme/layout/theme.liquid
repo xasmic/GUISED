@@ -24,6 +24,10 @@
   </head>
 
   <body class="hygen-body template-{{ template.name }}">
+    <a href="{{ routes.root_url }}" class="hygen-brand" aria-label="{{ shop.name | upcase }} home">
+      <span>{{ shop.name | upcase | default: 'GUISED' }}</span>
+    </a>
+
     <button
       type="button"
       class="hygen-burger"
@@ -39,13 +43,90 @@
       </span>
     </button>
 
+    <div class="hygen-utils" data-hygen-utils>
+      <div class="hygen-currency" data-hygen-currency>
+        <button
+          type="button"
+          class="hygen-utils__currency"
+          aria-label="Currency SGD"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          data-hygen-currency-toggle
+        >
+          <span data-hygen-currency-code>SGD</span>
+          <svg width="8" height="5" viewBox="0 0 8 5" fill="none" aria-hidden="true">
+            <path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <div class="hygen-currency__panel" hidden data-hygen-currency-panel>
+          <div class="hygen-currency__search">
+            <label class="hygen-currency__search-field">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="11" cy="11" r="6.25" stroke="currentColor" stroke-width="1.4"></circle>
+                <path d="M16.2 16.2L20.5 20.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+              </svg>
+              <span class="hygen-sr-only">Search countries</span>
+              <input type="search" placeholder="Search" autocomplete="off" data-hygen-currency-filter>
+            </label>
+          </div>
+          <ul class="hygen-currency__list" role="listbox" data-hygen-currency-list></ul>
+        </div>
+      </div>
+
+      <div class="hygen-utils__search">
+        <form
+          class="hygen-utils__search-form"
+          role="search"
+          action="{{ routes.search_url }}"
+          method="get"
+          data-hygen-search-form
+        >
+          <label class="hygen-sr-only" for="hygen-search-input">Search</label>
+          <input
+            id="hygen-search-input"
+            class="hygen-utils__search-input"
+            type="search"
+            name="q"
+            placeholder="Search"
+            autocomplete="off"
+          >
+        </form>
+        <button
+          type="button"
+          class="hygen-utils__icon"
+          aria-label="Search"
+          aria-expanded="false"
+          data-hygen-search-toggle
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.25" stroke="currentColor" stroke-width="1.4"></circle>
+            <path d="M16.2 16.2L20.5 20.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </div>
+
+      <a href="{{ routes.account_url }}" class="hygen-utils__icon" aria-label="Account">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="8" r="3.25" stroke="currentColor" stroke-width="1.4"></circle>
+          <path d="M5.5 19.5c1.4-3.2 3.7-4.75 6.5-4.75s5.1 1.55 6.5 4.75" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+        </svg>
+      </a>
+
+      <a href="{{ routes.cart_url }}" class="hygen-utils__icon" aria-label="Bag">
+        <svg width="17" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7.5 8.5V7a4.5 4.5 0 0 1 9 0v1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+          <path d="M6 8.5h12l-.7 11.2a1.5 1.5 0 0 1-1.5 1.4H8.2a1.5 1.5 0 0 1-1.5-1.4L6 8.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+
     <nav class="hygen-nav" aria-label="Primary" data-hygen-nav>
-      <a href="#concept" data-nav-id="concept">Concept</a>
+      <a href="https://atelierguised.com" target="_blank" rel="noreferrer">Online Store</a>
       <a href="#about" data-nav-id="about">About</a>
-      <a href="#collection" data-nav-id="collection">Collection</a>
-      <a href="#stockist" data-nav-id="stockist">Stockist</a>
-      <a href="{{ pages.contact.url | default: '/pages/contact' }}">Contact</a>
-      <a href="{{ routes.root_url }}" target="_blank" rel="noreferrer">Online Store</a>
+      <a href="{{ pages.contact.url | default: 'https://atelierguised.com/pages/contact' }}" {% if pages.contact == blank %}target="_blank" rel="noreferrer"{% endif %}>Contact</a>
+      <a href="mailto:{{ shop.email | default: 'info@atelierguised.com' }}?subject=Custom%20Order">Customs</a>
+      <a href="{{ pages['terms-of-service'].url | default: '/pages/terms-of-service' }}">Terms of Service</a>
+      <a href="https://atelierguised.com/collections/guised-x-rei-gloom" target="_blank" rel="noreferrer">Collaborations</a>
     </nav>
 
     <div
@@ -56,14 +137,14 @@
       aria-label="Site menu"
       data-hygen-menu
     >
-      <a href="#concept" class="hygen-menu__brand" data-hygen-menu-close>{{ shop.name | upcase }}</a>
+      <a href="#about" class="hygen-menu__brand" data-hygen-menu-close>{{ shop.name | upcase }}</a>
       <nav class="hygen-menu__nav" aria-label="Menu">
-        <a href="#concept" data-hygen-menu-close>Concept</a>
+        <a href="https://atelierguised.com" target="_blank" rel="noreferrer" data-hygen-menu-close>Online Store</a>
         <a href="#about" data-hygen-menu-close>About</a>
-        <a href="#collection" data-hygen-menu-close>Collection</a>
-        <a href="#stockist" data-hygen-menu-close>Stockist</a>
-        <a href="{{ pages.contact.url | default: '/pages/contact' }}" data-hygen-menu-close>Contact</a>
-        <a href="{{ routes.root_url }}" target="_blank" rel="noreferrer" data-hygen-menu-close>Online Store</a>
+        <a href="{{ pages.contact.url | default: 'https://atelierguised.com/pages/contact' }}" {% if pages.contact == blank %}target="_blank" rel="noreferrer"{% endif %} data-hygen-menu-close>Contact</a>
+        <a href="mailto:{{ shop.email | default: 'info@atelierguised.com' }}?subject=Custom%20Order" data-hygen-menu-close>Customs</a>
+        <a href="{{ pages['terms-of-service'].url | default: '/pages/terms-of-service' }}" data-hygen-menu-close>Terms of Service</a>
+        <a href="https://atelierguised.com/collections/guised-x-rei-gloom" target="_blank" rel="noreferrer" data-hygen-menu-close>Collaborations</a>
       </nav>
       <div class="hygen-menu__sns">
         {% if settings.social_instagram_link != blank %}

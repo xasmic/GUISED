@@ -74,7 +74,8 @@ body.hygen-body {
 .hygen-burger {
   position: fixed;
   top: 28px;
-  left: 28px;
+  right: 28px;
+  left: auto;
   z-index: 10001;
   display: flex;
   align-items: center;
@@ -90,9 +91,55 @@ body.hygen-body {
 
 @media (min-width: 1025px) {
   .hygen-burger {
-    top: 30px;
-    left: 45px;
+    display: none;
   }
+}
+
+.hygen-brand {
+  position: fixed;
+  top: 26px;
+  left: 0;
+  right: 0;
+  z-index: 10001;
+  width: max-content;
+  margin-inline: auto;
+  font-family: var(--hygen-font);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #ebe4dc;
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hygen-brand > span {
+  display: block;
+  padding-right: 0.32em;
+}
+
+.hygen-brand:hover {
+  opacity: 0.5;
+}
+
+@media (min-width: 700px) {
+  .hygen-brand {
+    top: 28px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .hygen-brand {
+    top: 30px;
+  }
+}
+
+.hygen-burger.is-open ~ .hygen-brand,
+.hygen-menu-lock .hygen-brand {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hygen-burger__lines {
@@ -100,6 +147,235 @@ body.hygen-body {
   display: block;
   width: 22px;
   height: 14px;
+}
+
+.hygen-search {
+  display: none;
+}
+
+.hygen-utils {
+  position: fixed;
+  top: 26px;
+  right: 45px;
+  z-index: 10001;
+  display: none;
+  align-items: center;
+  gap: 20px;
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 1025px) {
+  .hygen-utils {
+    display: flex;
+  }
+}
+
+.hygen-burger.is-open ~ .hygen-utils {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+}
+
+.hygen-utils__currency {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-family: var(--hygen-font);
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  mix-blend-mode: difference;
+  transition: opacity 0.5s;
+}
+
+.hygen-utils__currency:hover,
+.hygen-utils__icon:hover {
+  opacity: 0.5;
+}
+
+.hygen-currency {
+  position: relative;
+}
+
+.hygen-currency__panel {
+  position: fixed;
+  top: 52px;
+  right: 45px;
+  z-index: 10050;
+  width: 272px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #111111;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  isolation: isolate;
+}
+
+.hygen-currency__panel[hidden] {
+  display: none;
+}
+
+.hygen-currency.is-open .hygen-utils__currency svg {
+  transform: rotate(180deg);
+}
+
+.hygen-currency .hygen-utils__currency svg {
+  transition: transform 0.3s;
+}
+
+.hygen-currency__search {
+  padding: 14px 14px 10px;
+}
+
+.hygen-currency__search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #1a1a1a;
+  background: #f2f2f2;
+  color: rgba(26, 26, 26, 0.7);
+}
+
+.hygen-currency__search-field input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: #111;
+  font-family: var(--hygen-font);
+  font-size: 15px;
+  line-height: 1;
+  outline: none;
+}
+
+.hygen-currency__search-field input::placeholder {
+  color: #9a9a9a;
+}
+
+.hygen-currency__list {
+  margin: 0;
+  padding: 2px 8px 10px;
+  list-style: none;
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c4c4c4 transparent;
+}
+
+.hygen-currency__list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.hygen-currency__list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hygen-currency__list::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.hygen-currency__list::-webkit-scrollbar-button {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+.hygen-currency__list button {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #111;
+  font-family: var(--hygen-font);
+  font-size: 15px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.hygen-currency__list button:hover,
+.hygen-currency__list button.is-active {
+  background: #eaeaea;
+}
+
+.hygen-utils__search {
+  display: flex;
+  align-items: center;
+  mix-blend-mode: difference;
+}
+
+.hygen-utils__search-form {
+  width: 0;
+  margin-right: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    margin-right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hygen-utils__search.is-open .hygen-utils__search-form {
+  width: 160px;
+  margin-right: 12px;
+  opacity: 1;
+}
+
+.hygen-utils__search-input {
+  width: 100%;
+  padding: 0 0 4px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: #fff;
+  font-family: var(--hygen-font);
+  font-size: 13px;
+  outline: none;
+}
+
+.hygen-utils__search-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.hygen-utils__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  mix-blend-mode: difference;
+  transition: opacity 0.5s;
+}
+
+.hygen-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .hygen-burger__lines span {
@@ -144,19 +420,20 @@ body.hygen-body {
   transform: translateY(0) rotate(-45deg);
 }
 
-/* Fixed top-right nav */
+/* Fixed top-left nav */
 .hygen-nav {
   position: fixed;
   top: 0;
-  right: 0;
+  left: 0;
+  right: auto;
   z-index: 10000;
   display: flex;
   align-items: flex-start;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 12px 16px;
   max-width: 75%;
-  padding: 28px 16px 0 0;
+  padding: 28px 0 0 16px;
   transition:
     opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -172,7 +449,7 @@ body.hygen-body {
   .hygen-nav {
     gap: 20px;
     max-width: none;
-    padding: 32px 45px 0 0;
+    padding: 32px 0 0 45px;
   }
 }
 
@@ -677,6 +954,14 @@ html.hygen-menu-lock {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: scroll;
+}
+
+.hygen-parallax__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 @media (min-width: 1025px) {
