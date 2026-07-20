@@ -160,12 +160,12 @@ export function CurrencySelector() {
           setOpen((o) => !o);
           setFilter("");
         }}
-        className="font-body flex items-center gap-1.5 text-[13px] leading-none tracking-[0.04em] text-white mix-blend-difference transition-opacity duration-500 hover:opacity-50"
+        className="font-display flex items-center gap-1.5 text-[13px] font-medium leading-none tracking-[0.14em] uppercase text-white mix-blend-difference transition-opacity duration-500 hover:opacity-50"
       >
         {market.currency}
         <svg
-          width="8"
-          height="5"
+          width="10"
+          height="6"
           viewBox="0 0 8 5"
           fill="none"
           aria-hidden
@@ -174,7 +174,7 @@ export function CurrencySelector() {
           <path
             d="M1 1L4 4L7 1"
             stroke="currentColor"
-            strokeWidth="1.2"
+            strokeWidth="1.4"
             strokeLinecap="round"
             strokeLinejoin="round"
           />

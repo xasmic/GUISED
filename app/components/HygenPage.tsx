@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import {
   about,
   featuredProducts,
@@ -9,9 +9,9 @@ import {
   heroVideo,
   navLinks,
   parallaxImages,
-  seasons,
   stockistRegions,
 } from "@/lib/site";
+import { culattaProducts } from "@/lib/products";
 import { formatConvertedPrice } from "@/lib/currency";
 import { CurrencyProvider, useCurrency } from "./CurrencyProvider";
 import { CurrencySelector } from "./CurrencySelector";
@@ -20,7 +20,7 @@ function SectionSocial() {
   return (
     <div className="font-display absolute bottom-5 left-[45px] z-40 flex gap-4">
       <a
-        href="https://www.instagram.com/"
+        href="https://www.instagram.com/___guised"
         target="_blank"
         rel="noreferrer"
         className="text-[11px] tracking-[0.16em] text-hygen-text uppercase transition-[opacity] duration-500 hover:opacity-50"
@@ -70,6 +70,14 @@ function SiteHeader() {
   const [active, setActive] = useState("about");
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const ids = ["about", "collection", "stockist"];
@@ -128,142 +136,152 @@ function SiteHeader() {
 
   return (
     <>
-      <a
-        href="/"
-        aria-label="GUISED home"
-        className={`font-display fixed top-[26px] left-0 right-0 z-[10001] mx-auto w-max text-[13px] font-medium tracking-[0.32em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50 min-[700px]:top-[28px] min-[700px]:text-[15px] min-[1025px]:top-[30px] ${
-          menuOpen ? "pointer-events-none opacity-0" : "opacity-100"
+      <header
+        className={`pointer-events-none fixed inset-x-0 top-0 z-[10000] transition-[background-color,backdrop-filter,-webkit-backdrop-filter] duration-500 ease-out ${
+          scrolled
+            ? "bg-hygen-bg/55 backdrop-blur-md supports-[backdrop-filter]:bg-hygen-bg/40"
+            : "bg-transparent backdrop-blur-none"
         }`}
       >
-        <span className="block pr-[0.32em]">GUISED</span>
-      </a>
+        <div className="pointer-events-auto relative flex items-start justify-between px-4 pt-7 pb-5 min-[700px]:px-[45px] min-[700px]:pt-8 min-[1025px]:pt-[30px]">
+          <nav
+            className={`font-display flex flex-wrap items-start justify-start gap-5 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              menuOpen
+                ? "pointer-events-none -translate-y-1 opacity-0"
+                : "translate-y-0 opacity-100"
+            }`}
+            aria-label="Primary"
+            aria-hidden={menuOpen}
+          >
+            {navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                {...("external" in link && link.external
+                  ? { target: "_blank", rel: "noreferrer" }
+                  : undefined)}
+                className={`text-[11px] font-medium tracking-[0.14em] uppercase leading-none text-white mix-blend-difference transition-[opacity] duration-500 hover:opacity-50 min-[700px]:text-[13px] ${
+                  active === link.id ? "opacity-100" : "opacity-75"
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
 
-      <button
-        type="button"
-        aria-label={menuOpen ? "Close menu" : "Open menu"}
-        aria-expanded={menuOpen}
-        aria-controls="site-menu"
-        onClick={() => setMenuOpen((o) => !o)}
-        className="fixed top-[28px] right-[28px] z-[10001] flex h-11 w-11 items-center justify-center mix-blend-difference min-[1025px]:hidden"
-      >
-        <span className="relative block h-[14px] w-[22px]" aria-hidden>
-          <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
-          <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
-          <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
-        </span>
-      </button>
-
-      <div
-        className={`fixed top-[26px] right-[45px] z-[10001] hidden items-center gap-5 transition-[opacity,transform] duration-500 min-[1025px]:flex ${utilHidden}`}
-      >
-        <CurrencySelector />
-
-        <div className="relative flex items-center mix-blend-difference">
-          <form
-            role="search"
-            onSubmit={onSearch}
-            className={`mr-3 overflow-hidden transition-[width,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              searchOpen ? "w-40 opacity-100" : "w-0 opacity-0"
+          <a
+            href="/"
+            aria-label="GUISED home"
+            className={`font-display absolute top-7 left-1/2 z-[1] -translate-x-1/2 text-[25px] font-medium tracking-[0.32em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50 min-[700px]:top-8 min-[1025px]:top-[30px] ${
+              menuOpen ? "pointer-events-none opacity-0" : "opacity-100"
             }`}
           >
-            <label className="sr-only" htmlFor="site-search">
-              Search
-            </label>
-            <input
-              id="site-search"
-              type="search"
-              name="q"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search"
-              className="font-body w-full border-0 border-b border-white/40 bg-transparent pb-1 text-[13px] text-white outline-none placeholder:text-white/45"
-            />
-          </form>
+            <span className="block pr-[0.32em]">GUISED</span>
+          </a>
+
           <button
             type="button"
-            aria-label="Search"
-            aria-expanded={searchOpen}
-            onClick={() => setSearchOpen((o) => !o)}
-            className="flex h-6 w-6 items-center justify-center text-white transition-opacity duration-500 hover:opacity-50"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="site-menu"
+            onClick={() => setMenuOpen((o) => !o)}
+            className="relative z-[1] -mr-2 -mt-1.5 flex h-11 w-11 shrink-0 items-center justify-center mix-blend-difference min-[1025px]:hidden"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <circle cx="11" cy="11" r="6.25" stroke="currentColor" strokeWidth="1.4" />
-              <path
-                d="M16.2 16.2L20.5 20.5"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-              />
-            </svg>
+            <span className="relative block h-[14px] w-[22px]" aria-hidden>
+              <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
+              <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
+              <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
+            </span>
           </button>
-        </div>
 
-        <a
-          href="https://atelierguised.com/account"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Account"
-          className="flex h-6 w-6 items-center justify-center text-white mix-blend-difference transition-opacity duration-500 hover:opacity-50"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <circle cx="12" cy="8" r="3.25" stroke="currentColor" strokeWidth="1.4" />
-            <path
-              d="M5.5 19.5c1.4-3.2 3.7-4.75 6.5-4.75s5.1 1.55 6.5 4.75"
-              stroke="currentColor"
-              strokeWidth="1.4"
-              strokeLinecap="round"
-            />
-          </svg>
-        </a>
-
-        <a
-          href="https://atelierguised.com/cart"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Bag"
-          className="flex h-6 w-6 items-center justify-center text-white mix-blend-difference transition-opacity duration-500 hover:opacity-50"
-        >
-          <svg width="17" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path
-              d="M7.5 8.5V7a4.5 4.5 0 0 1 9 0v1.5"
-              stroke="currentColor"
-              strokeWidth="1.4"
-              strokeLinecap="round"
-            />
-            <path
-              d="M6 8.5h12l-.7 11.2a1.5 1.5 0 0 1-1.5 1.4H8.2a1.5 1.5 0 0 1-1.5-1.4L6 8.5Z"
-              stroke="currentColor"
-              strokeWidth="1.4"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </a>
-      </div>
-
-      <nav
-        className={`font-display fixed top-0 left-0 z-[10000] flex items-start justify-start gap-5 px-4 pt-7 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] min-[700px]:gap-5 min-[700px]:px-[45px] min-[700px]:pt-8 ${
-          menuOpen
-            ? "pointer-events-none -translate-y-1 opacity-0"
-            : "translate-y-0 opacity-100"
-        }`}
-        aria-label="Primary"
-        aria-hidden={menuOpen}
-      >
-        {navLinks.map((link) => (
-          <a
-            key={link.id}
-            href={link.href}
-            {...("external" in link && link.external
-              ? { target: "_blank", rel: "noreferrer" }
-              : undefined)}
-            className={`text-[11px] font-medium tracking-[0.14em] uppercase leading-none text-white mix-blend-difference transition-[opacity] duration-500 hover:opacity-50 min-[700px]:text-[13px] ${
-              active === link.id ? "opacity-100" : "opacity-75"
-            }`}
+          <div
+            className={`relative z-[1] hidden shrink-0 items-center gap-6 transition-[opacity,transform] duration-500 min-[1025px]:flex ${utilHidden}`}
           >
-            {link.label}
-          </a>
-        ))}
-      </nav>
+            <CurrencySelector />
+
+            <div className="relative flex items-center mix-blend-difference">
+              <form
+                role="search"
+                onSubmit={onSearch}
+                className={`mr-3 overflow-hidden transition-[width,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  searchOpen ? "w-44 opacity-100" : "w-0 opacity-0"
+                }`}
+              >
+                <label className="sr-only" htmlFor="site-search">
+                  Search
+                </label>
+                <input
+                  id="site-search"
+                  type="search"
+                  name="q"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search"
+                  className="font-body w-full border-0 border-b border-white/40 bg-transparent pb-1 text-[14px] text-white outline-none placeholder:text-white/45"
+                />
+              </form>
+              <button
+                type="button"
+                aria-label="Search"
+                aria-expanded={searchOpen}
+                onClick={() => setSearchOpen((o) => !o)}
+                className="flex h-7 w-7 items-center justify-center text-white transition-opacity duration-500 hover:opacity-50"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <circle cx="11" cy="11" r="6.25" stroke="currentColor" strokeWidth="1.6" />
+                  <path
+                    d="M16.2 16.2L20.5 20.5"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <a
+              href="https://atelierguised.com/account"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Account"
+              className="flex h-7 w-7 items-center justify-center text-white mix-blend-difference transition-opacity duration-500 hover:opacity-50"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <circle cx="12" cy="8" r="3.25" stroke="currentColor" strokeWidth="1.6" />
+                <path
+                  d="M5.5 19.5c1.4-3.2 3.7-4.75 6.5-4.75s5.1 1.55 6.5 4.75"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </a>
+
+            <a
+              href="https://atelierguised.com/cart"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Bag"
+              className="flex h-7 w-7 items-center justify-center text-white mix-blend-difference transition-opacity duration-500 hover:opacity-50"
+            >
+              <svg width="21" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path
+                  d="M7.5 8.5V7a4.5 4.5 0 0 1 9 0v1.5"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M6 8.5h12l-.7 11.2a1.5 1.5 0 0 1-1.5 1.4H8.2a1.5 1.5 0 0 1-1.5-1.4L6 8.5Z"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </header>
 
       <div
         id="site-menu"
@@ -307,7 +325,7 @@ function SiteHeader() {
           style={{ animationDelay: menuOpen ? "480ms" : undefined }}
         >
           <a
-            href="https://www.instagram.com/"
+            href="https://www.instagram.com/___guised"
             target="_blank"
             rel="noreferrer"
             className="font-display text-[12px] tracking-[0.16em] text-hygen-text uppercase transition-opacity duration-500 hover:opacity-50"
@@ -508,127 +526,70 @@ function ParallaxBand({
 }
 
 function CollectionSection() {
-  const season = seasons.find((s) => s.id === "culatta") ?? seasons[0];
-  const [slideIndex, setSlideIndex] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
-  const slide = season.images[slideIndex] ?? season.images[0];
-
-  const go = useCallback(
-    (dir: -1 | 1) => {
-      setSlideIndex((i) => {
-        const len = season.images.length;
-        return (i + dir + len) % len;
-      });
-    },
-    [season.images.length],
-  );
-
-  useEffect(() => {
-    if (!modalOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setModalOpen(false);
-      if (e.key === "ArrowLeft") go(-1);
-      if (e.key === "ArrowRight") go(1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [modalOpen, go]);
-
   return (
     <section
       id="collection"
-      className="relative h-[1000px] w-full bg-hygen-bg text-hygen-text min-[1500px]:h-[1250px]"
+      className="relative w-full bg-hygen-bg text-hygen-text"
     >
       <SectionSocial />
 
-      <div className="absolute top-[123px] left-[100px] z-20 max-w-[300px] text-[17px] leading-[2.05] min-[1500px]:top-[150px]">
-        <p className="font-display mb-6 text-[14px] font-medium tracking-[0.2em] uppercase text-hygen-text">
-          Collection
-        </p>
-        <p className="font-body m-0 text-hygen-text">{season.label}</p>
-      </div>
-
-      <div className="absolute top-1/2 left-1/2 z-10 w-[467px] -translate-x-1/2 -translate-y-1/2 bg-hygen-surface min-[1500px]:w-[600px]">
-        <div className="relative bg-hygen-media">
-          <a href={slide.href} target="_blank" rel="noreferrer">
-            <Image
-              src={slide.src}
-              alt={slide.alt}
-              width={600}
-              height={800}
-              className="h-auto w-full object-cover"
-              unoptimized
-            />
+      <div className="mx-auto w-full max-w-[1400px] px-6 py-24 min-[700px]:px-10 min-[1100px]:px-14">
+        <div className="mb-10 flex items-end justify-between gap-6 min-[700px]:mb-14">
+          <div>
+            <p className="font-display m-0 mb-3 text-[12px] font-medium tracking-[0.24em] uppercase text-hygen-muted">
+              Collection
+            </p>
+            <h2 className="font-display m-0 text-[20px] font-medium tracking-[0.14em] uppercase text-hygen-text min-[700px]:text-[22px]">
+              Culatta
+            </h2>
+          </div>
+          <a
+            href="/products"
+            className="font-display shrink-0 pb-1 text-[12px] font-medium tracking-[0.16em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50"
+          >
+            View all
           </a>
-
-          <button
-            type="button"
-            aria-label="Previous look"
-            onClick={() => go(-1)}
-            className="absolute top-1/2 left-[-200px] z-[9999] hidden h-[116px] w-[61px] -translate-y-1/2 items-center justify-center text-[42px] text-hygen-text transition-opacity duration-200 hover:opacity-50 min-[1220px]:flex"
-          >
-            ‹
-          </button>
-          <button
-            type="button"
-            aria-label="Next look"
-            onClick={() => go(1)}
-            className="absolute top-1/2 right-[-200px] z-[9999] hidden h-[116px] w-[61px] -translate-y-1/2 items-center justify-center text-[42px] text-hygen-text transition-opacity duration-200 hover:opacity-50 min-[1220px]:flex"
-          >
-            ›
-          </button>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setModalOpen(true)}
-          className="font-display relative top-[-50px] left-full ml-2 text-[12px] font-medium tracking-[0.16em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50"
-        >
-          Index
-        </button>
-      </div>
-
-      {modalOpen ? (
-        <div
-          className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/70 p-6"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Culatta lookbook index"
-        >
-          <button
-            type="button"
-            aria-label="Close"
-            onClick={() => setModalOpen(false)}
-            className="font-display fixed top-5 right-5 z-[10000] text-[13px] font-medium tracking-[0.16em] text-white uppercase transition-opacity duration-200 hover:opacity-50"
-          >
-            Close
-          </button>
-          <div className="z-[10000] max-h-[90vh] max-w-[900px] overflow-auto bg-hygen-bg p-2">
-            <div className="flex flex-wrap">
-              {season.images.map((img, i) => (
-                <button
-                  key={`${img.src}-${i}`}
-                  type="button"
-                  className="p-[5px] transition-opacity duration-200 hover:opacity-50"
-                  onClick={() => {
-                    setSlideIndex(i);
-                    setModalOpen(false);
-                  }}
-                >
+        <ul className="m-0 grid w-full list-none grid-cols-1 gap-x-8 gap-y-14 p-0 min-[600px]:grid-cols-2 min-[1100px]:grid-cols-3 min-[1320px]:grid-cols-5">
+          {culattaProducts.map((product) => (
+            <li key={product.id} className="m-0 min-w-0">
+              <a
+                href={product.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group block transition-opacity duration-500 hover:opacity-50"
+              >
+                <div className="relative mb-5 aspect-[4/5] w-full overflow-hidden bg-hygen-media">
                   <Image
-                    src={img.src}
-                    alt={img.alt}
-                    width={120}
-                    height={160}
-                    className="h-[160px] w-[120px] object-cover"
+                    src={product.image}
+                    alt={product.title}
+                    fill
+                    sizes="(min-width: 1320px) 18vw, (min-width: 1100px) 28vw, (min-width: 600px) 40vw, 85vw"
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                     unoptimized
                   />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : null}
+                  {product.soldOut ? (
+                    <span className="font-display absolute top-3 right-3 z-[1] bg-[#7a1717] px-2.5 py-1 text-[10px] font-medium tracking-[0.14em] uppercase text-hygen-text">
+                      Sold out
+                    </span>
+                  ) : null}
+                </div>
+                <p className="font-display m-0 text-[12px] font-medium leading-[1.35] tracking-[0.14em] uppercase text-hygen-text min-[700px]:text-[13px]">
+                  {product.title}
+                </p>
+                <p className="font-body mt-2 m-0 text-[15px] leading-none tracking-[0.04em] text-hygen-muted min-[700px]:text-[16px]">
+                  {product.soldOut ? (
+                    <span className="opacity-60">Sold out</span>
+                  ) : (
+                    <ProductPrice price={product.price} />
+                  )}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }
@@ -637,73 +598,99 @@ function StockistSection() {
   return (
     <section
       id="stockist"
-      className="relative min-h-[1000px] w-full bg-hygen-bg py-24 text-hygen-text min-[1220px]:h-[1672px] min-[1220px]:py-0"
+      className="relative w-full bg-hygen-bg py-24 text-hygen-text min-[700px]:py-32"
     >
       <SectionSocial />
 
-      <div className="relative mx-auto w-[min(720px,92vw)] min-[1220px]:absolute min-[1220px]:top-1/2 min-[1220px]:left-1/2 min-[1220px]:m-0 min-[1220px]:h-[1400px] min-[1220px]:w-[720px] min-[1220px]:-translate-x-1/2 min-[1220px]:-translate-y-1/2">
-        <p className="mb-10 text-[18px] leading-[2]">
-          <a
-            href="https://atelierguised.com"
-            target="_blank"
-            rel="noreferrer"
-            className="font-display text-[15px] font-medium tracking-[0.2em] uppercase transition-opacity duration-500 hover:opacity-40"
-          >
-            Online Store
-          </a>
-        </p>
+      <div className="mx-auto w-full max-w-[1100px] px-6 min-[700px]:px-10 min-[1100px]:px-14">
+        <div className="mb-14 max-w-[36rem] min-[700px]:mb-20">
+          <p className="font-display m-0 mb-4 text-[15px] font-medium tracking-[0.22em] uppercase text-hygen-text min-[700px]:text-[16px]">
+            Stockists
+          </p>
+          <h2 className="font-display m-0 text-[28px] font-medium leading-[1.2] tracking-[0.08em] uppercase min-[700px]:text-[34px]">
+            Where to find us
+          </h2>
+          <p className="font-body mt-5 m-0 text-[17px] leading-[1.7] text-hygen-text/80 min-[700px]:text-[19px]">
+            Visit our Singapore stockist, or order online for international
+            shipping.
+          </p>
+        </div>
 
-        <div className="clearfix">
-          {stockistRegions.slice(0, 2).map((region) => (
-            <div key={region.region} className="mb-10 float-left w-full min-[700px]:mb-0 min-[700px]:w-[240px]">
-              <h2 className="font-display mb-10 inline-block text-[20px] font-medium tracking-[0.14em] uppercase text-hygen-text">
-                {region.region}
-              </h2>
-              <ul className="m-0 list-none p-0">
+        <div className="grid gap-14 border-t border-hygen-text/10 pt-12 min-[800px]:grid-cols-2 min-[800px]:gap-16 min-[800px]:pt-16">
+          {stockistRegions.map((region) => (
+            <div key={region.region}>
+              <div className="mb-8 flex items-center gap-3">
+                <h3 className="font-display m-0 text-[14px] font-medium tracking-[0.2em] uppercase text-hygen-text min-[700px]:text-[15px]">
+                  {region.region}
+                </h3>
+                {region.instagramHref ? (
+                  <a
+                    href={region.instagramHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="GUISED on Instagram"
+                    className="inline-flex text-hygen-text transition-opacity duration-500 hover:opacity-50"
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      aria-hidden
+                    >
+                      <rect
+                        x="3.5"
+                        y="3.5"
+                        width="17"
+                        height="17"
+                        rx="4.5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      />
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="4"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      />
+                      <circle cx="17.2" cy="6.8" r="1" fill="currentColor" />
+                    </svg>
+                  </a>
+                ) : null}
+              </div>
+              <ul className="m-0 list-none space-y-8 p-0">
                 {region.stores.map((store) => (
-                  <li key={`${store.city}-${store.name}`} className="mb-6">
-                    <p className="mb-[15px] text-[18px] text-hygen-muted">
-                      {store.city}
-                    </p>
+                  <li key={store.name} className="m-0">
                     {store.href ? (
                       <a
                         href={store.href}
-                        className="block text-[17px] leading-[1.35] text-hygen-text transition-opacity duration-500 hover:opacity-40"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-display block text-[18px] font-medium leading-[1.35] tracking-[0.06em] text-hygen-text transition-opacity duration-500 hover:opacity-50 min-[700px]:text-[20px]"
                       >
                         {store.name}
                       </a>
                     ) : (
-                      <p className="text-[17px] leading-[1.35] text-hygen-text">
+                      <p className="font-display m-0 text-[18px] font-medium leading-[1.35] tracking-[0.06em] text-hygen-text min-[700px]:text-[20px]">
                         {store.name}
                       </p>
                     )}
-                    {store.phone ? (
-                      <p className="mt-1 text-[15px] text-hygen-muted">
-                        {store.phone}
+                    {store.address ? (
+                      <p className="font-body mt-2 m-0 text-[16px] leading-[1.55] text-hygen-muted min-[700px]:text-[17px]">
+                        {store.address}
                       </p>
                     ) : null}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="clear-both mt-20">
-          {stockistRegions.slice(2).map((region) => (
-            <div key={region.region} className="float-left w-full min-[700px]:w-[240px]">
-              <h2 className="font-display mb-10 inline-block text-[20px] font-medium tracking-[0.14em] uppercase">
-                {region.region}
-              </h2>
-              <ul className="m-0 list-none p-0">
-                {region.stores.map((store) => (
-                  <li key={`${store.city}-${store.name}`} className="mb-6">
-                    <p className="mb-[15px] text-[18px] text-hygen-muted">
-                      {store.city}
-                    </p>
-                    <p className="text-[17px] leading-[1.35] text-hygen-text">
-                      {store.name}
-                    </p>
+                    {store.city ? (
+                      <p className="font-body mt-1 m-0 text-[15px] leading-[1.5] text-hygen-muted/80 min-[700px]:text-[16px]">
+                        {store.city}
+                      </p>
+                    ) : null}
+                    {store.note ? (
+                      <p className="font-body mt-2 m-0 text-[15px] leading-[1.5] text-hygen-muted min-[700px]:text-[16px]">
+                        {store.note}
+                      </p>
+                    ) : null}
                   </li>
                 ))}
               </ul>

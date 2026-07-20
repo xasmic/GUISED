@@ -5,6 +5,8 @@ export type Product = {
   href: string;
   image: string;
   soldOut?: boolean;
+  lowQuantity?: boolean;
+  category?: "culatta" | "belts" | "wallets" | "bags";
 };
 
 const shop = (path: string) =>
@@ -19,6 +21,7 @@ export const latestReleases: Product[] = [
     image: shop(
       "files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200",
     ),
+    category: "bags",
   },
   {
     id: "culatta-long-wallet",
@@ -28,6 +31,8 @@ export const latestReleases: Product[] = [
     image: shop(
       "files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655&width=1200",
     ),
+    category: "culatta",
+    lowQuantity: true,
   },
   {
     id: "forager-satchel-black",
@@ -37,6 +42,7 @@ export const latestReleases: Product[] = [
     image: shop(
       "files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200",
     ),
+    category: "bags",
   },
   {
     id: "forager-satchel-dirty-white",
@@ -47,6 +53,7 @@ export const latestReleases: Product[] = [
       "files/FE132579-F3DB-4C72-9E16-8E2D47EBEBD2.jpg?v=1778824519&width=1200",
     ),
     soldOut: true,
+    category: "bags",
   },
   {
     id: "clot-satchel",
@@ -57,6 +64,7 @@ export const latestReleases: Product[] = [
       "files/4059315F-FB0F-41ED-89CC-CAE32C93365B.jpg?v=1770042003&width=1200",
     ),
     soldOut: true,
+    category: "bags",
   },
 ];
 
@@ -73,6 +81,7 @@ export const culattaProducts: Product[] = [
     image: shop(
       "files/72AAB699-775E-43B3-8DAF-CBE8BE5471A2.jpg?v=1770042139&width=1200",
     ),
+    category: "culatta",
   },
 ];
 
@@ -148,6 +157,8 @@ export const featuredProducts: Product[] = [
     href: "https://atelierguised.com/products/soot-belt",
     image:
       "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/B5BD8FE3-26C0-41FA-B5E4-817314E6A776.jpg?v=1770042305&width=1200",
+    category: "belts",
+    lowQuantity: true,
   },
   {
     id: "rei-gloom-belt-abstract",
@@ -156,6 +167,7 @@ export const featuredProducts: Product[] = [
     href: "https://atelierguised.com/products/guised-x-rei-gloom-belt-tan",
     image:
       "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/74715193-EE59-42D1-AF02-00B58DA0FB48.jpg?v=1724904754&width=1200",
+    category: "belts",
   },
   {
     id: "forager-satchel-black",
@@ -164,6 +176,7 @@ export const featuredProducts: Product[] = [
     href: "https://atelierguised.com/products/forager-satchel-black",
     image:
       "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200",
+    category: "bags",
   },
   {
     id: "girded-tote",
@@ -172,6 +185,69 @@ export const featuredProducts: Product[] = [
     href: "https://atelierguised.com/products/untitled-jan12_14-09",
     image:
       "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200",
+    category: "bags",
   },
 ];
 
+const catalogExtras: Product[] = [
+  {
+    id: "horse-culatta-bifold",
+    title: "Horse Culatta Bifold",
+    price: "$290.00",
+    href: "https://atelierguised.com/products/horse-culatta-bifold",
+    image: shop(
+      "files/72AAB699-775E-43B3-8DAF-CBE8BE5471A2.jpg?v=1770042139&width=1200",
+    ),
+    category: "culatta",
+  },
+  {
+    id: "culatta-card-sleeve",
+    title: "Culatta Card Sleeve",
+    price: "$160.00",
+    href: "https://atelierguised.com/collections/all",
+    image: shop(
+      "files/72AAB699-775E-43B3-8DAF-CBE8BE5471A2.jpg?v=1770042139&width=1200",
+    ),
+    category: "wallets",
+    lowQuantity: true,
+  },
+];
+
+/** Deduped catalogue for the products page */
+export const allProducts: Product[] = (() => {
+  const map = new Map<string, Product>();
+  for (const product of [
+    ...featuredProducts,
+    ...latestReleases,
+    ...catalogExtras,
+  ]) {
+    const existing = map.get(product.id);
+    map.set(product.id, {
+      ...existing,
+      ...product,
+      category: product.category ?? existing?.category,
+      soldOut: product.soldOut ?? existing?.soldOut,
+      lowQuantity: product.lowQuantity ?? existing?.lowQuantity,
+    });
+  }
+  return Array.from(map.values());
+})();
+
+export const productFilters = [
+  { id: "all", label: "Shop All" },
+  { id: "culatta", label: "Culatta" },
+  { id: "belts", label: "Belts" },
+  { id: "wallets", label: "Wallets" },
+  { id: "bags", label: "Bags" },
+  { id: "available", label: "Available" },
+] as const;
+
+export type ProductFilterId = (typeof productFilters)[number]["id"];
+
+export function productStatus(
+  product: Product,
+): "available" | "low" | "soldout" {
+  if (product.soldOut) return "soldout";
+  if (product.lowQuantity) return "low";
+  return "available";
+}

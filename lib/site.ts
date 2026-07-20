@@ -10,29 +10,25 @@ import {
 export { featuredProducts };
 
 export const navLinks = [
-  {
-    id: "online",
-    label: "Online Store",
-    href: "https://atelierguised.com",
-    external: true,
-  },
+  { id: "terms", label: "Terms of Service", href: "/terms" },
   { id: "about", label: "About", href: "#about" },
-  {
-    id: "contact",
-    label: "Contact",
-    href: "https://atelierguised.com/pages/contact",
-    external: true,
-  },
+  { id: "contact", label: "Contact", href: "/contact" },
+  { id: "products", label: "Products", href: "/products" },
   {
     id: "customs",
     label: "Customs",
     href: "mailto:info@atelierguised.com?subject=Custom%20Order",
   },
-  { id: "terms", label: "Terms of Service", href: "/terms" },
   {
     id: "collaborations",
     label: "Collaborations",
     href: "https://atelierguised.com/collections/guised-x-rei-gloom",
+    external: true,
+  },
+  {
+    id: "online",
+    label: "Online Store",
+    href: "https://atelierguised.com",
     external: true,
   },
 ] as const;
@@ -186,7 +182,14 @@ export const seasons: Season[] = [
 
 export type StockistRegion = {
   region: string;
-  stores: { city: string; name: string; phone?: string; href?: string }[];
+  instagramHref?: string;
+  stores: {
+    city?: string;
+    name: string;
+    address?: string;
+    note?: string;
+    href?: string;
+  }[];
 };
 
 export const stockistRegions: StockistRegion[] = [
@@ -194,28 +197,21 @@ export const stockistRegions: StockistRegion[] = [
     region: "Singapore",
     stores: [
       {
+        name: "Upstairs Garments",
+        address: "75 Tanjong Pagar Road",
         city: "Singapore",
-        name: "Atelier Guised",
-        phone: "By appointment",
-        href: "https://atelierguised.com/pages/contact",
       },
     ],
   },
   {
     region: "Online",
+    instagramHref: "https://www.instagram.com/___guised",
     stores: [
       {
-        city: "Worldwide",
         name: "atelierguised.com",
+        note: "Worldwide shipping",
         href: "https://atelierguised.com",
       },
-    ],
-  },
-  {
-    region: "International",
-    stores: [
-      { city: "Enquire", name: "Archive request" },
-      { city: "Wholesale", name: "info via contact" },
     ],
   },
 ];
