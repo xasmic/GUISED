@@ -1,0 +1,82 @@
+{% comment %} Customer login — Hygen {% endcomment %}
+<section class="hygen-account">
+  <div class="hygen-account__inner">
+    <p class="hygen-account__eyebrow">Account</p>
+    <h1 class="hygen-account__title">Sign in</h1>
+
+    {% form 'customer_login', class: 'hygen-account__form' %}
+      {% if form.errors %}
+        <p class="hygen-account__error" role="alert">{{ form.errors | default_errors }}</p>
+      {% endif %}
+
+      <label class="hygen-account__label" for="CustomerEmail">Email</label>
+      <input
+        id="CustomerEmail"
+        class="hygen-account__input"
+        type="email"
+        name="customer[email]"
+        autocomplete="email"
+        autocapitalize="off"
+        required
+      >
+
+      <label class="hygen-account__label" for="CustomerPassword">Password</label>
+      <input
+        id="CustomerPassword"
+        class="hygen-account__input"
+        type="password"
+        name="customer[password]"
+        autocomplete="current-password"
+        required
+      >
+
+      <button type="submit" class="hygen-account__submit">
+        Sign in
+        <span aria-hidden="true"></span>
+      </button>
+    {% endform %}
+
+    <p class="hygen-account__links">
+      <a href="{{ routes.account_register_url }}">Create account</a>
+      <a href="#recover" id="hygen-recover-toggle">Forgot password?</a>
+    </p>
+
+    <div id="recover" class="hygen-account__recover" hidden>
+      <h2 class="hygen-account__subtitle">Reset password</h2>
+      {% form 'recover_customer_password', class: 'hygen-account__form' %}
+        {% if form.errors %}
+          <p class="hygen-account__error" role="alert">{{ form.errors | default_errors }}</p>
+        {% endif %}
+        {% if form.posted_successfully? %}
+          <p class="hygen-account__success" role="status">Check your email for a reset link.</p>
+        {% endif %}
+        <label class="hygen-account__label" for="RecoverEmail">Email</label>
+        <input
+          id="RecoverEmail"
+          class="hygen-account__input"
+          type="email"
+          name="email"
+          autocomplete="email"
+          required
+        >
+        <button type="submit" class="hygen-account__submit">
+          Send reset link
+          <span aria-hidden="true"></span>
+        </button>
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('hygen-recover-toggle');
+    var panel = document.getElementById('recover');
+    if (!toggle || !panel) return;
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      panel.hidden = !panel.hidden;
+    });
+    if (window.location.hash === '#recover') panel.hidden = false;
+  })();
+</script>

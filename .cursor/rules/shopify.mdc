@@ -1,0 +1,34 @@
+---
+description: Shopify MCP usage for GUISED Hygen site and theme
+globs: shopify-theme/**,lib/products.ts,lib/site.ts
+alwaysApply: false
+---
+
+# Shopify MCP (GUISED)
+
+This repo has two storefront surfaces:
+
+- **Next.js Hygen site** — `app/`, `lib/`, `public/images/hygen/`
+- **Shopify theme package** — `shopify-theme/` (Liquid sections/snippets matching the React homepage)
+
+## Use Shopify Dev MCP
+
+When working on Shopify docs, Liquid, GraphQL, or theme validation, use the `shopify-dev-mcp` tools instead of guessing APIs:
+
+- `search_docs_chunks` — current Shopify documentation
+- `learn_shopify_api` — API context before writing queries or theme code
+- `validate_theme` — validate files under `shopify-theme/`
+- `validate_theme_codeblocks` — validate Liquid snippets before suggesting them
+- `validate_graphql_codeblocks` — validate Admin/Storefront GraphQL
+
+## Keep surfaces aligned
+
+When changing homepage content, navigation, collections, or product data:
+
+1. Update the Next.js source (`app/components/`, `lib/products.ts`, `lib/site.ts`)
+2. Mirror the same change in `shopify-theme/` when the Shopify theme should match
+3. Use `shopify-theme/TRANSFER.md` for upload/merge steps
+
+## Theme scope
+
+`shopify-theme/` is homepage-focused. Commerce templates (product, cart, checkout) are out of scope unless explicitly requested.

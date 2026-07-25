@@ -10,10 +10,9 @@ import {
 export { featuredProducts };
 
 export const navLinks = [
-  { id: "terms", label: "Terms of Service", href: "/terms" },
-  { id: "about", label: "About", href: "#about" },
+  { id: "terms", label: "Terms of Service", href: "/terms-of-service" },
+  { id: "about", label: "About", href: "/#about" },
   { id: "contact", label: "Contact", href: "/contact" },
-  { id: "products", label: "Products", href: "/products" },
   {
     id: "customs",
     label: "Customs",
@@ -22,15 +21,9 @@ export const navLinks = [
   {
     id: "collaborations",
     label: "Collaborations",
-    href: "https://atelierguised.com/collections/guised-x-rei-gloom",
-    external: true,
+    href: "/collaborations",
   },
-  {
-    id: "online",
-    label: "Online Store",
-    href: "https://atelierguised.com",
-    external: true,
-  },
+  { id: "products", label: "Online Store", href: "/products" },
 ] as const;
 
 export const concept = {
@@ -228,7 +221,7 @@ export const heroCopy = {
   brand: "GUISED",
   tagline: "obsessively crafted",
   cta: "Explore",
-  ctaHref: "#concept",
+  ctaHref: "/products",
 };
 
 export const parallaxImages = {

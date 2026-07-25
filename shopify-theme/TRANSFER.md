@@ -16,6 +16,32 @@ shopify-theme/
   locales/en.default.json
 ```
 
+## Option C — Shopify CLI (connected store)
+
+This repo is linked to **ut9ig0-z4.myshopify.com** via `shopify-theme/shopify.theme.toml`.
+
+| Theme | Role | ID |
+| --- | --- | --- |
+| Horizon | live | 144348184689 |
+| Atelier | unpublished | 144348479601 |
+| shopify-theme-guised-hygen | unpublished | 144349331569 |
+
+**Commands** (from `guised/`):
+
+```bash
+npm run shopify:theme:list    # list themes on the store
+npm run shopify:theme:push    # push local shopify-theme/ to shopify-theme-guised-hygen
+npm run shopify:theme:dev     # live preview with hot reload (Chrome)
+npm run shopify:theme:info    # show connected store/theme
+```
+
+**Admin links:**
+- [Themes](https://admin.shopify.com/store/ut9ig0-z4/themes)
+- [Theme editor (Hygen)](https://admin.shopify.com/store/ut9ig0-z4/themes/144349331569/editor)
+- [Preview](https://ut9ig0-z4.myshopify.com?preview_theme_id=144349331569)
+
+First run may prompt Shopify login in the browser.
+
 ## Option A — Upload as a new theme
 
 1. Zip the **contents** of `shopify-theme/` (not the parent folder name if Shopify complains — zip so `layout/`, `templates/`, etc. are at the zip root).

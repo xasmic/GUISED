@@ -1,0 +1,104 @@
+{%- comment -%} Search results — Hygen {%- endcomment -%}
+
+<section class="hygen-search-page">
+  <div class="hygen-search-page__inner">
+    <header class="hygen-search-page__header">
+      <p class="hygen-search-page__eyebrow">Search</p>
+      <h1 class="hygen-search-page__title">
+        {% if search.performed %}
+          {% if search.results_count > 0 %}
+            {{ search.results_count }} result{% unless search.results_count == 1 %}s{% endunless %} for “{{ search.terms | escape }}”
+          {% else %}
+            No results for “{{ search.terms | escape }}”
+          {% endif %}
+        {% else %}
+          Search the archive
+        {% endif %}
+      </h1>
+
+      <form class="hygen-search-page__form" action="{{ routes.search_url }}" method="get" role="search">
+        <label class="hygen-sr-only" for="hygen-search-page-input">Search</label>
+        <input
+          id="hygen-search-page-input"
+          class="hygen-search-page__input"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="Search products"
+          autocomplete="off"
+        >
+        <input type="hidden" name="type" value="product">
+        <button type="submit" class="hygen-search-page__submit">Search</button>
+      </form>
+    </header>
+
+    {% if search.performed %}
+      {% paginate search.results by 24 %}
+        {% if search.results_count > 0 %}
+          <ul class="hygen-collection__grid hygen-search-page__grid">
+            {% for item in search.results %}
+              {% if item.object_type == 'product' %}
+                <li class="hygen-collection__item">
+                  <a class="hygen-collection__link" href="{{ item.url }}">
+                    <div class="hygen-collection__media">
+                      {% if item.featured_media %}
+                        {{
+                          item.featured_media
+                          | image_url: width: 1200
+                          | image_tag:
+                            loading: 'lazy',
+                            class: 'hygen-collection__img',
+                            widths: '400,600,800,1200',
+                            sizes: '(min-width: 1100px) 18vw, (min-width: 700px) 30vw, 45vw',
+                            alt: item.featured_media.alt | default: item.title
+                        }}
+                      {% endif %}
+                      {% unless item.available %}
+                        <span class="hygen-collection__badge">Sold out</span>
+                      {% endunless %}
+                    </div>
+                    <p class="hygen-collection__name">{{ item.title }}</p>
+                    <p class="hygen-collection__price">
+                      {% if item.available %}
+                        {{ item.price | money }}
+                      {% else %}
+                        <span class="hygen-collection__soldout">Sold out</span>
+                      {% endif %}
+                    </p>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+
+          {% if paginate.pages > 1 %}
+            <nav class="hygen-products__pagination" aria-label="Pagination">
+              {% if paginate.previous %}
+                <a href="{{ paginate.previous.url }}">Previous</a>
+              {% endif %}
+              <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+              {% if paginate.next %}
+                <a href="{{ paginate.next.url }}">Next</a>
+              {% endif %}
+            </nav>
+          {% endif %}
+        {% else %}
+          <p class="hygen-search-page__empty">
+            Try another term, or
+            <a href="{{ routes.all_products_collection_url }}">browse the online store</a>.
+          </p>
+        {% endif %}
+      {% endpaginate %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hygen search",
+  "tag": "section",
+  "class": "hygen-section-search",
+  "settings": [],
+  "presets": [{ "name": "Hygen search" }]
+}
+{% endschema %}

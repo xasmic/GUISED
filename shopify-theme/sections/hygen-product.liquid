@@ -1,0 +1,319 @@
+{%- comment -%}
+  Product detail page — Hygen.
+  Uses native Shopify product form for cart + checkout compatibility.
+{%- endcomment -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section class="hygen-product" data-hygen-product>
+  <div class="hygen-product__inner">
+    <div class="hygen-product__gallery">
+      {% if product.media.size > 0 %}
+        <div class="hygen-product__media" data-hygen-product-media>
+          {% for media in product.media %}
+            <div
+              class="hygen-product__slide{% if forloop.first %} is-active{% endif %}"
+              data-media-id="{{ media.id }}"
+              {% unless forloop.first %}hidden{% endunless %}
+            >
+              {% if media.media_type == 'image' %}
+                {% if forloop.first %}
+                  {{
+                    media
+                    | image_url: width: 1600
+                    | image_tag:
+                      loading: 'eager',
+                      widths: '600,900,1200,1600',
+                      sizes: '(min-width: 900px) 48vw, 92vw',
+                      alt: media.alt | default: product.title,
+                      class: 'hygen-product__img'
+                  }}
+                {% else %}
+                  {{
+                    media
+                    | image_url: width: 1600
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '600,900,1200,1600',
+                      sizes: '(min-width: 900px) 48vw, 92vw',
+                      alt: media.alt | default: product.title,
+                      class: 'hygen-product__img'
+                  }}
+                {% endif %}
+              {% elsif media.media_type == 'video' or media.media_type == 'external_video' %}
+                {{ media | media_tag: class: 'hygen-product__video', image_size: '1600x' }}
+              {% else %}
+                {{ media | media_tag: class: 'hygen-product__img', image_size: '1600x' }}
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if product.media.size > 1 %}
+          <ul class="hygen-product__thumbs" aria-label="Product images">
+            {% for media in product.media %}
+              <li>
+                <button
+                  type="button"
+                  class="hygen-product__thumb{% if forloop.first %} is-active{% endif %}"
+                  data-hygen-product-thumb
+                  data-media-id="{{ media.id }}"
+                  aria-label="View image {{ forloop.index }}"
+                >
+                  {% if media.preview_image %}
+                    {{
+                      media.preview_image
+                      | image_url: width: 200
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '100,200',
+                        sizes: '64px',
+                        alt: media.alt | default: product.title
+                    }}
+                  {% endif %}
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% else %}
+        <div class="hygen-product__media hygen-product__media--empty">
+          {{ 'product-1' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="hygen-product__info">
+      <p class="hygen-product__eyebrow">
+        <a href="{{ routes.all_products_collection_url }}">Online Store</a>
+      </p>
+      <h1 class="hygen-product__title">{{ product.title }}</h1>
+
+      <p class="hygen-product__price" data-hygen-product-price>
+        {{ current_variant.price | money }}
+        {% if current_variant.compare_at_price > current_variant.price %}
+          <s class="hygen-product__compare">{{ current_variant.compare_at_price | money }}</s>
+        {% endif %}
+      </p>
+
+      <p class="hygen-product__status" data-hygen-product-status>
+        {% if current_variant.available %}
+          Available
+        {% else %}
+          Out of Stock
+        {% endif %}
+      </p>
+
+      {% form 'product', product, id: 'hygen-product-form', class: 'hygen-product__form', data-hygen-product-form: '' %}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-hygen-variant-id>
+
+        {% unless product.has_only_default_variant %}
+          <div class="hygen-product__options">
+            {% for option in product.options_with_values %}
+              <div class="hygen-product__option" data-hygen-option data-option-index="{{ forloop.index0 }}">
+                <label class="hygen-product__option-label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
+                  {{ option.name }}
+                </label>
+                <select
+                  id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                  class="hygen-product__select"
+                  name="options[{{ option.name | escape }}]"
+                  data-hygen-option-select
+                >
+                  {% for value in option.values %}
+                    <option
+                      value="{{ value | escape }}"
+                      {% if option.selected_value == value %}selected{% endif %}
+                    >
+                      {{ value }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endfor %}
+          </div>
+        {% endunless %}
+
+        <div class="hygen-product__qty">
+          <label class="hygen-product__option-label" for="Quantity-{{ section.id }}">Quantity</label>
+          <input
+            id="Quantity-{{ section.id }}"
+            class="hygen-product__qty-input"
+            type="number"
+            name="quantity"
+            min="1"
+            value="1"
+          >
+        </div>
+
+        <button
+          type="submit"
+          class="hygen-product__submit"
+          name="add"
+          data-hygen-add
+          {% unless current_variant.available %}disabled{% endunless %}
+        >
+          <span data-hygen-add-label>
+            {% if current_variant.available %}
+              Add to cart
+            {% else %}
+              Sold out
+            {% endif %}
+          </span>
+          <span aria-hidden="true"></span>
+        </button>
+
+        <p class="hygen-product__form-status" data-hygen-form-status role="status" hidden></p>
+      {% endform %}
+
+      {% if product.description != blank %}
+        <div class="hygen-product__description rte">
+          {{ product.description }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script type="application/json" data-hygen-product-json>
+  {{ product.variants | json }}
+</script>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-hygen-product]');
+    if (!root) return;
+
+    var form = root.querySelector('[data-hygen-product-form]');
+    var variantInput = root.querySelector('[data-hygen-variant-id]');
+    var priceEl = root.querySelector('[data-hygen-product-price]');
+    var statusEl = root.querySelector('[data-hygen-product-status]');
+    var addBtn = root.querySelector('[data-hygen-add]');
+    var addLabel = root.querySelector('[data-hygen-add-label]');
+    var formStatus = root.querySelector('[data-hygen-form-status]');
+    var optionSelects = root.querySelectorAll('[data-hygen-option-select]');
+    var variants = [];
+
+    try {
+      var jsonEl = document.querySelector('[data-hygen-product-json]');
+      variants = JSON.parse(jsonEl.textContent);
+    } catch (e) {}
+
+    function money(cents) {
+      try {
+        return (cents / 100).toLocaleString(undefined, {
+          style: 'currency',
+          currency: {{ cart.currency.iso_code | json }}
+        });
+      } catch (e) {
+        return '$' + (cents / 100).toFixed(2);
+      }
+    }
+
+    function findVariant() {
+      if (!optionSelects.length) return variants[0];
+      var values = Array.prototype.map.call(optionSelects, function (select) {
+        return select.value;
+      });
+      return variants.find(function (variant) {
+        return variant.options.every(function (opt, i) {
+          return opt === values[i];
+        });
+      });
+    }
+
+    function setMedia(mediaId) {
+      if (!mediaId) return;
+      root.querySelectorAll('.hygen-product__slide').forEach(function (slide) {
+        var match = String(slide.getAttribute('data-media-id')) === String(mediaId);
+        slide.hidden = !match;
+        slide.classList.toggle('is-active', match);
+      });
+      root.querySelectorAll('[data-hygen-product-thumb]').forEach(function (thumb) {
+        thumb.classList.toggle(
+          'is-active',
+          String(thumb.getAttribute('data-media-id')) === String(mediaId)
+        );
+      });
+    }
+
+    function updateVariant() {
+      var variant = findVariant();
+      if (!variant) return;
+
+      variantInput.value = variant.id;
+      priceEl.innerHTML = money(variant.price);
+      if (variant.compare_at_price > variant.price) {
+        priceEl.innerHTML +=
+          ' <s class="hygen-product__compare">' + money(variant.compare_at_price) + '</s>';
+      }
+
+      statusEl.textContent = variant.available ? 'Available' : 'Out of Stock';
+      addBtn.disabled = !variant.available;
+      addLabel.textContent = variant.available ? 'Add to cart' : 'Sold out';
+
+      if (variant.featured_media) {
+        setMedia(variant.featured_media.id);
+      }
+
+      var url = new URL(window.location.href);
+      url.searchParams.set('variant', variant.id);
+      window.history.replaceState({}, '', url.toString());
+    }
+
+    optionSelects.forEach(function (select) {
+      select.addEventListener('change', updateVariant);
+    });
+
+    root.querySelectorAll('[data-hygen-product-thumb]').forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        setMedia(thumb.getAttribute('data-media-id'));
+      });
+    });
+
+    if (form) {
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (addBtn.disabled) return;
+
+        var formData = new FormData(form);
+        addBtn.disabled = true;
+        addLabel.textContent = 'Adding…';
+        formStatus.hidden = true;
+
+        fetch(window.Shopify && Shopify.routes ? Shopify.routes.root + 'cart/add.js' : '/cart/add.js', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: formData
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('Could not add to cart');
+            return res.json();
+          })
+          .then(function () {
+            formStatus.hidden = false;
+            formStatus.textContent = 'Added to cart.';
+            addLabel.textContent = 'Add to cart';
+            addBtn.disabled = false;
+            document.dispatchEvent(new CustomEvent('hygen:cart:update'));
+          })
+          .catch(function () {
+            formStatus.hidden = false;
+            formStatus.textContent = 'Could not add to cart. Please try again.';
+            addLabel.textContent = 'Add to cart';
+            addBtn.disabled = false;
+          });
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hygen product",
+  "tag": "section",
+  "class": "hygen-section-product",
+  "settings": [],
+  "presets": [{ "name": "Hygen product" }]
+}
+{% endschema %}

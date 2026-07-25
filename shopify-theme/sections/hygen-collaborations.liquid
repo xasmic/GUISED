@@ -1,0 +1,335 @@
+{%- comment -%}
+  Collaborations page — Hygen archive layout.
+
+  HOW TO ADD A NEW COLLABORATION (Theme Editor):
+  1. Online Store → Pages → Collaborations → Customize
+  2. Open the "Hygen collaborations" section
+  3. Add block:
+     - "Featured collaboration" → live drop (image, copy, Shop CTA)
+     - "Coming soon teaser" → future drop hint (blurred image, no CTA)
+  4. Reorder blocks; featured blocks render first, then teasers.
+
+  Or edit this section’s blocks in templates/page.collaborations.json.
+{%- endcomment -%}
+
+<section class="hygen-collabs">
+  {%- comment -%} ——— Page hero ——— {%- endcomment -%}
+  <div class="hygen-collabs__intro">
+    <p class="hygen-collabs__eyebrow">{{ section.settings.eyebrow | default: 'Archive' }}</p>
+    <h1 class="hygen-collabs__title">{{ section.settings.title | default: 'Collaborations' }}</h1>
+    {% if section.settings.lede != blank %}
+      <p class="hygen-collabs__lede">{{ section.settings.lede }}</p>
+    {% endif %}
+  </div>
+
+  {%- comment -%} ——— Live / featured collaborations (duplicate these blocks for new releases) ——— {%- endcomment -%}
+  {% for block in section.blocks %}
+    {% if block.type == 'featured' %}
+      <article class="hygen-collabs__feature" {{ block.shopify_attributes }}>
+        <div class="hygen-collabs__feature-inner">
+          <div class="hygen-collabs__media">
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 1600
+                | image_tag:
+                  loading: 'eager',
+                  widths: '600,900,1200,1600',
+                  sizes: '(min-width: 900px) 46vw, 92vw',
+                  alt: block.settings.image.alt | default: block.settings.partners
+              }}
+            {% else %}
+              <img
+                src="{{ 'hygen-campaign-2.png' | asset_url }}"
+                alt="{{ block.settings.partners | escape }}"
+                width="1200"
+                height="1500"
+                loading="eager"
+              >
+            {% endif %}
+          </div>
+
+          <div class="hygen-collabs__copy">
+            {% if block.settings.season != blank %}
+              <p class="hygen-collabs__season">{{ block.settings.season }}</p>
+            {% endif %}
+            <h2 class="hygen-collabs__partners">{{ block.settings.partners }}</h2>
+            {% if block.settings.subtitle != blank %}
+              <p class="hygen-collabs__subtitle">{{ block.settings.subtitle }}</p>
+            {% endif %}
+            {% if block.settings.summary != blank %}
+              <p class="hygen-collabs__summary">{{ block.settings.summary }}</p>
+            {% endif %}
+
+            {%- liquid
+              assign cta_label = block.settings.cta_label | default: 'Shop the collection'
+              assign cta_url = block.settings.cta_link
+              if cta_url == blank and block.settings.collection != blank
+                assign cta_url = block.settings.collection.url
+              endif
+              if cta_url == blank
+                assign cta_url = collections['guised-x-rei-gloom'].url | default: routes.all_products_collection_url
+              endif
+            -%}
+            {% if cta_label != blank and cta_url != blank %}
+              <a class="hygen-collabs__cta" href="{{ cta_url }}">
+                {{ cta_label }}
+                <span aria-hidden="true"></span>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+    {% endif %}
+  {% endfor %}
+
+  {%- comment -%} ——— Coming soon teasers (add more "Coming soon teaser" blocks as needed) ——— {%- endcomment -%}
+  {%- assign coming_count = 0 -%}
+  {% for block in section.blocks %}
+    {% if block.type == 'coming' %}
+      {%- assign coming_count = coming_count | plus: 1 -%}
+    {% endif %}
+  {% endfor %}
+
+  {% if coming_count > 0 or section.settings.forthcoming_title != blank %}
+    <section class="hygen-collabs__forthcoming">
+      <div class="hygen-collabs__forthcoming-inner">
+        {% if section.settings.forthcoming_eyebrow != blank %}
+          <p class="hygen-collabs__eyebrow">{{ section.settings.forthcoming_eyebrow }}</p>
+        {% endif %}
+        <h2 class="hygen-collabs__forthcoming-title">
+          {{ section.settings.forthcoming_title | default: 'Coming soon' }}
+        </h2>
+        {% if section.settings.forthcoming_lede != blank %}
+          <p class="hygen-collabs__forthcoming-lede">{{ section.settings.forthcoming_lede }}</p>
+        {% endif %}
+
+        {% if coming_count > 0 %}
+          <ul class="hygen-collabs__coming-list">
+            {% for block in section.blocks %}
+              {% if block.type == 'coming' %}
+                <li {{ block.shopify_attributes }}>
+                  <div class="hygen-collabs__coming-media">
+                    {% if block.settings.image != blank %}
+                      {{
+                        block.settings.image
+                        | image_url: width: 1200
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '400,700,1000,1200',
+                          sizes: '(min-width: 700px) 45vw, 92vw',
+                          alt: ''
+                      }}
+                    {% else %}
+                      <img
+                        src="{{ 'hygen-campaign-3.png' | asset_url }}"
+                        alt=""
+                        width="1200"
+                        height="750"
+                        loading="lazy"
+                      >
+                    {% endif %}
+                    <span class="hygen-collabs__coming-season">
+                      {{ block.settings.label | default: 'Coming soon' }}
+                    </span>
+                  </div>
+                  {% if block.settings.partners != blank %}
+                    <p class="hygen-collabs__coming-partners">{{ block.settings.partners }}</p>
+                  {% endif %}
+                  {% if block.settings.summary != blank %}
+                    <p class="hygen-collabs__coming-summary">{{ block.settings.summary }}</p>
+                  {% endif %}
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if section.settings.note != blank %}
+          <div class="hygen-collabs__note">
+            {{ section.settings.note }}
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Hygen collaborations",
+  "tag": "section",
+  "class": "hygen-section-collabs",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Page hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Archive"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Collaborations"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Intro",
+      "default": "Occasional pairings between Guised and artists who share a language of material, shadow, and wear. Each chapter is finite — made slowly, released once."
+    },
+    {
+      "type": "header",
+      "content": "Coming soon section"
+    },
+    {
+      "type": "text",
+      "id": "forthcoming_eyebrow",
+      "label": "Eyebrow",
+      "default": "Forthcoming"
+    },
+    {
+      "type": "text",
+      "id": "forthcoming_title",
+      "label": "Title",
+      "default": "Coming soon"
+    },
+    {
+      "type": "textarea",
+      "id": "forthcoming_lede",
+      "label": "Supporting text",
+      "default": "Further chapters are in motion. Names stay quiet until the work can speak for itself."
+    },
+    {
+      "type": "richtext",
+      "id": "note",
+      "label": "Footer note",
+      "default": "<p>Future chapters will appear here as they open. For collaboration enquiries, write to <a href=\"mailto:atelierguise@gmail.com\">atelierguise@gmail.com</a>.</p>"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add new drops with “Featured collaboration” blocks. Hint at future work with “Coming soon teaser” blocks."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "featured",
+      "name": "Featured collaboration",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Cover image"
+        },
+        {
+          "type": "text",
+          "id": "season",
+          "label": "Chapter / season label",
+          "default": "Chapter I"
+        },
+        {
+          "type": "text",
+          "id": "partners",
+          "label": "Partners",
+          "default": "GUISED × REI.GLOOM"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Series title",
+          "default": "Abstract Belt Series"
+        },
+        {
+          "type": "textarea",
+          "id": "summary",
+          "label": "Description",
+          "default": "A limited belt collaboration with Rei.Gloom — abstract mark-making cut into horse culatta, finished by hand in the atelier. Scar, ink, and hide speaking in one register."
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Linked collection"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "CTA link (overrides collection)"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "Shop the collection"
+        }
+      ]
+    },
+    {
+      "type": "coming",
+      "name": "Coming soon teaser",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Teaser image (shown blurred / greyed)"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Overlay label",
+          "default": "Coming soon"
+        },
+        {
+          "type": "text",
+          "id": "partners",
+          "label": "Partners (optional hint)",
+          "default": "Guised × —"
+        },
+        {
+          "type": "textarea",
+          "id": "summary",
+          "label": "Short teaser copy",
+          "default": "A forthcoming exchange. Details withheld until the hides are ready."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hygen collaborations",
+      "blocks": [
+        {
+          "type": "featured",
+          "settings": {
+            "season": "Chapter I",
+            "partners": "GUISED × REI.GLOOM",
+            "subtitle": "Abstract Belt Series",
+            "summary": "A limited belt collaboration with Rei.Gloom — abstract mark-making cut into horse culatta, finished by hand in the atelier. Scar, ink, and hide speaking in one register.",
+            "cta_label": "Shop the collection"
+          }
+        },
+        {
+          "type": "coming",
+          "settings": {
+            "label": "Chapter II",
+            "partners": "Guised × —",
+            "summary": "A forthcoming exchange with a Singapore-based maker. Details withheld until the hides are ready."
+          }
+        },
+        {
+          "type": "coming",
+          "settings": {
+            "label": "Chapter III",
+            "partners": "Guised × —",
+            "summary": "An overseas collaboration in early conversation. Expect quieter hardware, denser leather, and a longer lead."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

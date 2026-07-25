@@ -136,6 +136,7 @@ export const images = {
   parallaxMid: "/images/hygen/parallax-mid.png",
   parallaxLower: "/images/hygen/parallax-lower.png",
   craft: "/images/hygen/craft-atelier.png",
+  contactPanel: "/images/hygen/contact-panel.png",
   collab: "/images/hygen/campaign-2.png",
   campaign: [
     "/images/hygen/campaign-1.png",

@@ -1,0 +1,43 @@
+{%- comment -%}
+  Product grid fallback matching the Next.js Culatta collection.
+  Format: image|title|href|price|sold_out
+{%- endcomment -%}
+
+{%- case preset -%}
+  {%- when 'culatta' -%}
+    {%- assign products = 'https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655&width=1200|Culatta Long Wallet|/products/culatta-long-wallet|$420.00|false,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200|Forager Satchel (Black)|/products/forager-satchel-black|$760.00|false,https://atelierguised.com/cdn/shop/files/FE132579-F3DB-4C72-9E16-8E2D47EBEBD2.jpg?v=1778824519&width=1200|Forager Satchel (Dirty White)|/products/forager-satchel-dirty-white|$760.00|true,https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200|Girded Tote|/products/girded-tote|$990.00|false,https://atelierguised.com/cdn/shop/files/72AAB699-775E-43B3-8DAF-CBE8BE5471A2.jpg?v=1770042139&width=1200|Horse Culatta Bifold|/products/horse-culatta-bifold|$290.00|false' | split: ',' -%}
+  {%- else -%}
+    {%- assign products = 'https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200|Girded Tote|/products/girded-tote|$990.00|false,https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655&width=1200|Culatta Long Wallet|/products/culatta-long-wallet|$420.00|false,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200|Forager Satchel (Black)|/products/forager-satchel-black|$760.00|false,https://atelierguised.com/cdn/shop/files/FE132579-F3DB-4C72-9E16-8E2D47EBEBD2.jpg?v=1778824519&width=1200|Forager Satchel (Dirty White)|/products/forager-satchel-dirty-white|$760.00|true,https://atelierguised.com/cdn/shop/files/72AAB699-775E-43B3-8DAF-CBE8BE5471A2.jpg?v=1770042139&width=1200|Horse Culatta Bifold|/products/horse-culatta-bifold|$290.00|false' | split: ',' -%}
+{%- endcase -%}
+
+{%- comment -%} CDN images may still load from atelierguised CDN; product links stay on this store. {%- endcomment -%}
+
+{%- for item in products -%}
+  {%- assign parts = item | split: '|' -%}
+  {%- assign sold_out = parts[4] -%}
+  <li class="hygen-collection__item">
+    <a class="hygen-collection__link" href="{{ parts[2] }}">
+      <div class="hygen-collection__media">
+        <img
+          class="hygen-collection__img"
+          src="{{ parts[0] }}"
+          alt="{{ parts[1] | escape }}"
+          loading="lazy"
+          width="600"
+          height="750"
+        >
+        {% if sold_out == 'true' %}
+          <span class="hygen-collection__badge">Sold out</span>
+        {% endif %}
+      </div>
+      <p class="hygen-collection__name">{{ parts[1] }}</p>
+      <p class="hygen-collection__price">
+        {% if sold_out == 'true' %}
+          <span class="hygen-collection__soldout">Sold out</span>
+        {% else %}
+          {{ parts[3] }}
+        {% endif %}
+      </p>
+    </a>
+  </li>
+{%- endfor -%}

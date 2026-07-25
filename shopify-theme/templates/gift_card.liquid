@@ -1,16 +1,32 @@
 {% layout none %}
 <!doctype html>
-<html lang="en">
+<html lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Gift card</title>
+    <meta name="robots" content="noindex">
+    <title>Gift card — {{ shop.name }}</title>
     {{ content_for_header }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    {{ 'hygen.css' | asset_url | stylesheet_tag }}
   </head>
-  <body>
-    {% if gift_card %}
-      <h1>{{ gift_card.balance | money }}</h1>
-      <p>{{ gift_card.code }}</p>
-    {% endif %}
+  <body class="hygen-body hygen-giftcard">
+    <main class="hygen-giftcard__inner">
+      <p class="hygen-giftcard__eyebrow">{{ shop.name | upcase }}</p>
+      <h1 class="hygen-giftcard__title">Gift card</h1>
+      {% if gift_card %}
+        <p class="hygen-giftcard__balance">{{ gift_card.balance | money }}</p>
+        {% if gift_card.enabled == false or gift_card.expired %}
+          <p class="hygen-giftcard__status">This gift card is no longer active.</p>
+        {% endif %}
+        <p class="hygen-giftcard__code">{{ gift_card.code }}</p>
+        {% if gift_card.pass_url %}
+          <a class="hygen-giftcard__cta" href="{{ gift_card.pass_url }}">Add to Apple Wallet</a>
+        {% endif %}
+        <a class="hygen-giftcard__link" href="{{ shop.url }}">Shop {{ shop.name }}</a>
+      {% endif %}
+    </main>
   </body>
 </html>

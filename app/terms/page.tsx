@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { termsOfService } from "@/lib/terms";
 
 export const metadata: Metadata = {
@@ -11,23 +10,6 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <div className="min-h-svh bg-hygen-bg text-hygen-text">
-      <header className="border-b border-hygen-text/10">
-        <div className="mx-auto flex w-[min(1120px,92vw)] items-center justify-between py-7 min-[700px]:py-8">
-          <Link
-            href="/"
-            className="font-display text-[13px] font-medium tracking-[0.28em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50"
-          >
-            GUISED
-          </Link>
-          <Link
-            href="/"
-            className="font-display text-[11px] font-medium tracking-[0.18em] uppercase text-hygen-muted transition-opacity duration-500 hover:text-hygen-text"
-          >
-            ← Home
-          </Link>
-        </div>
-      </header>
-
       <main className="mx-auto w-[min(760px,92vw)] py-16 min-[700px]:py-20">
         <div className="mb-14 border-b border-hygen-text/10 pb-12">
           <p className="font-display m-0 mb-5 text-[12px] font-medium tracking-[0.24em] uppercase text-hygen-muted">
@@ -64,7 +46,20 @@ export default function TermsPage() {
                     key={p}
                     className="font-body m-0 text-[16px] leading-[1.85] text-hygen-text/85 min-[700px]:text-[17px]"
                   >
-                    {p}
+                    {p.includes("atelierguise@gmail.com") ? (
+                      <>
+                        {p.split("atelierguise@gmail.com")[0]}
+                        <a
+                          href="mailto:atelierguise@gmail.com"
+                          className="underline decoration-hygen-text/30 underline-offset-2 transition-opacity duration-500 hover:opacity-70"
+                        >
+                          atelierguise@gmail.com
+                        </a>
+                        {p.split("atelierguise@gmail.com")[1]}
+                      </>
+                    ) : (
+                      p
+                    )}
                   </p>
                 ))}
                 {section.items ? (

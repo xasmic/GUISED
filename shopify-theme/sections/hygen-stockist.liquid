@@ -1,86 +1,53 @@
 <section class="hygen-stockist" id="stockist">
-  {% render 'hygen-nav', active: 'stockist' %}
-
   <div class="hygen-stockist__inner">
-    <p class="hygen-stockist__online">
-      <a href="{{ section.settings.online_link | default: routes.root_url }}">
-        {{ section.settings.online_label }}
-      </a>
-    </p>
-
-    <div class="hygen-stockist__row">
-      {% for block in section.blocks %}
-        {% if block.type == 'region' and block.settings.row == 'primary' %}
-          <div class="hygen-stockist__col" {{ block.shopify_attributes }}>
-            <h2 class="hygen-stockist__region">{{ block.settings.region }}</h2>
-            <ul class="hygen-stockist__list">
-              {% if block.settings.city_1 != blank %}
-                <li>
-                  <p class="hygen-stockist__city">{{ block.settings.city_1 }}</p>
-                  {% if block.settings.link_1 != blank %}
-                    <a class="hygen-stockist__name" href="{{ block.settings.link_1 }}">{{ block.settings.name_1 }}</a>
-                  {% else %}
-                    <p class="hygen-stockist__name">{{ block.settings.name_1 }}</p>
-                  {% endif %}
-                  {% if block.settings.phone_1 != blank %}
-                    <p class="hygen-stockist__tel">{{ block.settings.phone_1 }}</p>
-                  {% endif %}
-                </li>
-              {% endif %}
-              {% if block.settings.city_2 != blank %}
-                <li>
-                  <p class="hygen-stockist__city">{{ block.settings.city_2 }}</p>
-                  {% if block.settings.link_2 != blank %}
-                    <a class="hygen-stockist__name" href="{{ block.settings.link_2 }}">{{ block.settings.name_2 }}</a>
-                  {% else %}
-                    <p class="hygen-stockist__name">{{ block.settings.name_2 }}</p>
-                  {% endif %}
-                  {% if block.settings.phone_2 != blank %}
-                    <p class="hygen-stockist__tel">{{ block.settings.phone_2 }}</p>
-                  {% endif %}
-                </li>
-              {% endif %}
-              {% if block.settings.city_3 != blank %}
-                <li>
-                  <p class="hygen-stockist__city">{{ block.settings.city_3 }}</p>
-                  {% if block.settings.link_3 != blank %}
-                    <a class="hygen-stockist__name" href="{{ block.settings.link_3 }}">{{ block.settings.name_3 }}</a>
-                  {% else %}
-                    <p class="hygen-stockist__name">{{ block.settings.name_3 }}</p>
-                  {% endif %}
-                  {% if block.settings.phone_3 != blank %}
-                    <p class="hygen-stockist__tel">{{ block.settings.phone_3 }}</p>
-                  {% endif %}
-                </li>
-              {% endif %}
-            </ul>
-          </div>
-        {% endif %}
-      {% endfor %}
+    <div class="hygen-stockist__intro">
+      <p class="hygen-stockist__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="hygen-stockist__title">{{ section.settings.title }}</h2>
+      <p class="hygen-stockist__lede">{{ section.settings.lede }}</p>
     </div>
 
-    <div class="hygen-stockist__world hygen-stockist__row">
+    <div class="hygen-stockist__grid">
       {% for block in section.blocks %}
-        {% if block.type == 'region' and block.settings.row == 'secondary' %}
+        {% if block.type == 'region' %}
           <div class="hygen-stockist__col" {{ block.shopify_attributes }}>
-            <h2 class="hygen-stockist__region">{{ block.settings.region }}</h2>
-            <ul class="hygen-stockist__list">
-              {% if block.settings.city_1 != blank %}
-                <li>
-                  <p class="hygen-stockist__city">{{ block.settings.city_1 }}</p>
-                  <p class="hygen-stockist__name">{{ block.settings.name_1 }}</p>
-                  {% if block.settings.phone_1 != blank %}
-                    <p class="hygen-stockist__tel">{{ block.settings.phone_1 }}</p>
-                  {% endif %}
-                </li>
+            <div class="hygen-stockist__col-head">
+              <h3 class="hygen-stockist__region">{{ block.settings.region }}</h3>
+              {% if block.settings.show_instagram and block.settings.instagram_url != blank %}
+                <a
+                  class="hygen-stockist__instagram"
+                  href="{{ block.settings.instagram_url }}"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="GUISED on Instagram"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" stroke="currentColor" stroke-width="1.5"></rect>
+                    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"></circle>
+                    <circle cx="17.2" cy="6.8" r="1" fill="currentColor"></circle>
+                  </svg>
+                </a>
               {% endif %}
-              {% if block.settings.city_2 != blank %}
-                <li>
-                  <p class="hygen-stockist__city">{{ block.settings.city_2 }}</p>
-                  <p class="hygen-stockist__name">{{ block.settings.name_2 }}</p>
-                </li>
+            </div>
+
+            <div class="hygen-stockist__entry">
+              {% if block.settings.href != blank %}
+                <a class="hygen-stockist__name" href="{{ block.settings.href }}" target="_blank" rel="noreferrer">
+                  {{ block.settings.store_name }}
+                </a>
+              {% else %}
+                <p class="hygen-stockist__name">{{ block.settings.store_name }}</p>
               {% endif %}
-            </ul>
+
+              {% if block.settings.address_line_1 != blank %}
+                <p class="hygen-stockist__detail">{{ block.settings.address_line_1 }}</p>
+              {% endif %}
+              {% if block.settings.address_line_2 != blank %}
+                <p class="hygen-stockist__detail">{{ block.settings.address_line_2 }}</p>
+              {% endif %}
+              {% if block.settings.note != blank %}
+                <p class="hygen-stockist__detail">{{ block.settings.note }}</p>
+              {% endif %}
+            </div>
           </div>
         {% endif %}
       {% endfor %}
@@ -96,14 +63,21 @@
   "settings": [
     {
       "type": "text",
-      "id": "online_label",
-      "label": "Online store label",
-      "default": "Online Store"
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Stockists"
     },
     {
-      "type": "url",
-      "id": "online_link",
-      "label": "Online store link"
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Where to find us"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Description",
+      "default": "Visit our Singapore stockist, or order online for international shipping."
     }
   ],
   "blocks": [
@@ -111,29 +85,19 @@
       "type": "region",
       "name": "Region",
       "settings": [
-        {
-          "type": "select",
-          "id": "row",
-          "label": "Row",
-          "options": [
-            { "value": "primary", "label": "Primary row" },
-            { "value": "secondary", "label": "International row" }
-          ],
-          "default": "primary"
-        },
         { "type": "text", "id": "region", "label": "Region", "default": "Singapore" },
-        { "type": "text", "id": "city_1", "label": "City 1", "default": "Singapore" },
-        { "type": "text", "id": "name_1", "label": "Store 1", "default": "Atelier Guised" },
-        { "type": "text", "id": "phone_1", "label": "Phone 1", "default": "By appointment" },
-        { "type": "url", "id": "link_1", "label": "Link 1" },
-        { "type": "text", "id": "city_2", "label": "City 2" },
-        { "type": "text", "id": "name_2", "label": "Store 2" },
-        { "type": "text", "id": "phone_2", "label": "Phone 2" },
-        { "type": "url", "id": "link_2", "label": "Link 2" },
-        { "type": "text", "id": "city_3", "label": "City 3" },
-        { "type": "text", "id": "name_3", "label": "Store 3" },
-        { "type": "text", "id": "phone_3", "label": "Phone 3" },
-        { "type": "url", "id": "link_3", "label": "Link 3" }
+        { "type": "text", "id": "store_name", "label": "Store name", "default": "Upstairs Garments" },
+        { "type": "text", "id": "address_line_1", "label": "Address line 1" },
+        { "type": "text", "id": "address_line_2", "label": "Address line 2" },
+        { "type": "text", "id": "note", "label": "Note" },
+        { "type": "url", "id": "href", "label": "Link" },
+        {
+          "type": "checkbox",
+          "id": "show_instagram",
+          "label": "Show Instagram icon",
+          "default": false
+        },
+        { "type": "url", "id": "instagram_url", "label": "Instagram URL" }
       ]
     }
   ],
@@ -144,31 +108,21 @@
         {
           "type": "region",
           "settings": {
-            "row": "primary",
             "region": "Singapore",
-            "city_1": "Singapore",
-            "name_1": "Atelier Guised",
-            "phone_1": "By appointment"
+            "store_name": "Upstairs Garments",
+            "address_line_1": "75 Tanjong Pagar Road",
+            "address_line_2": "Singapore"
           }
         },
         {
           "type": "region",
           "settings": {
-            "row": "primary",
             "region": "Online",
-            "city_1": "Worldwide",
-            "name_1": "atelierguised.com"
-          }
-        },
-        {
-          "type": "region",
-          "settings": {
-            "row": "secondary",
-            "region": "International",
-            "city_1": "Enquire",
-            "name_1": "Archive request",
-            "city_2": "Wholesale",
-            "name_2": "info via contact"
+            "store_name": "Online store",
+            "note": "Worldwide shipping",
+            "href": "/",
+            "show_instagram": true,
+            "instagram_url": "https://www.instagram.com/___guised"
           }
         }
       ]

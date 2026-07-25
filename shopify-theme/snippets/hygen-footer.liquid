@@ -1,0 +1,31 @@
+{%- comment -%}
+  Site footer — rendered from layout/theme.liquid.
+{%- endcomment -%}
+
+<footer class="hygen-footer">
+  <div class="hygen-footer__inner">
+    <a class="hygen-footer__brand" href="{{ routes.root_url }}">
+      {{ shop.name | upcase | default: 'GUISED' }}
+    </a>
+
+    <nav class="hygen-footer__nav" aria-label="Footer">
+      <a href="{{ routes.all_products_collection_url }}">Online Store</a>
+      <a href="{{ pages.collaborations.url | default: '/pages/collaborations' }}">Collaborations</a>
+      <a href="{{ pages.contact.url | default: '/pages/contact' }}">Contact</a>
+      <a href="{{ pages['terms-of-service'].url | default: '/pages/terms-of-service' }}">Terms of Service</a>
+      {% if shop.privacy_policy %}
+        <a href="{{ shop.privacy_policy.url }}">Privacy</a>
+      {% endif %}
+    </nav>
+
+    <div class="hygen-footer__meta">
+      {% if settings.social_instagram_link != blank %}
+        <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noreferrer">Instagram</a>
+      {% else %}
+        <a href="https://www.instagram.com/___guised" target="_blank" rel="noreferrer">Instagram</a>
+      {% endif %}
+      <a href="mailto:{{ shop.email | default: 'info@atelierguised.com' }}">{{ shop.email | default: 'info@atelierguised.com' }}</a>
+      <p class="hygen-footer__copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name | default: 'GUISED' }}</p>
+    </div>
+  </div>
+</footer>

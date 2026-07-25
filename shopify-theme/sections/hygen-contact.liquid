@@ -1,0 +1,139 @@
+<section class="hygen-contact">
+  <div class="hygen-contact__grid">
+    <div class="hygen-contact__panel hygen-contact__panel--media">
+      <img
+        class="hygen-contact__bg"
+        src="{{ 'contact-panel.png' | asset_url }}"
+        alt=""
+        width="1200"
+        height="1600"
+        loading="eager"
+      >
+      <div class="hygen-contact__overlay" aria-hidden="true"></div>
+      <div class="hygen-contact__ring" aria-hidden="true"></div>
+      <div class="hygen-contact__crosshair hygen-contact__crosshair--v" aria-hidden="true"></div>
+      <div class="hygen-contact__crosshair hygen-contact__crosshair--h" aria-hidden="true"></div>
+
+      <a href="{{ routes.root_url }}" class="hygen-contact__brand">
+        {{ shop.name | upcase | default: 'GUISED' }}
+      </a>
+
+      <h1 class="hygen-contact__label">Contact</h1>
+
+      <div class="hygen-contact__copy">
+        <p>If you have any questions, please contact us from the contact form.</p>
+        <p class="hygen-contact__meta">Atelier · Singapore</p>
+      </div>
+    </div>
+
+    <div class="hygen-contact__panel hygen-contact__panel--form">
+      {% form 'contact', id: 'hygen-contact-form', class: 'hygen-contact__form' %}
+        <p class="hygen-contact__required">* Required fields</p>
+
+        {% if form.posted_successfully? %}
+          <p class="hygen-contact__success" role="status">
+            Thank you — your message has been sent.
+          </p>
+        {% endif %}
+
+        {% if form.errors %}
+          <p class="hygen-contact__error" role="alert">
+            Please check the highlighted fields and try again.
+          </p>
+        {% endif %}
+
+        <div class="hygen-contact__fields">
+          <div class="hygen-contact__field">
+            <label class="hygen-sr-only" for="hygen-contact-name">Your name</label>
+            <input
+              id="hygen-contact-name"
+              type="text"
+              name="contact[name]"
+              value="{{ form.name }}"
+              placeholder="Your Name *"
+              autocomplete="name"
+              required
+              {% if form.errors contains 'name' %}aria-invalid="true"{% endif %}
+            >
+          </div>
+
+          <div class="hygen-contact__field">
+            <label class="hygen-sr-only" for="hygen-contact-email">Mail address</label>
+            <input
+              id="hygen-contact-email"
+              type="email"
+              name="contact[email]"
+              value="{{ form.email }}"
+              placeholder="Mail Address *"
+              autocomplete="email"
+              required
+              data-hygen-contact-email
+              {% if form.errors contains 'email' %}aria-invalid="true"{% endif %}
+            >
+          </div>
+
+          <div class="hygen-contact__field">
+            <label class="hygen-sr-only" for="hygen-contact-email-confirm">Mail address confirm</label>
+            <input
+              id="hygen-contact-email-confirm"
+              type="email"
+              name="contact[email_confirm]"
+              placeholder="Mail Address (Confirm) *"
+              autocomplete="email"
+              required
+              data-hygen-contact-email-confirm
+            >
+          </div>
+
+          <div class="hygen-contact__field">
+            <label class="hygen-sr-only" for="hygen-contact-message">Message</label>
+            <textarea
+              id="hygen-contact-message"
+              name="contact[body]"
+              rows="6"
+              placeholder="Message *"
+              required
+              {% if form.errors contains 'body' %}aria-invalid="true"{% endif %}
+            >{{ form.body }}</textarea>
+          </div>
+        </div>
+
+        <div class="hygen-contact__actions">
+          <button type="submit" class="hygen-contact__submit">
+            Confirm
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var form = document.getElementById('hygen-contact-form');
+    if (!form) return;
+
+    form.addEventListener('submit', function (event) {
+      var email = form.querySelector('[data-hygen-contact-email]');
+      var confirm = form.querySelector('[data-hygen-contact-email-confirm]');
+      if (!email || !confirm) return;
+
+      if (email.value.trim().toLowerCase() !== confirm.value.trim().toLowerCase()) {
+        event.preventDefault();
+        confirm.setAttribute('aria-invalid', 'true');
+        confirm.focus();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hygen contact",
+  "tag": "section",
+  "class": "hygen-section-contact",
+  "settings": [],
+  "presets": [{ "name": "Hygen contact" }]
+}
+{% endschema %}

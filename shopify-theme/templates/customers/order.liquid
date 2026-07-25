@@ -1,0 +1,29 @@
+{% comment %} Customer order — Hygen {% endcomment %}
+<section class="hygen-account">
+  <div class="hygen-account__inner hygen-account__inner--wide">
+    <p class="hygen-account__eyebrow">Order</p>
+    <h1 class="hygen-account__title">{{ order.name }}</h1>
+    <p class="hygen-account__meta">
+      Placed on {{ order.created_at | date: '%d %b %Y' }} · {{ order.financial_status_label }} · {{ order.fulfillment_status_label }}
+    </p>
+
+    <ul class="hygen-account__orders">
+      {% for line_item in order.line_items %}
+        <li class="hygen-account__order">
+          <span>{{ line_item.title }} × {{ line_item.quantity }}</span>
+          <span>{{ line_item.final_line_price | money }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <p class="hygen-account__meta">
+      Subtotal {{ order.line_items_subtotal_price | money }} ·
+      Shipping {{ order.shipping_price | money }} ·
+      Total {{ order.total_price | money }}
+    </p>
+
+    <p class="hygen-account__links">
+      <a href="{{ routes.account_url }}">Back to account</a>
+    </p>
+  </div>
+</section>

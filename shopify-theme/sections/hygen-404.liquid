@@ -1,0 +1,26 @@
+<section class="hygen-404">
+  <div class="hygen-404__inner">
+    <p class="hygen-404__eyebrow">404</p>
+    <h1 class="hygen-404__title">Page not found</h1>
+    <p class="hygen-404__lede">
+      This page has been moved, removed, or never existed.
+    </p>
+    <div class="hygen-404__actions">
+      <a class="hygen-404__cta" href="{{ routes.root_url }}">
+        Return home
+        <span aria-hidden="true"></span>
+      </a>
+      <a class="hygen-404__link" href="{{ routes.all_products_collection_url }}">Online Store</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hygen 404",
+  "tag": "section",
+  "class": "hygen-section-404",
+  "settings": [],
+  "presets": [{ "name": "Hygen 404" }]
+}
+{% endschema %}

@@ -1,0 +1,136 @@
+<section class="hygen-products">
+  <div class="hygen-products__inner">
+    <header class="hygen-products__header">
+      <p class="hygen-products__eyebrow">Archive</p>
+      <h1 class="hygen-products__title">Online Store</h1>
+    </header>
+
+    <nav class="hygen-products__filters" aria-label="Product categories" data-hygen-product-filters>
+      <button type="button" class="is-active" data-filter="all">Shop All</button>
+      <button type="button" data-filter="culatta">Culatta</button>
+      <button type="button" data-filter="belts">Belts</button>
+      <button type="button" data-filter="wallets">Wallets</button>
+      <button type="button" data-filter="bags">Bags</button>
+      <button type="button" data-filter="available">Available</button>
+    </nav>
+
+    <ul class="hygen-collection__grid hygen-products__grid" data-hygen-product-grid>
+      {% paginate collection.products by 48 %}
+        {% if collection.products_count > 0 %}
+          {% for product in collection.products %}
+            {%- liquid
+              assign categories = ''
+              assign type_lower = product.type | downcase
+              assign title_lower = product.title | downcase
+
+              if title_lower contains 'culatta' or type_lower contains 'culatta'
+                assign categories = categories | append: ' culatta'
+              endif
+              if type_lower contains 'belt' or title_lower contains 'belt'
+                assign categories = categories | append: ' belts'
+              endif
+              if type_lower contains 'wallet' or title_lower contains 'wallet'
+                assign categories = categories | append: ' wallets'
+              endif
+              if type_lower contains 'bag' or type_lower contains 'tote' or type_lower contains 'satchel' or title_lower contains 'bag' or title_lower contains 'tote' or title_lower contains 'satchel'
+                assign categories = categories | append: ' bags'
+              endif
+              if product.available
+                assign categories = categories | append: ' available'
+              endif
+            -%}
+            <li
+              class="hygen-collection__item hygen-products__item"
+              data-categories="{{ categories | strip }}"
+            >
+              <a class="hygen-collection__link" href="{{ product.url }}">
+                <div class="hygen-collection__media">
+                  {% if product.featured_media %}
+                    {{
+                      product.featured_media
+                      | image_url: width: 1200
+                      | image_tag:
+                        loading: 'lazy',
+                        class: 'hygen-collection__img',
+                        widths: '400,600,800,1200',
+                        sizes: '(min-width: 1320px) 18vw, (min-width: 1100px) 28vw, (min-width: 600px) 40vw, 45vw',
+                        alt: product.featured_media.alt | default: product.title
+                    }}
+                  {% endif %}
+                  {% unless product.available %}
+                    <span class="hygen-collection__badge">Sold out</span>
+                  {% endunless %}
+                </div>
+                <p class="hygen-collection__name">{{ product.title }}</p>
+                <div class="hygen-products__meta">
+                  <p class="hygen-collection__price">
+                    {% if product.available %}
+                      <span data-hygen-price="{{ product.price }}">{{ product.price | money }}</span>
+                    {% else %}
+                      <span class="hygen-collection__soldout">Sold out</span>
+                    {% endif %}
+                  </p>
+                  <p class="hygen-products__status{% unless product.available %} is-low{% endunless %}">
+                    {% if product.available %}
+                      Available
+                    {% else %}
+                      Out of Stock
+                    {% endif %}
+                  </p>
+                </div>
+              </a>
+            </li>
+          {% endfor %}
+        {% else %}
+          {% render 'hygen-cdn-grid', preset: 'latest' %}
+        {% endif %}
+      {% endpaginate %}
+    </ul>
+
+    {% if paginate.pages > 1 %}
+      <nav class="hygen-products__pagination" aria-label="Pagination">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}">Previous</a>
+        {% endif %}
+        <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}">Next</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+  (function () {
+    var nav = document.querySelector('[data-hygen-product-filters]');
+    var grid = document.querySelector('[data-hygen-product-grid]');
+    if (!nav || !grid) return;
+
+    nav.addEventListener('click', function (event) {
+      var button = event.target.closest('[data-filter]');
+      if (!button) return;
+
+      var filter = button.getAttribute('data-filter');
+      nav.querySelectorAll('[data-filter]').forEach(function (item) {
+        item.classList.toggle('is-active', item === button);
+      });
+
+      grid.querySelectorAll('.hygen-products__item').forEach(function (item) {
+        var categories = item.getAttribute('data-categories') || '';
+        var show = filter === 'all' || categories.indexOf(' ' + filter) !== -1;
+        item.hidden = !show;
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hygen products",
+  "tag": "section",
+  "class": "hygen-section-products",
+  "settings": [],
+  "presets": [{ "name": "Hygen products" }]
+}
+{% endschema %}

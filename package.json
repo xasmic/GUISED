@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "shopify:login": "shopify auth login",
+    "shopify:theme:info": "shopify theme info --environment guised --path shopify-theme",
+    "shopify:theme:list": "shopify theme list --environment guised --path shopify-theme",
+    "shopify:theme:dev": "shopify theme dev --environment guised --path shopify-theme",
+    "shopify:theme:push": "shopify theme push --environment guised --path shopify-theme --unpublished"
   },
   "dependencies": {
     "next": "16.2.10",
@@ -14,6 +19,8 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@shopify/cli": "^4.5.2",
+    "@shopify/theme": "^3.58.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

@@ -1,0 +1,41 @@
+{% comment %} Customer account — Hygen {% endcomment %}
+<section class="hygen-account">
+  <div class="hygen-account__inner hygen-account__inner--wide">
+    <p class="hygen-account__eyebrow">Account</p>
+    <h1 class="hygen-account__title">
+      {% if customer.first_name != blank %}
+        Hello, {{ customer.first_name }}
+      {% else %}
+        Your account
+      {% endif %}
+    </h1>
+
+    <p class="hygen-account__links">
+      <a href="{{ routes.account_addresses_url }}">Addresses ({{ customer.addresses_count }})</a>
+      <a href="{{ routes.account_logout_url }}">Log out</a>
+    </p>
+
+    <h2 class="hygen-account__subtitle">Order history</h2>
+
+    {% if customer.orders.size > 0 %}
+      <ul class="hygen-account__orders">
+        {% for order in customer.orders %}
+          <li class="hygen-account__order">
+            <a href="{{ order.customer_url }}">
+              <span>{{ order.name }}</span>
+              <span>{{ order.created_at | date: '%d %b %Y' }}</span>
+              <span>{{ order.financial_status_label }}</span>
+              <span>{{ order.total_price | money }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="hygen-account__empty">You haven’t placed any orders yet.</p>
+      <a class="hygen-account__submit" href="{{ routes.all_products_collection_url }}">
+        Shop the archive
+        <span aria-hidden="true"></span>
+      </a>
+    {% endif %}
+  </div>
+</section>

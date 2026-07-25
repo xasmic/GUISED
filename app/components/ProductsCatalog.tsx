@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import {
   allProducts,
@@ -62,8 +63,16 @@ function matchesFilter(product: Product, filter: ProductFilterId) {
   return product.category === filter;
 }
 
+function isProductFilterId(value: string | null): value is ProductFilterId {
+  return productFilters.some((item) => item.id === value);
+}
+
 function ProductsCatalogInner() {
-  const [filter, setFilter] = useState<ProductFilterId>("all");
+  const searchParams = useSearchParams();
+  const filterParam = searchParams.get("filter");
+  const [filter, setFilter] = useState<ProductFilterId>(() =>
+    isProductFilterId(filterParam) ? filterParam : "all",
+  );
 
   const products = useMemo(
     () => allProducts.filter((p) => matchesFilter(p, filter)),

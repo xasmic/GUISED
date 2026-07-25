@@ -42,7 +42,7 @@ export function ContactForm() {
   };
 
   const fieldClass =
-    "font-body w-full border border-hygen-shop-text/12 bg-[#f4f1ec] px-4 py-3.5 text-[16px] leading-[1.4] text-hygen-shop-text outline-none transition-[border-color,background-color] duration-300 placeholder:text-hygen-shop-text/40 focus:border-hygen-shop-text/35 focus:bg-[#efeae3]";
+    "font-body w-full border border-hygen-bg/15 bg-hygen-bg/[0.03] px-4 py-3.5 text-[16px] leading-[1.4] text-hygen-bg outline-none transition-[border-color,background-color] duration-300 placeholder:text-hygen-bg/40 focus:border-hygen-bg/40 focus:bg-hygen-bg/[0.05]";
 
   return (
     <form
@@ -145,30 +145,18 @@ export function ContactForm() {
 
       <div className="mt-8 flex items-center justify-end gap-4">
         {sent ? (
-          <p className="font-body m-0 text-[14px] text-[#111]/55">
+          <p className="font-body m-0 text-[14px] text-hygen-bg/55">
             Opening your mail client…
           </p>
         ) : null}
         <button
           type="submit"
-          className="font-display inline-flex items-center gap-4 text-[12px] font-medium tracking-[0.22em] uppercase"
-          style={{
-            backgroundColor: "#100e10",
-            color: "#ebe4dc",
-            padding: "14px 28px",
-            border: "none",
-            cursor: "pointer",
-          }}
+          className="font-display inline-flex items-center gap-4 bg-hygen-bg px-7 py-3.5 text-[12px] font-medium tracking-[0.22em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-70"
         >
           Confirm
           <span
             aria-hidden
-            style={{
-              display: "block",
-              width: 24,
-              height: 1,
-              backgroundColor: "rgba(235, 228, 220, 0.7)",
-            }}
+            className="block h-px w-6 bg-hygen-text/70"
           />
         </button>
       </div>

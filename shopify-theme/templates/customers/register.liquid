@@ -1,0 +1,34 @@
+{% comment %} Customer register — Hygen {% endcomment %}
+<section class="hygen-account">
+  <div class="hygen-account__inner">
+    <p class="hygen-account__eyebrow">Account</p>
+    <h1 class="hygen-account__title">Create account</h1>
+
+    {% form 'create_customer', class: 'hygen-account__form' %}
+      {% if form.errors %}
+        <p class="hygen-account__error" role="alert">{{ form.errors | default_errors }}</p>
+      {% endif %}
+
+      <label class="hygen-account__label" for="RegisterFirstName">First name</label>
+      <input id="RegisterFirstName" class="hygen-account__input" type="text" name="customer[first_name]" autocomplete="given-name">
+
+      <label class="hygen-account__label" for="RegisterLastName">Last name</label>
+      <input id="RegisterLastName" class="hygen-account__input" type="text" name="customer[last_name]" autocomplete="family-name">
+
+      <label class="hygen-account__label" for="RegisterEmail">Email</label>
+      <input id="RegisterEmail" class="hygen-account__input" type="email" name="customer[email]" autocomplete="email" required>
+
+      <label class="hygen-account__label" for="RegisterPassword">Password</label>
+      <input id="RegisterPassword" class="hygen-account__input" type="password" name="customer[password]" autocomplete="new-password" required>
+
+      <button type="submit" class="hygen-account__submit">
+        Create account
+        <span aria-hidden="true"></span>
+      </button>
+    {% endform %}
+
+    <p class="hygen-account__links">
+      <a href="{{ routes.account_login_url }}">Already have an account? Sign in</a>
+    </p>
+  </div>
+</section>

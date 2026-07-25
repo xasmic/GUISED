@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "hygen-terms",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

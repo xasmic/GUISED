@@ -1,0 +1,6 @@
+[environments.guised]
+store = "ut9ig0-z4.myshopify.com"
+theme = "144349331569"
+
+[environments.guised-dev]
+store = "ut9ig0-z4.myshopify.com"

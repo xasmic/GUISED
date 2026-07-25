@@ -1,0 +1,51 @@
+{
+  "sections": {
+    "main": {
+      "type": "hygen-collaborations",
+      "blocks": {
+        "featured_rei_gloom": {
+          "type": "featured",
+          "settings": {
+            "season": "Chapter I",
+            "partners": "GUISED × REI.GLOOM",
+            "subtitle": "Abstract Belt Series",
+            "summary": "A limited belt collaboration with Rei.Gloom — abstract mark-making cut into horse culatta, finished by hand in the atelier. Scar, ink, and hide speaking in one register.",
+            "cta_label": "Shop the collection",
+            "cta_link": "/collections/guised-x-rei-gloom"
+          }
+        },
+        "coming_chapter_ii": {
+          "type": "coming",
+          "settings": {
+            "label": "Chapter II",
+            "partners": "Guised × —",
+            "summary": "A forthcoming exchange with a Singapore-based maker. Details withheld until the hides are ready."
+          }
+        },
+        "coming_chapter_iii": {
+          "type": "coming",
+          "settings": {
+            "label": "Chapter III",
+            "partners": "Guised × —",
+            "summary": "An overseas collaboration in early conversation. Expect quieter hardware, denser leather, and a longer lead."
+          }
+        }
+      },
+      "block_order": [
+        "featured_rei_gloom",
+        "coming_chapter_ii",
+        "coming_chapter_iii"
+      ],
+      "settings": {
+        "eyebrow": "Archive",
+        "title": "Collaborations",
+        "lede": "Occasional pairings between Guised and artists who share a language of material, shadow, and wear. Each chapter is finite — made slowly, released once.",
+        "forthcoming_eyebrow": "Forthcoming",
+        "forthcoming_title": "Coming soon",
+        "forthcoming_lede": "Further chapters are in motion. Names stay quiet until the work can speak for itself.",
+        "note": "<p>Future chapters will appear here as they open. For collaboration enquiries, write to <a href=\"mailto:atelierguise@gmail.com\">atelierguise@gmail.com</a>.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

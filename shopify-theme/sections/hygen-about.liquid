@@ -16,10 +16,10 @@
         {{
           section.settings.left_image
           | image_url: width: 1800
-          | image_tag: loading: 'lazy', class: 'hygen-about__img hygen-about__img--mono', alt: ''
+          | image_tag: loading: 'lazy', class: 'hygen-about__img hygen-about__img--mono', alt: section.settings.left_image.alt | default: 'Atelier craft'
         }}
       {% else %}
-        <img class="hygen-about__img hygen-about__img--mono" src="{{ left_url }}" alt="" loading="lazy" width="1200" height="1600">
+        <img class="hygen-about__img hygen-about__img--mono" src="{{ left_url }}" alt="Atelier craft" loading="lazy" width="1200" height="1600">
       {% endif %}
     </div>
     <div class="hygen-about__panel hygen-about__panel--right">
@@ -27,10 +27,10 @@
         {{
           section.settings.right_image
           | image_url: width: 1800
-          | image_tag: loading: 'lazy', class: 'hygen-about__img', alt: ''
+          | image_tag: loading: 'lazy', class: 'hygen-about__img', alt: section.settings.right_image.alt | default: 'Leather in wear'
         }}
       {% else %}
-        <img class="hygen-about__img" src="{{ right_url }}" alt="" loading="lazy" width="1200" height="1600">
+        <img class="hygen-about__img" src="{{ right_url }}" alt="Leather in wear" loading="lazy" width="1200" height="1600">
       {% endif %}
     </div>
   </div>
@@ -109,8 +109,7 @@
     {
       "type": "text",
       "id": "left_image_url",
-      "label": "Left image URL (blank = theme asset)",
-      "default": ""
+      "label": "Left image URL (blank = theme asset)"
     },
     {
       "type": "image_picker",
@@ -120,8 +119,7 @@
     {
       "type": "text",
       "id": "right_image_url",
-      "label": "Right image URL (blank = theme asset)",
-      "default": ""
+      "label": "Right image URL (blank = theme asset)"
     }
   ],
   "presets": [{ "name": "Hygen about" }]

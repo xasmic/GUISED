@@ -1,18 +1,40 @@
-{%- comment -%} Featured product row (replaces manifesto copy) {%- endcomment -%}
+{%- comment -%} Featured product row — prefers Shopify product objects when set {%- endcomment -%}
 <section class="hygen-concept hygen-shop" id="concept">
-  {% render 'hygen-nav', active: 'concept' %}
-
   <div class="hygen-shop__inner">
     <ul class="hygen-shop__grid">
       {% for block in section.blocks %}
+        {%- liquid
+          assign product = block.settings.product
+          assign title = block.settings.title
+          assign href = block.settings.href
+          assign price_label = block.settings.price
+          assign image_url = block.settings.image_url
+
+          if product != blank
+            assign title = product.title
+            assign href = product.url
+            assign price_label = product.price | money
+          endif
+        -%}
         <li class="hygen-shop__item" {{ block.shopify_attributes }}>
           <a
             class="hygen-shop__link"
-            href="{{ block.settings.href | default: routes.root_url }}"
-            {% if block.settings.href contains 'http' %}target="_blank" rel="noreferrer"{% endif %}
+            href="{{ href | default: routes.all_products_collection_url }}"
+            {% if href contains 'http' %}target="_blank" rel="noreferrer"{% endif %}
           >
             <div class="hygen-shop__media">
-              {% if block.settings.image != blank %}
+              {% if product != blank and product.featured_media %}
+                {{
+                  product.featured_media
+                  | image_url: width: 1200
+                  | image_tag:
+                    class: 'hygen-shop__img',
+                    loading: 'lazy',
+                    widths: '400,600,900,1200',
+                    sizes: '(min-width: 1100px) 22vw, (min-width: 600px) 40vw, 85vw',
+                    alt: product.featured_media.alt | default: product.title
+                }}
+              {% elsif block.settings.image != blank %}
                 {{
                   block.settings.image
                   | image_url: width: 1200
@@ -21,30 +43,27 @@
                     loading: 'lazy',
                     widths: '400,600,900,1200',
                     sizes: '(min-width: 1100px) 22vw, (min-width: 600px) 40vw, 85vw',
-                    alt: block.settings.title
+                    alt: title
                 }}
-              {% elsif block.settings.image_url != blank %}
+              {% elsif image_url != blank %}
                 <img
                   class="hygen-shop__img"
-                  src="{{ block.settings.image_url }}"
-                  alt="{{ block.settings.title | escape }}"
+                  src="{{ image_url }}"
+                  alt="{{ title | escape }}"
                   loading="lazy"
                   width="600"
                   height="600"
                 >
               {% endif %}
+              {% if product != blank and product.available == false %}
+                <span class="hygen-shop__badge">Sold out</span>
+              {% endif %}
             </div>
-            {% if block.settings.title != blank %}
-              <p class="hygen-shop__title">{{ block.settings.title }}</p>
+            {% if title != blank %}
+              <p class="hygen-shop__title">{{ title }}</p>
             {% endif %}
-            {% if block.settings.price != blank %}
-              <p class="hygen-shop__price" data-hygen-price data-hygen-price-base="{{ block.settings.price | escape }}">
-                {%- assign price_parts = block.settings.price | remove: '$' | split: '.' -%}
-                <span class="hygen-shop__dollars" data-hygen-price-whole>${{ price_parts[0] }}</span>
-                {%- if price_parts.size > 1 -%}
-                  <span class="hygen-shop__cents" data-hygen-price-cents>.{{ price_parts[1] }}</span>
-                {%- endif -%}
-              </p>
+            {% if price_label != blank %}
+              <p class="hygen-shop__price">{{ price_label }}</p>
             {% endif %}
           </a>
         </li>
@@ -64,31 +83,36 @@
       "name": "Product",
       "settings": [
         {
+          "type": "product",
+          "id": "product",
+          "label": "Shopify product (preferred)"
+        },
+        {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Image override"
         },
         {
           "type": "text",
           "id": "image_url",
-          "label": "Image URL (fallback)"
+          "label": "Image URL fallback"
         },
         {
           "type": "text",
           "id": "title",
-          "label": "Title",
+          "label": "Title fallback",
           "default": "Product"
         },
         {
           "type": "text",
           "id": "price",
-          "label": "Price",
+          "label": "Price fallback",
           "default": "$0.00"
         },
         {
-          "type": "text",
+          "type": "url",
           "id": "href",
-          "label": "Link URL"
+          "label": "Link fallback"
         }
       ]
     }
@@ -96,44 +120,7 @@
   "presets": [
     {
       "name": "Hygen shop row",
-      "blocks": [
-        {
-          "type": "product",
-          "settings": {
-            "title": "Soot Belt",
-            "price": "$180.00",
-            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/B5BD8FE3-26C0-41FA-B5E4-817314E6A776.jpg?v=1770042305&width=1200",
-            "href": "https://atelierguised.com/products/soot-belt"
-          }
-        },
-        {
-          "type": "product",
-          "settings": {
-            "title": "Guised x Rei Gloom Belt (Abstract)",
-            "price": "$360.00",
-            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/74715193-EE59-42D1-AF02-00B58DA0FB48.jpg?v=1724904754&width=1200",
-            "href": "https://atelierguised.com/products/guised-x-rei-gloom-belt-tan"
-          }
-        },
-        {
-          "type": "product",
-          "settings": {
-            "title": "Forager Satchel (Black)",
-            "price": "$760.00",
-            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200",
-            "href": "https://atelierguised.com/products/forager-satchel-black"
-          }
-        },
-        {
-          "type": "product",
-          "settings": {
-            "title": "Girded Tote",
-            "price": "$990.00",
-            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200",
-            "href": "https://atelierguised.com/products/untitled-jan12_14-09"
-          }
-        }
-      ]
+      "blocks": [{ "type": "product" }, { "type": "product" }, { "type": "product" }, { "type": "product" }]
     }
   ]
 }

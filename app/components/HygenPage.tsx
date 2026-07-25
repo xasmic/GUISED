@@ -16,27 +16,6 @@ import { formatConvertedPrice } from "@/lib/currency";
 import { CurrencyProvider, useCurrency } from "./CurrencyProvider";
 import { CurrencySelector } from "./CurrencySelector";
 
-function SectionSocial() {
-  return (
-    <div className="font-display absolute bottom-5 left-[45px] z-40 flex gap-4">
-      <a
-        href="https://www.instagram.com/___guised"
-        target="_blank"
-        rel="noreferrer"
-        className="text-[11px] tracking-[0.16em] text-hygen-text uppercase transition-[opacity] duration-500 hover:opacity-50"
-      >
-        IG
-      </a>
-      <a
-        href="mailto:info@atelierguised.com"
-        className="text-[11px] tracking-[0.16em] text-hygen-text uppercase transition-[opacity] duration-500 hover:opacity-50"
-      >
-        Mail
-      </a>
-    </div>
-  );
-}
-
 function ProductPrice({ price }: { price: string }) {
   const { market } = useCurrency();
   const formatted = formatConvertedPrice(price, market);
@@ -143,9 +122,9 @@ function SiteHeader() {
             : "bg-transparent backdrop-blur-none"
         }`}
       >
-        <div className="pointer-events-auto relative flex items-start justify-between px-4 pt-7 pb-5 min-[700px]:px-[45px] min-[700px]:pt-8 min-[1025px]:pt-[30px]">
+        <div className="pointer-events-auto grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-x-4 gap-y-2 px-4 pt-7 pb-5 min-[700px]:gap-x-6 min-[700px]:px-[45px] min-[700px]:pt-8 min-[1400px]:pt-[30px]">
           <nav
-            className={`font-display flex flex-wrap items-start justify-start gap-5 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            className={`font-display col-start-1 row-start-1 hidden min-w-0 max-w-full flex-nowrap items-center justify-start gap-x-2.5 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] min-[1400px]:flex ${
               menuOpen
                 ? "pointer-events-none -translate-y-1 opacity-0"
                 : "translate-y-0 opacity-100"
@@ -160,7 +139,7 @@ function SiteHeader() {
                 {...("external" in link && link.external
                   ? { target: "_blank", rel: "noreferrer" }
                   : undefined)}
-                className={`text-[11px] font-medium tracking-[0.14em] uppercase leading-none text-white mix-blend-difference transition-[opacity] duration-500 hover:opacity-50 min-[700px]:text-[13px] ${
+                className={`shrink-0 whitespace-nowrap text-[9px] font-medium tracking-[0.12em] uppercase leading-none text-white mix-blend-difference transition-[opacity] duration-500 hover:opacity-50 min-[700px]:text-[10px] ${
                   active === link.id ? "opacity-100" : "opacity-75"
                 }`}
               >
@@ -172,31 +151,32 @@ function SiteHeader() {
           <a
             href="/"
             aria-label="GUISED home"
-            className={`font-display absolute top-7 left-1/2 z-[1] -translate-x-1/2 text-[25px] font-medium tracking-[0.32em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50 min-[700px]:top-8 min-[1025px]:top-[30px] ${
+            className={`font-display col-start-2 row-start-1 justify-self-center text-[25px] font-medium tracking-[0.32em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50 ${
               menuOpen ? "pointer-events-none opacity-0" : "opacity-100"
             }`}
           >
             <span className="block pr-[0.32em]">GUISED</span>
           </a>
 
-          <button
-            type="button"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            aria-controls="site-menu"
-            onClick={() => setMenuOpen((o) => !o)}
-            className="relative z-[1] -mr-2 -mt-1.5 flex h-11 w-11 shrink-0 items-center justify-center mix-blend-difference min-[1025px]:hidden"
-          >
-            <span className="relative block h-[14px] w-[22px]" aria-hidden>
-              <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
-              <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
-              <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
-            </span>
-          </button>
+          <div className="col-start-3 row-start-1 flex min-w-0 items-center justify-self-end">
+            <button
+              type="button"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls="site-menu"
+              onClick={() => setMenuOpen((o) => !o)}
+              className="relative z-[1] -mr-2 -mt-1.5 flex h-11 w-11 shrink-0 items-center justify-center mix-blend-difference min-[1400px]:hidden"
+            >
+              <span className="relative block h-[14px] w-[22px]" aria-hidden>
+                <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
+                <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
+                <span className={`site-burger-line ${menuOpen ? "is-open" : ""}`} />
+              </span>
+            </button>
 
-          <div
-            className={`relative z-[1] hidden shrink-0 items-center gap-6 transition-[opacity,transform] duration-500 min-[1025px]:flex ${utilHidden}`}
-          >
+            <div
+              className={`relative z-[1] hidden shrink-0 items-center gap-6 transition-[opacity,transform] duration-500 min-[1400px]:flex ${utilHidden}`}
+            >
             <CurrencySelector />
 
             <div className="relative flex items-center mix-blend-difference">
@@ -280,29 +260,56 @@ function SiteHeader() {
               </svg>
             </a>
           </div>
+          </div>
         </div>
       </header>
+
+      {menuOpen ? (
+        <button
+          type="button"
+          aria-label="Close menu"
+          className="fixed inset-0 z-[10001] border-0 bg-hygen-bg/45 p-0"
+          onClick={() => setMenuOpen(false)}
+        />
+      ) : null}
 
       <div
         id="site-menu"
         role="dialog"
         aria-modal="true"
         aria-label="Site menu"
-        className={`site-menu-panel fixed inset-0 z-[10000] flex flex-col bg-hygen-bg/95 px-10 pt-28 pb-12 backdrop-blur-md ${
+        className={`site-menu-panel fixed top-0 right-0 bottom-0 z-[10002] flex w-[min(320px,86vw)] flex-col border-l border-hygen-text/10 bg-hygen-bg px-7 pt-7 pb-10 shadow-[-18px_0_40px_rgba(0,0,0,0.35)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           menuOpen
-            ? "is-open visible opacity-100"
-            : "invisible pointer-events-none opacity-0"
+            ? "is-open visible translate-x-0"
+            : "invisible pointer-events-none translate-x-full"
         }`}
       >
-        <a
-          href="#concept"
-          onClick={() => setMenuOpen(false)}
-          className="site-menu-item font-display mb-12 text-[28px] font-medium tracking-[0.28em] text-hygen-text"
-          style={{ animationDelay: menuOpen ? "80ms" : undefined }}
-        >
-          GUISED
-        </a>
-        <nav className="font-display flex flex-col gap-6" aria-label="Menu">
+        <div className="mb-10 flex items-start justify-between gap-4">
+          <a
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="site-menu-item font-display text-[18px] font-medium tracking-[0.28em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50"
+            style={{ animationDelay: menuOpen ? "80ms" : undefined }}
+          >
+            GUISED
+          </a>
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+            className="relative -mr-2 -mt-2 flex h-10 w-10 shrink-0 items-center justify-center text-hygen-text transition-opacity duration-400 hover:opacity-50"
+          >
+            <span
+              aria-hidden
+              className="absolute block h-px w-5 rotate-45 bg-current"
+            />
+            <span
+              aria-hidden
+              className="absolute block h-px w-5 -rotate-45 bg-current"
+            />
+          </button>
+        </div>
+        <nav className="font-display flex flex-col gap-[22px]" aria-label="Menu">
           {navLinks.map((link, i) => (
             <a
               key={link.id}
@@ -311,34 +318,15 @@ function SiteHeader() {
               {...("external" in link && link.external
                 ? { target: "_blank", rel: "noreferrer" }
                 : undefined)}
-              style={{ animationDelay: menuOpen ? `${140 + i * 55}ms` : undefined }}
-              className={`site-menu-item text-[15px] font-medium tracking-[0.18em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50 ${
-                active === link.id ? "opacity-100" : "opacity-70"
+              style={{ animationDelay: menuOpen ? `${120 + i * 50}ms` : undefined }}
+              className={`site-menu-item text-[13px] font-medium tracking-[0.16em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50 ${
+                active === link.id ? "opacity-100" : "opacity-85"
               }`}
             >
               {link.label}
             </a>
           ))}
         </nav>
-        <div
-          className="site-menu-item mt-auto flex gap-6"
-          style={{ animationDelay: menuOpen ? "480ms" : undefined }}
-        >
-          <a
-            href="https://www.instagram.com/___guised"
-            target="_blank"
-            rel="noreferrer"
-            className="font-display text-[12px] tracking-[0.16em] text-hygen-text uppercase transition-opacity duration-500 hover:opacity-50"
-          >
-            IG
-          </a>
-          <a
-            href="mailto:info@atelierguised.com"
-            className="font-display text-[12px] tracking-[0.16em] text-hygen-text uppercase transition-opacity duration-500 hover:opacity-50"
-          >
-            Mail
-          </a>
-        </div>
       </div>
     </>
   );
@@ -402,7 +390,6 @@ function ConceptSection() {
       id="concept"
       className="relative min-h-[700px] w-full bg-hygen-bg text-hygen-text"
     >
-      <SectionSocial />
       <div className="mx-auto flex min-h-[700px] w-full max-w-[1400px] items-center px-6 py-24 min-[700px]:px-10 min-[1100px]:px-14">
         <ul className="m-0 grid w-full list-none grid-cols-1 gap-x-8 gap-y-14 p-0 min-[600px]:grid-cols-2 min-[1100px]:grid-cols-4">
           {featuredProducts.map((product) => (
@@ -531,8 +518,6 @@ function CollectionSection() {
       id="collection"
       className="relative w-full bg-hygen-bg text-hygen-text"
     >
-      <SectionSocial />
-
       <div className="mx-auto w-full max-w-[1400px] px-6 py-24 min-[700px]:px-10 min-[1100px]:px-14">
         <div className="mb-10 flex items-end justify-between gap-6 min-[700px]:mb-14">
           <div>
@@ -589,6 +574,15 @@ function CollectionSection() {
             </li>
           ))}
         </ul>
+
+        <div className="mt-14 flex justify-center min-[700px]:mt-16">
+          <a
+            href="/products?filter=culatta"
+            className="font-display inline-flex items-center justify-center border border-hygen-text/25 px-8 py-3.5 text-[11px] font-medium tracking-[0.22em] uppercase text-hygen-text transition-opacity duration-500 hover:opacity-50 min-[700px]:text-[12px]"
+          >
+            Shop Culatta
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -600,11 +594,9 @@ function StockistSection() {
       id="stockist"
       className="relative w-full bg-hygen-bg py-24 text-hygen-text min-[700px]:py-32"
     >
-      <SectionSocial />
-
-      <div className="mx-auto w-full max-w-[1100px] px-6 min-[700px]:px-10 min-[1100px]:px-14">
+      <div className="mx-auto w-full max-w-[1400px] px-6 min-[700px]:px-10 min-[1100px]:px-14">
         <div className="mb-14 max-w-[36rem] min-[700px]:mb-20">
-          <p className="font-display m-0 mb-4 text-[15px] font-medium tracking-[0.22em] uppercase text-hygen-text min-[700px]:text-[16px]">
+          <p className="font-display m-0 mb-4 text-[12px] font-medium tracking-[0.24em] uppercase text-hygen-muted">
             Stockists
           </p>
           <h2 className="font-display m-0 text-[28px] font-medium leading-[1.2] tracking-[0.08em] uppercase min-[700px]:text-[34px]">
@@ -667,12 +659,12 @@ function StockistSection() {
                         href={store.href}
                         target="_blank"
                         rel="noreferrer"
-                        className="font-display block text-[18px] font-medium leading-[1.35] tracking-[0.06em] text-hygen-text transition-opacity duration-500 hover:opacity-50 min-[700px]:text-[20px]"
+                        className="font-display block text-[18px] font-medium uppercase leading-[1.35] tracking-[0.06em] text-hygen-text transition-opacity duration-500 hover:opacity-50 min-[700px]:text-[20px]"
                       >
                         {store.name}
                       </a>
                     ) : (
-                      <p className="font-display m-0 text-[18px] font-medium leading-[1.35] tracking-[0.06em] text-hygen-text min-[700px]:text-[20px]">
+                      <p className="font-display m-0 text-[18px] font-medium uppercase leading-[1.35] tracking-[0.06em] text-hygen-text min-[700px]:text-[20px]">
                         {store.name}
                       </p>
                     )}

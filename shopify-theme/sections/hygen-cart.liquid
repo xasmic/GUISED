@@ -1,0 +1,90 @@
+{%- comment -%} Cart page — Hygen {%- endcomment -%}
+
+<section class="hygen-cart">
+  <div class="hygen-cart__inner">
+    <header class="hygen-cart__header">
+      <p class="hygen-cart__eyebrow">Bag</p>
+      <h1 class="hygen-cart__title">Your cart</h1>
+    </header>
+
+    {% if cart.item_count == 0 %}
+      <div class="hygen-cart__empty">
+        <p>Your cart is empty.</p>
+        <a class="hygen-cart__continue" href="{{ routes.all_products_collection_url }}">
+          Continue shopping
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+    {% else %}
+      <form action="{{ routes.cart_url }}" method="post" id="hygen-cart-form" class="hygen-cart__form">
+        <ul class="hygen-cart__list">
+          {% for item in cart.items %}
+            <li class="hygen-cart__item">
+              <a class="hygen-cart__media" href="{{ item.url }}">
+                {% if item.image %}
+                  {{
+                    item.image
+                    | image_url: width: 400
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '200,300,400',
+                      sizes: '96px',
+                      alt: item.image.alt | default: item.product.title
+                  }}
+                {% endif %}
+              </a>
+
+              <div class="hygen-cart__details">
+                <a class="hygen-cart__name" href="{{ item.url }}">{{ item.product.title }}</a>
+                {% unless item.product.has_only_default_variant %}
+                  <p class="hygen-cart__variant">{{ item.variant.title }}</p>
+                {% endunless %}
+                <p class="hygen-cart__line-price">{{ item.final_line_price | money }}</p>
+
+                <div class="hygen-cart__controls">
+                  <label class="hygen-sr-only" for="updates_{{ item.key }}">Quantity for {{ item.product.title }}</label>
+                  <input
+                    id="updates_{{ item.key }}"
+                    class="hygen-cart__qty"
+                    type="number"
+                    name="updates[{{ item.key }}]"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    aria-label="Quantity"
+                  >
+                  <a class="hygen-cart__remove" href="{{ item.url_to_remove }}">Remove</a>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+
+        <div class="hygen-cart__footer">
+          <p class="hygen-cart__subtotal">
+            <span>Subtotal</span>
+            <strong>{{ cart.total_price | money }}</strong>
+          </p>
+          <p class="hygen-cart__note">Taxes and shipping calculated at checkout.</p>
+
+          <div class="hygen-cart__actions">
+            <button type="submit" name="update" class="hygen-cart__update">Update cart</button>
+            <button type="submit" name="checkout" class="hygen-cart__checkout">
+              Checkout
+              <span aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </form>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hygen cart",
+  "tag": "section",
+  "class": "hygen-section-cart",
+  "settings": [],
+  "presets": [{ "name": "Hygen cart" }]
+}
+{% endschema %}

@@ -6,7 +6,7 @@
         "brand": "GUISED",
         "tagline": "obsessively crafted",
         "cta_label": "Explore",
-        "cta_link": "#concept",
+        "cta_link": "/collections/all",
         "image_url": "https://atelierguised.com/cdn/shop/files/Guised_Faye_1.jpg?v=1761817444&width=1920",
         "video_url": "https://atelierguised.com/cdn/shop/videos/c/vp/f500300d62c1401c9ff39fb3b45c7c8b/f500300d62c1401c9ff39fb3b45c7c8b.HD-1080p-7.2Mbps-61322588.mp4?v=0"
       }
@@ -20,7 +20,7 @@
             "title": "Soot Belt",
             "price": "$180.00",
             "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/B5BD8FE3-26C0-41FA-B5E4-817314E6A776.jpg?v=1770042305&width=1200",
-            "href": "https://atelierguised.com/products/soot-belt"
+            "href": "/products/soot-belt"
           }
         },
         "product_2": {
@@ -29,7 +29,7 @@
             "title": "Guised x Rei Gloom Belt (Abstract)",
             "price": "$360.00",
             "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/74715193-EE59-42D1-AF02-00B58DA0FB48.jpg?v=1724904754&width=1200",
-            "href": "https://atelierguised.com/products/guised-x-rei-gloom-belt-tan"
+            "href": "/products/guised-x-rei-gloom-belt-tan"
           }
         },
         "product_3": {
@@ -38,7 +38,7 @@
             "title": "Forager Satchel (Black)",
             "price": "$760.00",
             "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200",
-            "href": "https://atelierguised.com/products/forager-satchel-black"
+            "href": "/products/forager-satchel-black"
           }
         },
         "product_4": {
@@ -47,7 +47,7 @@
             "title": "Girded Tote",
             "price": "$990.00",
             "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200",
-            "href": "https://atelierguised.com/products/untitled-jan12_14-09"
+            "href": "/products/untitled-jan12_14-09"
           }
         }
       },
@@ -67,21 +67,12 @@
         "right_image_url": ""
       }
     },
-    "hygen_parallax_1": {
-      "type": "hygen-parallax",
-      "settings": {
-        "heading": "Craft",
-        "use_theme_video": true,
-        "image_url": ""
-      }
-    },
     "hygen_collection": {
       "type": "hygen-collection",
       "blocks": {
         "season_culatta": {
           "type": "season",
           "settings": {
-            "label": "GUISED  Culatta",
             "preset": "culatta",
             "limit": 12
           }
@@ -89,7 +80,20 @@
       },
       "block_order": ["season_culatta"],
       "settings": {
-        "heading": "Collection"
+        "heading": "Collection",
+        "subheading": "Culatta",
+        "view_all_label": "View all",
+        "view_all_link": "/collections/all",
+        "cta_label": "Shop Culatta",
+        "cta_link": "/collections/all"
+      }
+    },
+    "hygen_parallax_1": {
+      "type": "hygen-parallax",
+      "settings": {
+        "heading": "Craft",
+        "use_theme_video": true,
+        "image_url": ""
       }
     },
     "hygen_parallax_2": {
@@ -102,40 +106,32 @@
     "hygen_stockist": {
       "type": "hygen-stockist",
       "blocks": {
-        "region_1": {
+        "region_singapore": {
           "type": "region",
           "settings": {
-            "row": "primary",
             "region": "Singapore",
-            "city_1": "Singapore",
-            "name_1": "Atelier Guised",
-            "phone_1": "By appointment"
+            "store_name": "Upstairs Garments",
+            "address_line_1": "75 Tanjong Pagar Road",
+            "address_line_2": "Singapore"
           }
         },
-        "region_2": {
+        "region_online": {
           "type": "region",
           "settings": {
-            "row": "primary",
             "region": "Online",
-            "city_1": "Worldwide",
-            "name_1": "atelierguised.com"
-          }
-        },
-        "region_3": {
-          "type": "region",
-          "settings": {
-            "row": "secondary",
-            "region": "International",
-            "city_1": "Enquire",
-            "name_1": "Archive request",
-            "city_2": "Wholesale",
-            "name_2": "info via contact"
+            "store_name": "Online store",
+            "note": "Worldwide shipping",
+            "href": "/",
+            "show_instagram": true,
+            "instagram_url": "https://www.instagram.com/___guised"
           }
         }
       },
-      "block_order": ["region_1", "region_2", "region_3"],
+      "block_order": ["region_singapore", "region_online"],
       "settings": {
-        "online_label": "Online Store"
+        "eyebrow": "Stockists",
+        "title": "Where to find us",
+        "lede": "Visit our Singapore stockist, or order online for international shipping."
       }
     }
   },
