@@ -31,7 +31,7 @@
         <a href="{{ pages['terms-of-service'].url | default: '/pages/terms-of-service' }}">Terms of Service</a>
         <a href="{{ routes.root_url }}#about" data-nav-id="about">About</a>
         <a href="{{ pages.contact.url | default: '/pages/contact' }}">Contact</a>
-        <a href="mailto:{{ shop.email | default: 'info@atelierguised.com' }}?subject=Custom%20Order">Customs</a>
+        <a href="{{ pages.customs.url | default: '/pages/customs' }}">Customs</a>
         <a href="{{ pages.collaborations.url | default: '/pages/collaborations' }}">Collaborations</a>
         <a href="{{ routes.all_products_collection_url }}">Online Store</a>
       </nav>
@@ -170,7 +170,7 @@
           <a href="{{ pages['terms-of-service'].url | default: '/pages/terms-of-service' }}" data-hygen-menu-close>Terms of Service</a>
           <a href="{{ routes.root_url }}#about" data-hygen-menu-close>About</a>
           <a href="{{ pages.contact.url | default: '/pages/contact' }}" data-hygen-menu-close>Contact</a>
-          <a href="mailto:{{ shop.email | default: 'info@atelierguised.com' }}?subject=Custom%20Order" data-hygen-menu-close>Customs</a>
+          <a href="{{ pages.customs.url | default: '/pages/customs' }}" data-hygen-menu-close>Customs</a>
           <a href="{{ pages.collaborations.url | default: '/pages/collaborations' }}" data-hygen-menu-close>Collaborations</a>
           <a href="{{ routes.all_products_collection_url }}" data-hygen-menu-close>Online Store</a>
         </nav>
@@ -182,7 +182,7 @@
     </main>
 
     {% unless template.name == 'gift_card' %}
-      {% unless template.suffix == 'contact' %}
+      {% unless template.suffix == 'contact' or template.suffix == 'customs' %}
         {% render 'hygen-footer' %}
       {% endunless %}
     {% endunless %}

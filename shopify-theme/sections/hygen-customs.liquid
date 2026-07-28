@@ -1,0 +1,132 @@
+{%- liquid
+  assign customs_email = settings.custom_orders_email | strip
+  assign email_label = '[company email]'
+  if customs_email != blank
+    assign email_label = customs_email
+  endif
+  assign mail_subject = 'Custom order enquiry'
+-%}
+
+{%- capture mail_body -%}
+Hi Guised,
+
+I would like to enquire about a custom order.
+
+Piece type:
+Dimensions / size:
+Leather or finish preferences:
+Timeline:
+Additional notes:
+{%- endcapture -%}
+
+<section class="hygen-customs">
+  <div class="hygen-customs__grid">
+    <div class="hygen-customs__panel hygen-customs__panel--media">
+      <img
+        class="hygen-customs__bg"
+        src="{{ 'hygen-craft-atelier.png' | asset_url }}"
+        alt=""
+        width="1200"
+        height="1600"
+        loading="eager"
+      >
+      <div class="hygen-customs__overlay" aria-hidden="true"></div>
+      <div class="hygen-customs__ring" aria-hidden="true"></div>
+
+      <a href="{{ routes.root_url }}" class="hygen-customs__brand">
+        {{ shop.name | upcase | default: 'GUISED' }}
+      </a>
+
+      <h1 class="hygen-customs__label">{{ section.settings.title | default: 'Customs' }}</h1>
+
+      <div class="hygen-customs__copy">
+        {% if section.settings.lede != blank %}
+          <p>{{ section.settings.lede }}</p>
+        {% else %}
+          <p>
+            Custom pieces are made slowly in the atelier — one hide, one wearer, one set of habits.
+            Tell us what you have in mind and we will reply by email.
+          </p>
+        {% endif %}
+        <p class="hygen-customs__meta">Atelier · Singapore</p>
+      </div>
+    </div>
+
+    <div class="hygen-customs__panel hygen-customs__panel--cta">
+      <div class="hygen-customs__cta-inner">
+        <p class="hygen-customs__eyebrow">Enquiry</p>
+        <h2 class="hygen-customs__headline">{{ section.settings.cta_heading | default: 'Start a custom order' }}</h2>
+
+        {% if section.settings.note != blank %}
+          <p class="hygen-customs__note">{{ section.settings.note }}</p>
+        {% else %}
+          <p class="hygen-customs__note">
+            Email us with the piece you want, approximate dimensions, leather preferences, and your timeline.
+            We will follow up with availability and next steps.
+          </p>
+        {% endif %}
+
+        <ul class="hygen-customs__list">
+          <li>What you would like made</li>
+          <li>Size or fit notes</li>
+          <li>Leather, colour, or hardware preferences</li>
+          <li>When you need it by</li>
+        </ul>
+
+        {% if customs_email != blank %}
+          <a
+            class="hygen-customs__email"
+            href="mailto:{{ customs_email }}?subject={{ mail_subject | url_encode }}&body={{ mail_body | strip | url_encode }}"
+          >
+            Email us
+            <span aria-hidden="true"></span>
+          </a>
+        {% else %}
+          <span class="hygen-customs__email hygen-customs__email--disabled" aria-disabled="true">
+            Email us
+            <span aria-hidden="true"></span>
+          </span>
+        {% endif %}
+        <p class="hygen-customs__address">{{ email_label }}</p>
+        {% if customs_email == blank %}
+          <p class="hygen-customs__hint">
+            Add your custom orders email in Theme settings → Contact.
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hygen customs",
+  "tag": "section",
+  "class": "hygen-section-customs",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page label",
+      "default": "Customs"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Intro copy"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "CTA heading",
+      "default": "Start a custom order"
+    },
+    {
+      "type": "textarea",
+      "id": "note",
+      "label": "CTA note"
+    }
+  ],
+  "presets": [{ "name": "Hygen customs" }]
+}
+{% endschema %}

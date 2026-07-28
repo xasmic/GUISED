@@ -5,17 +5,82 @@
       <h1 class="hygen-products__title">Online Store</h1>
     </header>
 
-    <nav class="hygen-products__filters" aria-label="Product categories" data-hygen-product-filters>
-      <button type="button" class="is-active" data-filter="all">Shop All</button>
-      <button type="button" data-filter="culatta">Culatta</button>
-      <button type="button" data-filter="belts">Belts</button>
-      <button type="button" data-filter="wallets">Wallets</button>
-      <button type="button" data-filter="bags">Bags</button>
-      <button type="button" data-filter="available">Available</button>
-    </nav>
+    {%- liquid
+      assign current_sort = collection.sort_by | default: collection.default_sort_by
+      if current_sort == blank
+        assign current_sort = 'manual'
+      endif
+    -%}
 
-    <ul class="hygen-collection__grid hygen-products__grid" data-hygen-product-grid>
-      {% paginate collection.products by 48 %}
+    <div class="hygen-products__toolbar" data-hygen-products-toolbar>
+      <div class="hygen-products__toolbar-row">
+        <button
+          type="button"
+          class="hygen-products__filter-btn"
+          data-hygen-filter-toggle
+          aria-expanded="false"
+          aria-controls="hygen-products-filter-drawer"
+        >
+          <span class="hygen-products__filter-label">Filter</span>
+          <span class="hygen-products__filter-icon" aria-hidden="true" data-hygen-filter-icon>+</span>
+        </button>
+
+        <label class="hygen-products__sort">
+          <span class="hygen-products__sort-label">Sort by</span>
+          <select
+            class="hygen-products__sort-select"
+            data-hygen-sort-select
+            aria-label="Sort products"
+          >
+            <option value="manual"{% if current_sort == 'manual' %} selected{% endif %}>Featured</option>
+            <option value="best-selling"{% if current_sort == 'best-selling' %} selected{% endif %}>Best selling</option>
+            <option value="title-ascending"{% if current_sort == 'title-ascending' %} selected{% endif %}>Alphabetically, A–Z</option>
+            <option value="title-descending"{% if current_sort == 'title-descending' %} selected{% endif %}>Alphabetically, Z–A</option>
+            <option value="price-ascending"{% if current_sort == 'price-ascending' %} selected{% endif %}>Price, low to high</option>
+            <option value="price-descending"{% if current_sort == 'price-descending' %} selected{% endif %}>Price, high to low</option>
+            <option value="created-ascending"{% if current_sort == 'created-ascending' %} selected{% endif %}>Date, old to new</option>
+            <option value="created-descending"{% if current_sort == 'created-descending' %} selected{% endif %}>Date, new to old</option>
+          </select>
+        </label>
+      </div>
+
+      <p class="hygen-products__count" data-hygen-product-count>
+        <span data-hygen-product-count-value>{{ collection.products_count }}</span>
+        {% if collection.products_count == 1 %}product{% else %}products{% endif %}
+      </p>
+    </div>
+
+    <div
+      class="hygen-products__drawer"
+      id="hygen-products-filter-drawer"
+      data-hygen-filter-drawer
+    >
+      <button
+        type="button"
+        class="hygen-products__drawer-backdrop"
+        data-hygen-filter-close
+        aria-label="Close filters"
+      ></button>
+      <div class="hygen-products__drawer-panel" role="dialog" aria-modal="true" aria-label="Filter products">
+        <div class="hygen-products__drawer-header">
+          <p class="hygen-products__drawer-title">Filter</p>
+          <button type="button" class="hygen-products__drawer-close" data-hygen-filter-close aria-label="Close filters">
+            ×
+          </button>
+        </div>
+        <nav class="hygen-products__drawer-nav" aria-label="Product categories" data-hygen-product-filters>
+          <button type="button" class="hygen-products__drawer-option is-active" data-filter="all">Shop All</button>
+          <button type="button" class="hygen-products__drawer-option" data-filter="culatta">Culatta</button>
+          <button type="button" class="hygen-products__drawer-option" data-filter="belts">Belts</button>
+          <button type="button" class="hygen-products__drawer-option" data-filter="wallets">Wallets</button>
+          <button type="button" class="hygen-products__drawer-option" data-filter="bags">Bags</button>
+          <button type="button" class="hygen-products__drawer-option" data-filter="available">Available</button>
+        </nav>
+      </div>
+    </div>
+
+    {% paginate collection.products by 48 %}
+      <ul class="hygen-collection__grid hygen-products__grid" data-hygen-product-grid>
         {% if collection.products_count > 0 %}
           {% for product in collection.products %}
             {%- liquid
@@ -84,44 +149,112 @@
         {% else %}
           {% render 'hygen-cdn-grid', preset: 'latest' %}
         {% endif %}
-      {% endpaginate %}
-    </ul>
+      </ul>
 
-    {% if paginate.pages > 1 %}
-      <nav class="hygen-products__pagination" aria-label="Pagination">
-        {% if paginate.previous %}
-          <a href="{{ paginate.previous.url }}">Previous</a>
-        {% endif %}
-        <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
-        {% if paginate.next %}
-          <a href="{{ paginate.next.url }}">Next</a>
-        {% endif %}
-      </nav>
-    {% endif %}
+      {% if paginate.pages > 1 %}
+        <nav class="hygen-products__pagination" aria-label="Pagination">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}">Previous</a>
+          {% endif %}
+          <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}">Next</a>
+          {% endif %}
+        </nav>
+      {% endif %}
+    {% endpaginate %}
   </div>
 </section>
 
 <script>
   (function () {
-    var nav = document.querySelector('[data-hygen-product-filters]');
-    var grid = document.querySelector('[data-hygen-product-grid]');
-    if (!nav || !grid) return;
+    var root = document.querySelector('.hygen-products');
+    if (!root) return;
 
-    nav.addEventListener('click', function (event) {
-      var button = event.target.closest('[data-filter]');
-      if (!button) return;
+    var nav = root.querySelector('[data-hygen-product-filters]');
+    var grid = root.querySelector('[data-hygen-product-grid]');
+    var drawer = root.querySelector('[data-hygen-filter-drawer]');
+    var toggle = root.querySelector('[data-hygen-filter-toggle]');
+    var icon = root.querySelector('[data-hygen-filter-icon]');
+    var countValue = root.querySelector('[data-hygen-product-count-value]');
+    var countLabel = root.querySelector('[data-hygen-product-count]');
+    var sortSelect = root.querySelector('[data-hygen-sort-select]');
+    var collectionUrl = {{ collection.url | json }};
 
-      var filter = button.getAttribute('data-filter');
-      nav.querySelectorAll('[data-filter]').forEach(function (item) {
-        item.classList.toggle('is-active', item === button);
-      });
-
+    function updateCount() {
+      if (!grid || !countValue || !countLabel) return;
+      var visible = 0;
       grid.querySelectorAll('.hygen-products__item').forEach(function (item) {
-        var categories = item.getAttribute('data-categories') || '';
-        var show = filter === 'all' || categories.indexOf(' ' + filter) !== -1;
-        item.hidden = !show;
+        if (!item.hidden) visible += 1;
       });
-    });
+      countValue.textContent = String(visible);
+      var suffix = countLabel.childNodes[countLabel.childNodes.length - 1];
+      if (suffix && suffix.nodeType === 3) {
+        suffix.textContent = visible === 1 ? ' product' : ' products';
+      }
+    }
+
+    function setDrawerOpen(open) {
+      if (!drawer || !toggle) return;
+      drawer.classList.toggle('is-open', open);
+      toggle.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (icon) icon.textContent = open ? '−' : '+';
+      document.documentElement.classList.toggle('hygen-filter-drawer-open', open);
+    }
+
+    function closeDrawer() {
+      setDrawerOpen(false);
+    }
+
+    if (toggle && drawer) {
+      toggle.addEventListener('click', function () {
+        setDrawerOpen(!drawer.classList.contains('is-open'));
+      });
+
+      drawer.querySelectorAll('[data-hygen-filter-close]').forEach(function (el) {
+        el.addEventListener('click', closeDrawer);
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && drawer.classList.contains('is-open')) {
+          closeDrawer();
+        }
+      });
+    }
+
+    if (nav && grid) {
+      nav.addEventListener('click', function (event) {
+        var button = event.target.closest('[data-filter]');
+        if (!button) return;
+
+        var filter = button.getAttribute('data-filter');
+        nav.querySelectorAll('[data-filter]').forEach(function (item) {
+          item.classList.toggle('is-active', item === button);
+        });
+
+        grid.querySelectorAll('.hygen-products__item').forEach(function (item) {
+          var categories = ' ' + (item.getAttribute('data-categories') || '') + ' ';
+          var show = filter === 'all' || categories.indexOf(' ' + filter + ' ') !== -1;
+          item.hidden = !show;
+        });
+
+        updateCount();
+        closeDrawer();
+      });
+    }
+
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function () {
+        var sortBy = sortSelect.value;
+        var url = collectionUrl || window.location.pathname;
+        var next = new URL(url, window.location.origin);
+        next.searchParams.set('sort_by', sortBy);
+        window.location.assign(next.pathname + next.search);
+      });
+    }
+
+    updateCount();
   })();
 </script>
 

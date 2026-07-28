@@ -403,6 +403,10 @@
     });
   }
 
+  function cartRootUrl() {
+    return window.Shopify && Shopify.routes ? Shopify.routes.root : "/";
+  }
+
   function initCartCount() {
     var badge = document.querySelector("[data-hygen-cart-count]");
     if (!badge) return;
@@ -415,7 +419,7 @@
     }
 
     function refresh() {
-      fetch((window.Shopify && Shopify.routes ? Shopify.routes.root : "/") + "cart.js", {
+      fetch(cartRootUrl() + "cart.js", {
         headers: { Accept: "application/json" },
       })
         .then(function (res) {
@@ -430,9 +434,129 @@
     document.addEventListener("hygen:cart:update", refresh);
   }
 
+  function initCartPage() {
+    var root = document.querySelector("[data-hygen-cart]");
+    if (!root) return;
+
+    var form = root.querySelector("#hygen-cart-form");
+    if (!form) return;
+
+    var currency = root.getAttribute("data-currency") || "USD";
+    var timers = {};
+    var pending = null;
+
+    function money(cents) {
+      try {
+        return (cents / 100).toLocaleString(undefined, {
+          style: "currency",
+          currency: currency,
+        });
+      } catch (e) {
+        return "$" + (cents / 100).toFixed(2);
+      }
+    }
+
+    function setBusy(busy) {
+      root.classList.toggle("is-updating", busy);
+    }
+
+    function applyCart(cart) {
+      if (!cart.item_count) {
+        window.location.reload();
+        return;
+      }
+
+      var keys = {};
+      cart.items.forEach(function (item) {
+        keys[item.key] = item;
+        var row = form.querySelector('[data-hygen-cart-item][data-key="' + item.key + '"]');
+        if (!row) return;
+        var qty = row.querySelector("[data-hygen-cart-qty]");
+        var linePrice = row.querySelector("[data-hygen-line-price]");
+        if (qty && document.activeElement !== qty) qty.value = item.quantity;
+        if (linePrice) linePrice.textContent = money(item.final_line_price);
+      });
+
+      form.querySelectorAll("[data-hygen-cart-item]").forEach(function (row) {
+        if (!keys[row.getAttribute("data-key")]) row.remove();
+      });
+
+      var subtotal = form.querySelector("[data-hygen-cart-subtotal]");
+      if (subtotal) subtotal.textContent = money(cart.total_price);
+
+      document.dispatchEvent(new CustomEvent("hygen:cart:update"));
+    }
+
+    function changeLine(key, quantity) {
+      var qty = Math.max(0, parseInt(quantity, 10) || 0);
+      if (pending) pending.abort();
+      pending = typeof AbortController !== "undefined" ? new AbortController() : null;
+      setBusy(true);
+
+      return fetch(cartRootUrl() + "cart/change.js", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: key, quantity: qty }),
+        signal: pending ? pending.signal : undefined,
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error("Could not update cart");
+          return res.json();
+        })
+        .then(function (cart) {
+          applyCart(cart);
+        })
+        .catch(function (err) {
+          if (err && err.name === "AbortError") return;
+          window.location.reload();
+        })
+        .finally(function () {
+          setBusy(false);
+          pending = null;
+        });
+    }
+
+    function scheduleChange(input) {
+      var key = input.getAttribute("data-key");
+      if (!key) return;
+      if (timers[key]) clearTimeout(timers[key]);
+      timers[key] = setTimeout(function () {
+        changeLine(key, input.value);
+      }, 400);
+    }
+
+    form.addEventListener("input", function (event) {
+      var input = event.target.closest("[data-hygen-cart-qty]");
+      if (!input || !form.contains(input)) return;
+      scheduleChange(input);
+    });
+
+    form.addEventListener("change", function (event) {
+      var input = event.target.closest("[data-hygen-cart-qty]");
+      if (!input || !form.contains(input)) return;
+      var key = input.getAttribute("data-key");
+      if (timers[key]) clearTimeout(timers[key]);
+      changeLine(key, input.value);
+    });
+
+    form.addEventListener("click", function (event) {
+      var remove = event.target.closest("[data-hygen-cart-remove]");
+      if (!remove || !form.contains(remove)) return;
+      event.preventDefault();
+      var key = remove.getAttribute("data-key");
+      if (timers[key]) clearTimeout(timers[key]);
+      changeLine(key, 0);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("[data-hygen-collection]").forEach(initCollection);
     initChrome();
     initCartCount();
+    initCartPage();
   });
 })();
+

@@ -1,27 +1,34 @@
 {%- comment -%}
-  Product grid fallback matching the Next.js Culatta collection.
-  Format: image|title|href|price|sold_out
+  Culatta / latest product grid fallback using theme assets on this store.
+  Format: asset|title|href|price|sold_out
 {%- endcomment -%}
+
+{%- liquid
+  assign contact_email = shop.email | default: 'info@atelierguised.com'
+-%}
 
 {%- case preset -%}
   {%- when 'culatta' -%}
-    {%- assign products = 'https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655&width=1200|Culatta Long Wallet|/products/culatta-long-wallet|$420.00|false,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200|Forager Satchel (Black)|/products/forager-satchel-black|$760.00|false,https://atelierguised.com/cdn/shop/files/FE132579-F3DB-4C72-9E16-8E2D47EBEBD2.jpg?v=1778824519&width=1200|Forager Satchel (Dirty White)|/products/forager-satchel-dirty-white|$760.00|true,https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200|Girded Tote|/products/girded-tote|$990.00|false,https://atelierguised.com/cdn/shop/files/72AAB699-775E-43B3-8DAF-CBE8BE5471A2.jpg?v=1770042139&width=1200|Horse Culatta Bifold|/products/horse-culatta-bifold|$290.00|false' | split: ',' -%}
+    {%- assign products = 'hygen-culatta-long-wallet.jpg|Culatta Long Wallet|/products/culatta-long-wallet|$420.00|false,hygen-forager-satchel-black.jpg|Forager Satchel (Black)|/products/forager-satchel-black|$760.00|false,hygen-forager-satchel-dirty-white.jpg|Forager Satchel (Dirty White)|/products/forager-satchel-dirty-white|$760.00|true,hygen-girded-tote.jpg|Girded Tote|/products/girded-tote|$990.00|false,hygen-horse-culatta-bifold.jpg|Horse Culatta Bifold|/products/horse-culatta-bifold|$290.00|false' | split: ',' -%}
   {%- else -%}
-    {%- assign products = 'https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200|Girded Tote|/products/girded-tote|$990.00|false,https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655&width=1200|Culatta Long Wallet|/products/culatta-long-wallet|$420.00|false,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200|Forager Satchel (Black)|/products/forager-satchel-black|$760.00|false,https://atelierguised.com/cdn/shop/files/FE132579-F3DB-4C72-9E16-8E2D47EBEBD2.jpg?v=1778824519&width=1200|Forager Satchel (Dirty White)|/products/forager-satchel-dirty-white|$760.00|true,https://atelierguised.com/cdn/shop/files/72AAB699-775E-43B3-8DAF-CBE8BE5471A2.jpg?v=1770042139&width=1200|Horse Culatta Bifold|/products/horse-culatta-bifold|$290.00|false' | split: ',' -%}
+    {%- assign products = 'hygen-girded-tote.jpg|Girded Tote|/products/girded-tote|$990.00|false,hygen-culatta-long-wallet.jpg|Culatta Long Wallet|/products/culatta-long-wallet|$420.00|false,hygen-forager-satchel-black.jpg|Forager Satchel (Black)|/products/forager-satchel-black|$760.00|false,hygen-forager-satchel-dirty-white.jpg|Forager Satchel (Dirty White)|/products/forager-satchel-dirty-white|$760.00|true,hygen-horse-culatta-bifold.jpg|Horse Culatta Bifold|/products/horse-culatta-bifold|$290.00|false' | split: ',' -%}
 {%- endcase -%}
-
-{%- comment -%} CDN images may still load from atelierguised CDN; product links stay on this store. {%- endcomment -%}
 
 {%- for item in products -%}
   {%- assign parts = item | split: '|' -%}
+  {%- assign image_asset = parts[0] -%}
+  {%- assign title = parts[1] -%}
+  {%- assign href = parts[2] -%}
+  {%- assign price = parts[3] -%}
   {%- assign sold_out = parts[4] -%}
-  <li class="hygen-collection__item">
-    <a class="hygen-collection__link" href="{{ parts[2] }}">
+  {%- capture notify_subject -%}Back in stock — {{ title }}{%- endcapture -%}
+  <li class="hygen-collection__item{% if sold_out == 'true' %} is-sold-out{% endif %}">
+    <a class="hygen-collection__link" href="{{ href }}">
       <div class="hygen-collection__media">
         <img
           class="hygen-collection__img"
-          src="{{ parts[0] }}"
-          alt="{{ parts[1] | escape }}"
+          src="{{ image_asset | asset_url }}"
+          alt="{{ title | escape }}"
           loading="lazy"
           width="600"
           height="750"
@@ -30,14 +37,22 @@
           <span class="hygen-collection__badge">Sold out</span>
         {% endif %}
       </div>
-      <p class="hygen-collection__name">{{ parts[1] }}</p>
+      <p class="hygen-collection__name">{{ title }}</p>
       <p class="hygen-collection__price">
         {% if sold_out == 'true' %}
           <span class="hygen-collection__soldout">Sold out</span>
         {% else %}
-          {{ parts[3] }}
+          {{ price }}
         {% endif %}
       </p>
     </a>
+    {% if sold_out == 'true' %}
+      <a
+        class="hygen-collection__notify"
+        href="mailto:{{ contact_email }}?subject={{ notify_subject | url_encode }}"
+      >
+        Email us
+      </a>
+    {% endif %}
   </li>
 {%- endfor -%}

@@ -16,5 +16,16 @@
         "label": "Instagram URL"
       }
     ]
+  },
+  {
+    "name": "Contact",
+    "settings": [
+      {
+        "type": "text",
+        "id": "custom_orders_email",
+        "label": "Custom orders email",
+        "info": "Used on the Customs page and Email us links. Leave blank to show [company email]."
+      }
+    ]
   }
 ]

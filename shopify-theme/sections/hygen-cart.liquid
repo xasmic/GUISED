@@ -1,6 +1,6 @@
 {%- comment -%} Cart page — Hygen {%- endcomment -%}
 
-<section class="hygen-cart">
+<section class="hygen-cart" data-hygen-cart data-currency="{{ cart.currency.iso_code }}">
   <div class="hygen-cart__inner">
     <header class="hygen-cart__header">
       <p class="hygen-cart__eyebrow">Bag</p>
@@ -17,9 +17,9 @@
       </div>
     {% else %}
       <form action="{{ routes.cart_url }}" method="post" id="hygen-cart-form" class="hygen-cart__form">
-        <ul class="hygen-cart__list">
+        <ul class="hygen-cart__list" data-hygen-cart-list>
           {% for item in cart.items %}
-            <li class="hygen-cart__item">
+            <li class="hygen-cart__item" data-hygen-cart-item data-key="{{ item.key }}">
               <a class="hygen-cart__media" href="{{ item.url }}">
                 {% if item.image %}
                   {{
@@ -39,7 +39,7 @@
                 {% unless item.product.has_only_default_variant %}
                   <p class="hygen-cart__variant">{{ item.variant.title }}</p>
                 {% endunless %}
-                <p class="hygen-cart__line-price">{{ item.final_line_price | money }}</p>
+                <p class="hygen-cart__line-price" data-hygen-line-price>{{ item.final_line_price | money }}</p>
 
                 <div class="hygen-cart__controls">
                   <label class="hygen-sr-only" for="updates_{{ item.key }}">Quantity for {{ item.product.title }}</label>
@@ -50,9 +50,13 @@
                     name="updates[{{ item.key }}]"
                     value="{{ item.quantity }}"
                     min="0"
+                    data-hygen-cart-qty
+                    data-key="{{ item.key }}"
                     aria-label="Quantity"
                   >
-                  <a class="hygen-cart__remove" href="{{ item.url_to_remove }}">Remove</a>
+                  <button type="button" class="hygen-cart__remove" data-hygen-cart-remove data-key="{{ item.key }}">
+                    Remove
+                  </button>
                 </div>
               </div>
             </li>
@@ -62,12 +66,11 @@
         <div class="hygen-cart__footer">
           <p class="hygen-cart__subtotal">
             <span>Subtotal</span>
-            <strong>{{ cart.total_price | money }}</strong>
+            <strong data-hygen-cart-subtotal>{{ cart.total_price | money }}</strong>
           </p>
           <p class="hygen-cart__note">Taxes and shipping calculated at checkout.</p>
 
           <div class="hygen-cart__actions">
-            <button type="submit" name="update" class="hygen-cart__update">Update cart</button>
             <button type="submit" name="checkout" class="hygen-cart__checkout">
               Checkout
               <span aria-hidden="true"></span>

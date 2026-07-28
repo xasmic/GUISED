@@ -22,7 +22,7 @@
     <ul class="hygen-collection__grid">
       {% if season_collection != blank and season_collection.products_count > 0 %}
         {% for product in season_collection.products limit: product_limit %}
-          <li class="hygen-collection__item">
+          <li class="hygen-collection__item{% unless product.available %} is-sold-out{% endunless %}">
             <a class="hygen-collection__link" href="{{ product.url }}">
               <div class="hygen-collection__media">
                 {% if product.featured_media %}
@@ -50,6 +50,15 @@
                 {% endif %}
               </p>
             </a>
+            {% unless product.available %}
+              {%- capture notify_subject -%}Back in stock — {{ product.title }}{%- endcapture -%}
+              <a
+                class="hygen-collection__notify"
+                href="mailto:{{ shop.email | default: 'info@atelierguised.com' }}?subject={{ notify_subject | url_encode }}"
+              >
+                Email us
+              </a>
+            {% endunless %}
           </li>
         {% endfor %}
       {% else %}

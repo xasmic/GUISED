@@ -1,6 +1,15 @@
 {%- liquid
-  assign poster = section.settings.image_url | default: 'https://atelierguised.com/cdn/shop/files/Guised_Faye_1.jpg?v=1761817444&width=1920'
-  assign video_src = section.settings.video_url | default: 'https://atelierguised.com/cdn/shop/videos/c/vp/f500300d62c1401c9ff39fb3b45c7c8b/f500300d62c1401c9ff39fb3b45c7c8b.HD-1080p-7.2Mbps-61322588.mp4?v=0'
+  if section.settings.image_url != blank
+    assign poster = section.settings.image_url
+  else
+    assign poster = 'hygen-hero-poster.jpg' | asset_url
+  endif
+
+  if section.settings.video_url != blank
+    assign video_src = section.settings.video_url
+  else
+    assign video_src = 'hygen-hero.mp4' | asset_url
+  endif
 -%}
 
 <section class="hygen-hero" data-hygen-hero>
@@ -22,6 +31,7 @@
       muted
       loop
       playsinline
+      preload="metadata"
       poster="{% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 1920 }}{% else %}{{ poster }}{% endif %}"
     >
       <source src="{{ video_src }}" type="video/mp4">
@@ -66,7 +76,9 @@
     {% endif %}
   </div>
 
-  <a class="hygen-hero__down" href="#concept" aria-label="Scroll to concept">↓</a>
+  <a class="hygen-hero__down" href="#concept" aria-label="Scroll to featured pieces">
+    <span class="hygen-hero__chevron" aria-hidden="true"></span>
+  </a>
 </section>
 
 {% schema %}
@@ -77,7 +89,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Defaults use the same Atelier Guised CDN media as the site. Override anytime with Shopify files."
+      "content": "Defaults use theme assets (hygen-hero-poster.jpg / hygen-hero.mp4). Override with Shopify Files pickers or custom URLs."
     },
     {
       "type": "text",
@@ -111,8 +123,7 @@
     {
       "type": "text",
       "id": "image_url",
-      "label": "Poster image URL",
-      "default": "https://atelierguised.com/cdn/shop/files/Guised_Faye_1.jpg?v=1761817444&width=1920"
+      "label": "Poster image URL (blank = theme asset)"
     },
     {
       "type": "video",
@@ -122,8 +133,7 @@
     {
       "type": "text",
       "id": "video_url",
-      "label": "Hero MP4 URL",
-      "default": "https://atelierguised.com/cdn/shop/videos/c/vp/f500300d62c1401c9ff39fb3b45c7c8b/f500300d62c1401c9ff39fb3b45c7c8b.HD-1080p-7.2Mbps-61322588.mp4?v=0"
+      "label": "Hero MP4 URL (blank = theme asset)"
     }
   ],
   "presets": [{ "name": "Hygen hero" }]

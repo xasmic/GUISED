@@ -16,7 +16,7 @@ export const navLinks = [
   {
     id: "customs",
     label: "Customs",
-    href: "mailto:info@atelierguised.com?subject=Custom%20Order",
+    href: "/pages/customs",
   },
   {
     id: "collaborations",
