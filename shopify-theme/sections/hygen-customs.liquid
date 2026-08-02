@@ -41,11 +41,13 @@ Additional notes:
 
       <div class="hygen-customs__copy">
         {% if section.settings.lede != blank %}
-          <p>{{ section.settings.lede }}</p>
+          <p>{{ section.settings.lede | newline_to_br }}</p>
         {% else %}
           <p>
-            Custom pieces are made slowly in the atelier — one hide, one wearer, one set of habits.
-            Tell us what you have in mind and we will reply by email.
+            Bring your vision to life with a piece crafted exclusively for you. From leather selection and design details to personalised elements, each custom order is carefully developed and handcrafted by Guised.
+          </p>
+          <p>
+            Every piece is made with intention. A unique object that reflects your story and individuality.
           </p>
         {% endif %}
         <p class="hygen-customs__meta">Atelier · Singapore</p>
@@ -113,7 +115,8 @@ Additional notes:
     {
       "type": "textarea",
       "id": "lede",
-      "label": "Intro copy"
+      "label": "Intro copy",
+      "default": "Bring your vision to life with a piece crafted exclusively for you. From leather selection and design details to personalised elements, each custom order is carefully developed and handcrafted by Guised.\n\nEvery piece is made with intention. A unique object that reflects your story and individuality."
     },
     {
       "type": "text",

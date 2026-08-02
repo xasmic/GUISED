@@ -55,13 +55,17 @@ export default function CustomsPage() {
             Customs
           </h1>
 
-          <div className="relative z-10 mx-auto max-w-[18rem] pl-8 text-center min-[700px]:pl-10">
+          <div className="relative z-10 mx-auto max-w-[22rem] space-y-5 pl-8 text-center min-[700px]:pl-10">
             <p className="font-body m-0 text-[18px] leading-[1.7] tracking-[0.03em] text-hygen-text/85 min-[700px]:text-[20px]">
-              Custom pieces are made slowly in the atelier — one hide, one wearer,
-              one set of habits. Tell us what you have in mind and we will reply
-              by email.
+              Bring your vision to life with a piece crafted exclusively for you.
+              From leather selection and design details to personalised elements,
+              each custom order is carefully developed and handcrafted by Guised.
             </p>
-            <p className="font-display mt-10 m-0 text-[11px] font-medium tracking-[0.2em] uppercase text-hygen-muted">
+            <p className="font-body m-0 text-[18px] leading-[1.7] tracking-[0.03em] text-hygen-text/85 min-[700px]:text-[20px]">
+              Every piece is made with intention. A unique object that reflects
+              your story and individuality.
+            </p>
+            <p className="font-display !mt-10 m-0 text-[11px] font-medium tracking-[0.2em] uppercase text-hygen-muted">
               Atelier · Singapore
             </p>
           </div>

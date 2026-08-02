@@ -5,13 +5,128 @@ import {
   collaborations,
   collaborationsIntro,
   collaborationsNote,
+  type Collaboration,
 } from "@/lib/collaborations";
 
 export const metadata: Metadata = {
   title: "Collaborations — GUISED",
   description:
-    "Guised collaborations — including Guised × Rei.Gloom and forthcoming chapters.",
+    "Guised × Rei Gloom Belt (Abstract) and forthcoming collaborations.",
 };
+
+function DetailSections({ collab }: { collab: Collaboration }) {
+  const hasDetail =
+    collab.about ||
+    collab.production ||
+    collab.specifications ||
+    collab.features ||
+    collab.materialNotes ||
+    collab.care;
+
+  if (!hasDetail) return null;
+
+  return (
+    <div className="mx-auto w-[min(760px,92vw)] border-t border-hygen-text/10 py-14 min-[700px]:py-20">
+      {collab.about?.length ? (
+        <section className="mb-14 last:mb-0 min-[700px]:mb-16">
+          <h3 className="font-display m-0 mb-6 text-[12px] font-medium tracking-[0.24em] uppercase text-hygen-muted">
+            About
+          </h3>
+          <div className="font-body space-y-5 text-[17px] leading-[1.85] text-hygen-text/85 min-[700px]:text-[18px]">
+            {collab.about.map((p) => (
+              <p key={p.slice(0, 48)} className="m-0">
+                {p}
+              </p>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {collab.production?.length ? (
+        <section className="mb-14 last:mb-0 min-[700px]:mb-16">
+          <h3 className="font-display m-0 mb-6 text-[12px] font-medium tracking-[0.24em] uppercase text-hygen-muted">
+            Production
+          </h3>
+          <div className="font-body space-y-5 text-[17px] leading-[1.85] text-hygen-text/85 min-[700px]:text-[18px]">
+            {collab.production.map((p) => (
+              <p key={p.slice(0, 48)} className="m-0">
+                {p}
+              </p>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {collab.specifications?.length ? (
+        <section className="mb-14 last:mb-0 min-[700px]:mb-16">
+          <h3 className="font-display m-0 mb-6 text-[12px] font-medium tracking-[0.24em] uppercase text-hygen-muted">
+            Specifications
+          </h3>
+          <dl className="m-0 grid gap-0 border-t border-hygen-text/10">
+            {collab.specifications.map((spec) => (
+              <div
+                key={spec.label}
+                className="grid gap-1 border-b border-hygen-text/10 py-4 min-[600px]:grid-cols-[11rem_1fr] min-[600px]:gap-6 min-[600px]:py-5"
+              >
+                <dt className="font-display m-0 text-[11px] font-medium tracking-[0.18em] uppercase text-hygen-muted">
+                  {spec.label}
+                </dt>
+                <dd className="font-body m-0 text-[16px] leading-[1.7] text-hygen-text/85 min-[700px]:text-[17px]">
+                  {spec.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ) : null}
+
+      {collab.features?.length ? (
+        <section className="mb-14 last:mb-0 min-[700px]:mb-16">
+          <h3 className="font-display m-0 mb-6 text-[12px] font-medium tracking-[0.24em] uppercase text-hygen-muted">
+            Features
+          </h3>
+          <ul className="font-body m-0 list-none space-y-3 p-0 text-[17px] leading-[1.7] text-hygen-text/85 min-[700px]:text-[18px]">
+            {collab.features.map((item) => (
+              <li key={item} className="relative pl-5 before:absolute before:left-0 before:content-['—']">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {collab.materialNotes?.length ? (
+        <section className="mb-14 last:mb-0 min-[700px]:mb-16">
+          <h3 className="font-display m-0 mb-6 text-[12px] font-medium tracking-[0.24em] uppercase text-hygen-muted">
+            Material notes
+          </h3>
+          <div className="font-body space-y-5 text-[17px] leading-[1.85] text-hygen-text/85 min-[700px]:text-[18px]">
+            {collab.materialNotes.map((p) => (
+              <p key={p.slice(0, 48)} className="m-0">
+                {p}
+              </p>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {collab.care?.length ? (
+        <section className="mb-0">
+          <h3 className="font-display m-0 mb-6 text-[12px] font-medium tracking-[0.24em] uppercase text-hygen-muted">
+            Care &amp; maintenance
+          </h3>
+          <ul className="font-body m-0 list-none space-y-3 p-0 text-[17px] leading-[1.7] text-hygen-text/85 min-[700px]:text-[18px]">
+            {collab.care.map((item) => (
+              <li key={item} className="relative pl-5 before:absolute before:left-0 before:content-['—']">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+    </div>
+  );
+}
 
 export default function CollaborationsPage() {
   const live = collaborations.filter((c) => c.status === "live");
@@ -44,10 +159,7 @@ export default function CollaborationsPage() {
         </section>
 
         {live.map((collab) => (
-          <section
-            key={collab.id}
-            className="border-t border-hygen-text/10"
-          >
+          <section key={collab.id} className="border-t border-hygen-text/10">
             <div className="mx-auto grid w-[min(1120px,92vw)] gap-10 py-14 min-[900px]:grid-cols-2 min-[900px]:gap-16 min-[900px]:py-20">
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-hygen-media min-[900px]:aspect-auto min-[900px]:min-h-[32rem]">
                 <Image
@@ -75,6 +187,12 @@ export default function CollaborationsPage() {
                 <p className="font-body mt-8 m-0 max-w-[28rem] text-[17px] leading-[1.8] text-hygen-text/80 min-[700px]:text-[18px]">
                   {collab.summary}
                 </p>
+                {collab.warranty ? (
+                  <p className="font-display mt-6 m-0 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[12px] font-medium tracking-[0.14em] uppercase text-hygen-text/75">
+                    <span className="text-hygen-muted">Warranty</span>
+                    {collab.warranty}
+                  </p>
+                ) : null}
                 {collab.href && collab.cta ? (
                   <a
                     href={collab.href}
@@ -91,6 +209,8 @@ export default function CollaborationsPage() {
                 ) : null}
               </div>
             </div>
+
+            <DetailSections collab={collab} />
           </section>
         ))}
 

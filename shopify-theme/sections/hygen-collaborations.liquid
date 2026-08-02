@@ -1,11 +1,11 @@
 {%- comment -%}
-  Collaborations page — Hygen archive layout.
+  Collaborations page — Hygen archive layout with product detail for featured drops.
 
   HOW TO ADD A NEW COLLABORATION (Theme Editor):
   1. Online Store → Pages → Collaborations → Customize
   2. Open the "Hygen collaborations" section
   3. Add block:
-     - "Featured collaboration" → live drop (image, copy, Shop CTA)
+     - "Featured collaboration" → live drop (image, copy, detail, Shop CTA)
      - "Coming soon teaser" → future drop hint (blurred image, no CTA)
   4. Reorder blocks; featured blocks render first, then teasers.
 
@@ -13,7 +13,6 @@
 {%- endcomment -%}
 
 <section class="hygen-collabs">
-  {%- comment -%} ——— Page hero ——— {%- endcomment -%}
   <div class="hygen-collabs__intro">
     <p class="hygen-collabs__eyebrow">{{ section.settings.eyebrow | default: 'Archive' }}</p>
     <h1 class="hygen-collabs__title">{{ section.settings.title | default: 'Collaborations' }}</h1>
@@ -22,7 +21,6 @@
     {% endif %}
   </div>
 
-  {%- comment -%} ——— Live / featured collaborations (duplicate these blocks for new releases) ——— {%- endcomment -%}
   {% for block in section.blocks %}
     {% if block.type == 'featured' %}
       <article class="hygen-collabs__feature" {{ block.shopify_attributes }}>
@@ -60,6 +58,12 @@
             {% if block.settings.summary != blank %}
               <p class="hygen-collabs__summary">{{ block.settings.summary }}</p>
             {% endif %}
+            {% if block.settings.warranty != blank %}
+              <p class="hygen-collabs__warranty">
+                <span>Warranty</span>
+                {{ block.settings.warranty }}
+              </p>
+            {% endif %}
 
             {%- liquid
               assign cta_label = block.settings.cta_label | default: 'Shop the collection'
@@ -79,11 +83,93 @@
             {% endif %}
           </div>
         </div>
+
+        {%- liquid
+          assign has_detail = false
+          if block.settings.about != blank or block.settings.production != blank or block.settings.specifications != blank or block.settings.features != blank or block.settings.material_notes != blank or block.settings.care != blank
+            assign has_detail = true
+          endif
+        -%}
+
+        {% if has_detail %}
+          <div class="hygen-collabs__detail">
+            {% if block.settings.about != blank %}
+              <section class="hygen-collabs__block">
+                <h3 class="hygen-collabs__block-title">About</h3>
+                <div class="hygen-collabs__prose">{{ block.settings.about | escape }}</div>
+              </section>
+            {% endif %}
+
+            {% if block.settings.production != blank %}
+              <section class="hygen-collabs__block">
+                <h3 class="hygen-collabs__block-title">Production</h3>
+                <div class="hygen-collabs__prose">{{ block.settings.production | escape }}</div>
+              </section>
+            {% endif %}
+
+            {% if block.settings.specifications != blank %}
+              <section class="hygen-collabs__block">
+                <h3 class="hygen-collabs__block-title">Specifications</h3>
+                <dl class="hygen-collabs__specs">
+                  {%- assign spec_lines = block.settings.specifications | newline_to_br | split: '<br />' -%}
+                  {% for line in spec_lines %}
+                    {%- assign trimmed = line | strip -%}
+                    {% if trimmed != blank %}
+                      {%- assign parts = trimmed | split: ': ' -%}
+                      {%- if parts.size > 1 -%}
+                        <div class="hygen-collabs__spec">
+                          <dt>{{ parts.first | strip }}</dt>
+                          <dd>{{ parts | slice: 1, 20 | join: ': ' | strip }}</dd>
+                        </div>
+                      {%- endif -%}
+                    {% endif %}
+                  {% endfor %}
+                </dl>
+              </section>
+            {% endif %}
+
+            {% if block.settings.features != blank %}
+              <section class="hygen-collabs__block">
+                <h3 class="hygen-collabs__block-title">Features</h3>
+                <ul class="hygen-collabs__list">
+                  {%- assign feature_lines = block.settings.features | newline_to_br | split: '<br />' -%}
+                  {% for line in feature_lines %}
+                    {%- assign trimmed = line | strip -%}
+                    {% if trimmed != blank %}
+                      <li>{{ trimmed }}</li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </section>
+            {% endif %}
+
+            {% if block.settings.material_notes != blank %}
+              <section class="hygen-collabs__block">
+                <h3 class="hygen-collabs__block-title">Material notes</h3>
+                <div class="hygen-collabs__prose">{{ block.settings.material_notes | escape }}</div>
+              </section>
+            {% endif %}
+
+            {% if block.settings.care != blank %}
+              <section class="hygen-collabs__block">
+                <h3 class="hygen-collabs__block-title">Care &amp; maintenance</h3>
+                <ul class="hygen-collabs__list">
+                  {%- assign care_lines = block.settings.care | newline_to_br | split: '<br />' -%}
+                  {% for line in care_lines %}
+                    {%- assign trimmed = line | strip -%}
+                    {% if trimmed != blank %}
+                      <li>{{ trimmed }}</li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </section>
+            {% endif %}
+          </div>
+        {% endif %}
       </article>
     {% endif %}
   {% endfor %}
 
-  {%- comment -%} ——— Coming soon teasers (add more "Coming soon teaser" blocks as needed) ——— {%- endcomment -%}
   {%- assign coming_count = 0 -%}
   {% for block in section.blocks %}
     {% if block.type == 'coming' %}
@@ -236,19 +322,59 @@
           "type": "text",
           "id": "partners",
           "label": "Partners",
-          "default": "GUISED × REI.GLOOM"
+          "default": "GUISED × REI GLOOM"
         },
         {
           "type": "text",
           "id": "subtitle",
           "label": "Series title",
-          "default": "Abstract Belt Series"
+          "default": "Belt (Abstract)"
         },
         {
           "type": "textarea",
           "id": "summary",
-          "label": "Description",
-          "default": "A limited belt collaboration with Rei.Gloom — abstract mark-making cut into horse culatta, finished by hand in the atelier. Scar, ink, and hide speaking in one register."
+          "label": "Hero summary",
+          "default": "A one-of-one statement piece combining handcrafted leatherwork with the expressive language of tattoo artistry."
+        },
+        {
+          "type": "text",
+          "id": "warranty",
+          "label": "Warranty",
+          "default": "1-year craftsmanship coverage"
+        },
+        {
+          "type": "header",
+          "content": "Detail sections"
+        },
+        {
+          "type": "textarea",
+          "id": "about",
+          "label": "About (paragraphs, blank line between)"
+        },
+        {
+          "type": "textarea",
+          "id": "production",
+          "label": "Production (paragraphs, blank line between)"
+        },
+        {
+          "type": "textarea",
+          "id": "specifications",
+          "label": "Specifications (one Label: value per line)"
+        },
+        {
+          "type": "textarea",
+          "id": "features",
+          "label": "Features (one per line)"
+        },
+        {
+          "type": "textarea",
+          "id": "material_notes",
+          "label": "Material notes (paragraphs, blank line between)"
+        },
+        {
+          "type": "textarea",
+          "id": "care",
+          "label": "Care & maintenance (one per line)"
         },
         {
           "type": "collection",
@@ -306,9 +432,10 @@
           "type": "featured",
           "settings": {
             "season": "Chapter I",
-            "partners": "GUISED × REI.GLOOM",
-            "subtitle": "Abstract Belt Series",
-            "summary": "A limited belt collaboration with Rei.Gloom — abstract mark-making cut into horse culatta, finished by hand in the atelier. Scar, ink, and hide speaking in one register.",
+            "partners": "GUISED × REI GLOOM",
+            "subtitle": "Belt (Abstract)",
+            "summary": "A one-of-one statement piece combining handcrafted leatherwork with the expressive language of tattoo artistry.",
+            "warranty": "1-year craftsmanship coverage",
             "cta_label": "Shop the collection"
           }
         },

@@ -1,6 +1,6 @@
 {%- comment -%}
   Culatta / latest product grid fallback using theme assets on this store.
-  Format: asset|title|href|price|sold_out
+  Format: asset|title|href|fallback_price|sold_out
 {%- endcomment -%}
 
 {%- liquid
@@ -21,6 +21,14 @@
   {%- assign href = parts[2] -%}
   {%- assign price = parts[3] -%}
   {%- assign sold_out = parts[4] -%}
+  {%- assign product_handle = href | split: '/products/' | last | split: '?' | first -%}
+  {%- assign shopify_product = all_products[product_handle] -%}
+  {%- if shopify_product != blank -%}
+    {%- assign sold_out = 'false' -%}
+    {%- unless shopify_product.available -%}
+      {%- assign sold_out = 'true' -%}
+    {%- endunless -%}
+  {%- endif -%}
   {%- capture notify_subject -%}Back in stock — {{ title }}{%- endcapture -%}
   <li class="hygen-collection__item{% if sold_out == 'true' %} is-sold-out{% endif %}">
     <a class="hygen-collection__link" href="{{ href }}">
@@ -41,6 +49,8 @@
       <p class="hygen-collection__price">
         {% if sold_out == 'true' %}
           <span class="hygen-collection__soldout">Sold out</span>
+        {% elsif shopify_product != blank %}
+          {{ shopify_product.price | money }}
         {% else %}
           {{ price }}
         {% endif %}

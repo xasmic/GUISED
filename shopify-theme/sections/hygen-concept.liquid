@@ -10,6 +10,11 @@
           assign price_label = block.settings.price
           assign image_url = block.settings.image_url
 
+          if product == blank and href contains '/products/'
+            assign product_handle = href | split: '/products/' | last | split: '?' | first
+            assign product = all_products[product_handle]
+          endif
+
           if product != blank
             assign title = product.title
             assign href = product.url

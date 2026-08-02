@@ -16,9 +16,11 @@
 
     {{ content_for_header }}
 
+    {% # theme-check-disable RemoteAsset %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    {% # theme-check-enable RemoteAsset %}
 
     {{ 'hygen.css' | asset_url | stylesheet_tag }}
   </head>
@@ -29,7 +31,7 @@
     <header class="hygen-header">
       <nav class="hygen-nav" aria-label="Primary" data-hygen-nav>
         <a href="{{ pages['terms-of-service'].url | default: '/pages/terms-of-service' }}">Terms of Service</a>
-        <a href="{{ routes.root_url }}#about" data-nav-id="about">About</a>
+        <a href="{{ pages.about.url | default: '/pages/about' }}">About</a>
         <a href="{{ pages.contact.url | default: '/pages/contact' }}">Contact</a>
         <a href="{{ pages.customs.url | default: '/pages/customs' }}">Customs</a>
         <a href="{{ pages.collaborations.url | default: '/pages/collaborations' }}">Collaborations</a>
@@ -57,16 +59,25 @@
         </button>
 
         <div class="hygen-utils" data-hygen-utils>
+          {% form 'localization', id: 'HygenLocalizationForm', class: 'hygen-localization-form' %}
+            <input
+              type="hidden"
+              name="country_code"
+              value="{{ localization.country.iso_code }}"
+              data-hygen-country-code
+            >
+          {% endform %}
+
           <div class="hygen-currency" data-hygen-currency>
             <button
               type="button"
               class="hygen-utils__currency"
-              aria-label="Currency SGD"
+              aria-label="Country and currency: {{ localization.country.name }}, {{ localization.country.currency.iso_code }}"
               aria-expanded="false"
               aria-haspopup="listbox"
               data-hygen-currency-toggle
             >
-              <span data-hygen-currency-code>SGD</span>
+              <span data-hygen-currency-code>{{ localization.country.currency.iso_code }}</span>
               <svg width="8" height="5" viewBox="0 0 8 5" fill="none" aria-hidden="true">
                 <path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
@@ -82,7 +93,28 @@
                   <input type="search" placeholder="Search" autocomplete="off" data-hygen-currency-filter>
                 </label>
               </div>
-              <ul class="hygen-currency__list" role="listbox" data-hygen-currency-list></ul>
+              <ul class="hygen-currency__list" role="listbox" data-hygen-currency-list>
+                {% for country in localization.available_countries %}
+                  <li
+                    data-hygen-country-option
+                    data-search="{{ country.name | downcase }} {{ country.currency.iso_code | downcase }}"
+                  >
+                    <button
+                      type="button"
+                      role="option"
+                      data-country-code="{{ country.iso_code }}"
+                      data-country-name="{{ country.name | escape }}"
+                      data-currency-code="{{ country.currency.iso_code }}"
+                      aria-selected="{% if country.iso_code == localization.country.iso_code %}true{% else %}false{% endif %}"
+                      {% if country.iso_code == localization.country.iso_code %}class="is-active"{% endif %}
+                    >
+                      <span>{{ country.name }}</span>
+                      <span class="hygen-currency__option-code">{{ country.currency.iso_code }}</span>
+                    </button>
+                  </li>
+                {% endfor %}
+                <li class="hygen-currency__empty" hidden data-hygen-currency-empty>No matches</li>
+              </ul>
             </div>
           </div>
 
@@ -168,7 +200,7 @@
         </div>
         <nav class="hygen-menu__nav" aria-label="Menu">
           <a href="{{ pages['terms-of-service'].url | default: '/pages/terms-of-service' }}" data-hygen-menu-close>Terms of Service</a>
-          <a href="{{ routes.root_url }}#about" data-hygen-menu-close>About</a>
+          <a href="{{ pages.about.url | default: '/pages/about' }}" data-hygen-menu-close>About</a>
           <a href="{{ pages.contact.url | default: '/pages/contact' }}" data-hygen-menu-close>Contact</a>
           <a href="{{ pages.customs.url | default: '/pages/customs' }}" data-hygen-menu-close>Customs</a>
           <a href="{{ pages.collaborations.url | default: '/pages/collaborations' }}" data-hygen-menu-close>Collaborations</a>
@@ -187,6 +219,6 @@
       {% endunless %}
     {% endunless %}
 
-    {{ 'hygen.js' | asset_url | script_tag }}
+    <script src="{{ 'hygen.js' | asset_url }}" defer></script>
   </body>
 </html>

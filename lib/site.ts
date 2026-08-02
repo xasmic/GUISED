@@ -11,7 +11,7 @@ export { featuredProducts };
 
 export const navLinks = [
   { id: "terms", label: "Terms of Service", href: "/terms-of-service" },
-  { id: "about", label: "About", href: "/#about" },
+  { id: "about", label: "About", href: "/about" },
   { id: "contact", label: "Contact", href: "/contact" },
   {
     id: "customs",
@@ -45,6 +45,18 @@ export const about = {
   rightImage: images.aboutRight,
   leftAlt: "Atelier craft",
   rightAlt: "Leather in wear",
+};
+
+export const aboutPage = {
+  eyebrow: "Studio",
+  title: "About",
+  paragraphs: [
+    "Born from a quiet corner of a Singapore bedroom in September 2022, Guised began as an exploration of what leather could become beyond its traditional boundaries. It was created from a desire to challenge the familiar perception of leathercraft, transforming a material often associated with heritage and function into something expressive, unexpected, and emotionally driven. Through experimentation and constant refinement, Guised seeks to create pieces that make people question what leather is truly capable of.",
+    "At its core, Guised explores the tension between who we present to the world and who we truly are beneath the surface. Our pieces reflect the quiet struggles of identity, self expression, and the ways we adapt, conceal, and transform ourselves over time. We believe leather is more than just a material. It is a medium for storytelling, capable of carrying emotions, experiences, and personal meaning.",
+    "We work exclusively with horse culatta, a rare and character rich leather taken from the horse rump. Known for its dense fibres, deep texture, and natural markings, every hide carries its own story, making each piece impossible to replicate. No two Guised creations are ever identical. Every order preserves the raw integrity of the leather, allowing the natural patterns and imperfections of the hide to define the final piece. Custom cuts are available upon request, but otherwise, each selection is guided by the character of the material itself.",
+    "Every product is meticulously handcrafted and fully handsewn, embracing a slower and more intentional approach to leatherwork. Our materials are ethically sourced from trusted tanneries that share our commitment to transparency, quality, and responsible craftsmanship.",
+    "Designed to age alongside you, each piece carries the marks of use, becoming a personal record of your journey. Guised is not about achieving perfection. It is about embracing authenticity through material, craftsmanship, and self expression.",
+  ],
 };
 
 export type Season = {
