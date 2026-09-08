@@ -303,14 +303,16 @@
   }
 
   function initCartCount() {
-    var badge = document.querySelector("[data-hygen-cart-count]");
-    if (!badge) return;
+    var badges = document.querySelectorAll("[data-hygen-cart-count]");
+    if (!badges.length) return;
 
     function render(count) {
       var n = Number(count) || 0;
-      badge.textContent = String(n);
-      badge.hidden = n === 0;
-      badge.classList.toggle("is-empty", n === 0);
+      badges.forEach(function (badge) {
+        badge.textContent = String(n);
+        badge.hidden = n === 0;
+        badge.classList.toggle("is-empty", n === 0);
+      });
     }
 
     function refresh() {
@@ -447,11 +449,102 @@
     });
   }
 
+  function initDesktopVideos() {
+    var desktopQuery = window.matchMedia("(min-width: 1025px)");
+    var videos = document.querySelectorAll("[data-hygen-desktop-video]");
+
+    function syncVideo(video) {
+      var src = video.getAttribute("data-src");
+      if (!src) return;
+
+      if (desktopQuery.matches) {
+        if (!video.querySelector("source")) {
+          var source = document.createElement("source");
+          source.src = src;
+          source.type = "video/mp4";
+          video.appendChild(source);
+          video.load();
+        }
+        video.play().catch(function () {});
+      } else {
+        video.pause();
+        video.querySelectorAll("source").forEach(function (source) {
+          source.remove();
+        });
+        video.removeAttribute("src");
+        video.load();
+      }
+    }
+
+    videos.forEach(function (video) {
+      syncVideo(video);
+    });
+
+    if (typeof desktopQuery.addEventListener === "function") {
+      desktopQuery.addEventListener("change", function () {
+        videos.forEach(syncVideo);
+      });
+    } else if (typeof desktopQuery.addListener === "function") {
+      desktopQuery.addListener(function () {
+        videos.forEach(syncVideo);
+      });
+    }
+  }
+
+  function initProductCardSwatches(root) {
+    var scope = root || document;
+
+    scope.querySelectorAll("[data-hygen-card-swatches]").forEach(function (wrap) {
+      var card = wrap.closest(".hygen-collection__item");
+      if (!card) return;
+
+      var img = card.querySelector(".hygen-collection__img");
+      if (!img) return;
+
+      var defaultSrc = img.currentSrc || img.src;
+      var defaultSrcset = img.getAttribute("srcset") || "";
+      var swatches = wrap.querySelectorAll(".hygen-card-swatch");
+
+      function setActive(swatch) {
+        swatches.forEach(function (item) {
+          item.classList.toggle("is-active", item === swatch);
+        });
+      }
+
+      function resetImage() {
+        img.src = defaultSrc;
+        if (defaultSrcset) {
+          img.setAttribute("srcset", defaultSrcset);
+        } else {
+          img.removeAttribute("srcset");
+        }
+        if (swatches[0]) setActive(swatches[0]);
+      }
+
+      swatches.forEach(function (swatch) {
+        function preview() {
+          var next = swatch.getAttribute("data-image");
+          if (!next) return;
+          setActive(swatch);
+          img.src = next;
+          img.removeAttribute("srcset");
+        }
+
+        swatch.addEventListener("mouseenter", preview);
+        swatch.addEventListener("focus", preview);
+      });
+
+      wrap.addEventListener("mouseleave", resetImage);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("[data-hygen-collection]").forEach(initCollection);
     initChrome();
+    initDesktopVideos();
     initCartCount();
     initCartPage();
+    initProductCardSwatches();
   });
 })();
 

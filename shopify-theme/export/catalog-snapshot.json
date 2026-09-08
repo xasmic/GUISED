@@ -1,0 +1,443 @@
+{
+  "collections": {
+    "nodes": [
+      {
+        "handle": "frontpage",
+        "title": "Home page",
+        "productsCount": {
+          "count": 1
+        }
+      },
+      {
+        "handle": "culatta",
+        "title": "Culatta",
+        "productsCount": {
+          "count": 7
+        }
+      },
+      {
+        "handle": "belts",
+        "title": "Belts",
+        "productsCount": {
+          "count": 3
+        }
+      },
+      {
+        "handle": "wallets",
+        "title": "Wallets",
+        "productsCount": {
+          "count": 4
+        }
+      },
+      {
+        "handle": "guised-x-rei-gloom",
+        "title": "Guised x Rei Gloom",
+        "productsCount": {
+          "count": 4
+        }
+      },
+      {
+        "handle": "bags",
+        "title": "Bags",
+        "productsCount": {
+          "count": 4
+        }
+      }
+    ]
+  },
+  "products": {
+    "nodes": [
+      {
+        "handle": "soot-belt",
+        "title": "Soot Belt",
+        "status": "ACTIVE",
+        "productType": "Belts",
+        "tags": [
+          "belts"
+        ],
+        "seo": {
+          "title": "Soot Belt | GUISED",
+          "description": "Handcrafted Italian Buttero cowhide belt. Made in Singapore."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": true,
+              "inventoryPolicy": "DENY",
+              "inventoryItem": {
+                "tracked": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "girded-tote",
+        "title": "Girded Tote",
+        "status": "ACTIVE",
+        "productType": "Bags",
+        "tags": [
+          "bags",
+          "culatta"
+        ],
+        "seo": {
+          "title": "Girded Tote | GUISED",
+          "description": "Made-to-order horse culatta tote, handcrafted in Singapore."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": true,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryItem": {
+                "tracked": false
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "clot-satchel",
+        "title": "Clot Satchel",
+        "status": "ACTIVE",
+        "productType": "Bags",
+        "tags": [
+          "bags"
+        ],
+        "seo": {
+          "title": "Clot Satchel | GUISED",
+          "description": "Transformable blood-dyed lambskin satchel with horse culatta strap."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": false,
+              "inventoryPolicy": "DENY",
+              "inventoryItem": {
+                "tracked": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "culatta-bifold",
+        "title": "Horse Culatta Bifold",
+        "status": "ACTIVE",
+        "productType": "Wallets",
+        "tags": [
+          "culatta",
+          "wallets"
+        ],
+        "seo": {
+          "title": "Horse Culatta Bifold | GUISED",
+          "description": "Hand-stitched reverse horse culatta bifold wallet. Made to order in Singapore."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Black",
+              "availableForSale": true,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryItem": {
+                "tracked": false
+              }
+            },
+            {
+              "title": "Burgundy",
+              "availableForSale": true,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryItem": {
+                "tracked": false
+              }
+            },
+            {
+              "title": "Dirty White",
+              "availableForSale": false,
+              "inventoryPolicy": "DENY",
+              "inventoryItem": {
+                "tracked": true
+              }
+            },
+            {
+              "title": "Grey",
+              "availableForSale": false,
+              "inventoryPolicy": "DENY",
+              "inventoryItem": {
+                "tracked": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "forager-satchel",
+        "title": "Forager Satchel",
+        "status": "ACTIVE",
+        "productType": "Bags",
+        "tags": [
+          "bags",
+          "culatta"
+        ],
+        "seo": {
+          "title": "Forager Satchel | GUISED",
+          "description": "Handcrafted reverse horse culatta messenger bag. Made to order in Singapore."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Black",
+              "availableForSale": true,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryItem": {
+                "tracked": false
+              }
+            },
+            {
+              "title": "Dirty White",
+              "availableForSale": false,
+              "inventoryPolicy": "DENY",
+              "inventoryItem": {
+                "tracked": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "forager-satchel-dirty-white",
+        "title": "Forager Satchel (Dirty White)",
+        "status": "ARCHIVED",
+        "productType": "",
+        "tags": [],
+        "seo": {
+          "title": null,
+          "description": null
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": false,
+              "inventoryPolicy": "DENY",
+              "inventoryItem": {
+                "tracked": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "culatta-long-wallet",
+        "title": "Culatta Long Wallet",
+        "status": "ACTIVE",
+        "productType": "Wallets",
+        "tags": [
+          "culatta",
+          "wallets"
+        ],
+        "seo": {
+          "title": "Culatta Long Wallet | GUISED",
+          "description": "Handcrafted horse culatta long wallet. Made to order in Singapore."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": true,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryItem": {
+                "tracked": false
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "military-keyfob",
+        "title": "Military Tactical Keyfob",
+        "status": "ACTIVE",
+        "productType": "Accessories",
+        "tags": [
+          "accessories",
+          "culatta"
+        ],
+        "seo": {
+          "title": "Military Tactical Keyfob | GUISED",
+          "description": "Reverse horse culatta military keyfob, handmade in Singapore."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": true,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryItem": {
+                "tracked": false
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "guised-x-rei-gloom-belt-floral",
+        "title": "Guised x Rei Gloom Belt (Floral)",
+        "status": "ACTIVE",
+        "productType": "Belts",
+        "tags": [
+          "belts",
+          "collaboration"
+        ],
+        "seo": {
+          "title": "Guised x Rei Gloom Belt (Floral) | GUISED",
+          "description": "Guised x Rei Gloom floral tattooed Buttero belt."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": false,
+              "inventoryPolicy": "DENY",
+              "inventoryItem": {
+                "tracked": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "tassel-carabiner",
+        "title": "Tassel Carabiner",
+        "status": "ACTIVE",
+        "productType": "Accessories",
+        "tags": [
+          "accessories",
+          "culatta"
+        ],
+        "seo": {
+          "title": "Tassel Carabiner | GUISED",
+          "description": "Culatta-wrapped carabiner with reverse horse culatta tassel."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": true,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryItem": {
+                "tracked": false
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "guised-x-rei-gloom-barb-handbag",
+        "title": "Guised x Rei Gloom Barb Handbag",
+        "status": "ACTIVE",
+        "productType": "Bags",
+        "tags": [
+          "bags",
+          "collaboration"
+        ],
+        "seo": {
+          "title": "Guised x Rei Gloom Barb Handbag | GUISED",
+          "description": "Guised x Rei Gloom barb handbag in Italian Buttero cowhide."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": true,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryItem": {
+                "tracked": false
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "guised-x-rei-gloom-belt-abstract",
+        "title": "Guised x Rei Gloom Belt (Abstract)",
+        "status": "ACTIVE",
+        "productType": "Belts",
+        "tags": [
+          "belts",
+          "collaboration"
+        ],
+        "seo": {
+          "title": "Guised x Rei Gloom Belt (Abstract) | GUISED",
+          "description": "Guised x Rei Gloom abstract tattooed Buttero belt."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": true,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryItem": {
+                "tracked": false
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "guised-x-rei-gloom-floral-cardholder",
+        "title": "Guised x Rei Gloom Floral Cardholder",
+        "status": "ACTIVE",
+        "productType": "Wallets",
+        "tags": [
+          "collaboration",
+          "wallets"
+        ],
+        "seo": {
+          "title": "Guised x Rei Gloom Floral Cardholder | GUISED",
+          "description": "Guised x Rei Gloom floral tattooed Buttero cardholder."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": true,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryItem": {
+                "tracked": false
+              }
+            }
+          ]
+        }
+      },
+      {
+        "handle": "horse-culatta-cardholder",
+        "title": "Horse Culatta Cardholder",
+        "status": "ACTIVE",
+        "productType": "Wallets",
+        "tags": [
+          "culatta",
+          "wallets"
+        ],
+        "seo": {
+          "title": "Horse Culatta Cardholder | GUISED",
+          "description": "Slim reverse horse culatta cardholder. Made to order in Singapore."
+        },
+        "variants": {
+          "nodes": [
+            {
+              "title": "Default Title",
+              "availableForSale": true,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryItem": {
+                "tracked": false
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

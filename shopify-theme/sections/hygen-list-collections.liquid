@@ -1,0 +1,28 @@
+<section class="hygen-page">
+  <div class="hygen-page__inner">
+    <p class="hygen-page__eyebrow">Archive</p>
+    <h1 class="hygen-page__title">Collections</h1>
+    <ul class="hygen-list-collections">
+      {% for collection in collections %}
+        {% unless collection.handle == 'frontpage' or collection.products_count == 0 %}
+          <li>
+            <a href="{{ collection.url }}">
+              <span>{{ collection.title }}</span>
+              <span>{{ collection.products_count }}</span>
+            </a>
+          </li>
+        {% endunless %}
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hygen collections",
+  "tag": "section",
+  "class": "hygen-section-list-collections",
+  "settings": [],
+  "presets": [{ "name": "Hygen collections" }]
+}
+{% endschema %}

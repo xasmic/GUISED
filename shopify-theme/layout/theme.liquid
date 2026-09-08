@@ -14,6 +14,33 @@
       <meta name="description" content="{{ page_description | escape }}">
     {% endif %}
 
+    <link rel="icon" href="{{ 'guised-checkout-logo.png' | asset_url }}" type="image/png">
+    <meta property="og:site_name" content="{{ shop.name | escape }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:title" content="{{ page_title | escape }}">
+    {% if page_description %}
+      <meta property="og:description" content="{{ page_description | escape }}">
+    {% endif %}
+    <meta property="og:type" content="{% if request.page_type == 'product' %}product{% else %}website{% endif %}">
+    {%- if request.page_type == 'product' and product.featured_media -%}
+      <meta property="og:image" content="{{ product.featured_media | image_url: width: 1200 }}">
+    {%- elsif request.page_type == 'collection' and collection.featured_image -%}
+      <meta property="og:image" content="{{ collection.featured_image | image_url: width: 1200 }}">
+    {%- else -%}
+      <meta property="og:image" content="{{ 'hygen-hero-poster.jpg' | asset_url }}">
+    {%- endif -%}
+
+    {%- capture contact_email -%}{% render 'hygen-contact-email' %}{%- endcapture -%}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": {{ shop.name | json }},
+        "url": {{ shop.url | json }},
+        "email": {{ contact_email | strip | json }}
+      }
+    </script>
+
     {{ content_for_header }}
 
     {% # theme-check-disable RemoteAsset %}
@@ -31,7 +58,7 @@
     <header class="hygen-header">
       <nav class="hygen-nav" aria-label="Primary" data-hygen-nav>
         <a href="{{ pages['terms-of-service'].url | default: '/pages/terms-of-service' }}">Terms of Service</a>
-        <a href="{{ pages.about.url | default: '/pages/about' }}">About</a>
+        <a href="{{ pages['about-us'].url | default: pages.about.url | default: '/pages/about-us' }}">About</a>
         <a href="{{ pages.contact.url | default: '/pages/contact' }}">Contact</a>
         <a href="{{ pages.customs.url | default: '/pages/customs' }}">Customs</a>
         <a href="{{ pages.collaborations.url | default: '/pages/collaborations' }}">Collaborations</a>
@@ -43,6 +70,18 @@
       </a>
 
       <div class="hygen-header__end">
+        <a href="{{ routes.cart_url }}" class="hygen-header__cart" aria-label="Bag">
+          <svg width="17" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7.5 8.5V7a4.5 4.5 0 0 1 9 0v1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+            <path d="M6 8.5h12l-.7 11.2a1.5 1.5 0 0 1-1.5 1.4H8.2a1.5 1.5 0 0 1-1.5-1.4L6 8.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
+          </svg>
+          <span
+            class="hygen-utils__cart-count{% if cart.item_count == 0 %} is-empty{% endif %}"
+            data-hygen-cart-count
+            {% if cart.item_count == 0 %}hidden{% endif %}
+          >{{ cart.item_count }}</span>
+        </a>
+
         <button
           type="button"
           class="hygen-burger"
@@ -200,12 +239,33 @@
         </div>
         <nav class="hygen-menu__nav" aria-label="Menu">
           <a href="{{ pages['terms-of-service'].url | default: '/pages/terms-of-service' }}" data-hygen-menu-close>Terms of Service</a>
-          <a href="{{ pages.about.url | default: '/pages/about' }}" data-hygen-menu-close>About</a>
+          <a href="{{ pages['about-us'].url | default: pages.about.url | default: '/pages/about-us' }}" data-hygen-menu-close>About</a>
           <a href="{{ pages.contact.url | default: '/pages/contact' }}" data-hygen-menu-close>Contact</a>
           <a href="{{ pages.customs.url | default: '/pages/customs' }}" data-hygen-menu-close>Customs</a>
           <a href="{{ pages.collaborations.url | default: '/pages/collaborations' }}" data-hygen-menu-close>Collaborations</a>
           <a href="{{ routes.all_products_collection_url }}" data-hygen-menu-close>Online Store</a>
         </nav>
+        <div class="hygen-menu__utils">
+          <form
+            class="hygen-menu__search"
+            role="search"
+            action="{{ routes.search_url }}"
+            method="get"
+          >
+            <label class="hygen-sr-only" for="hygen-menu-search-input">Search</label>
+            <input
+              id="hygen-menu-search-input"
+              class="hygen-menu__search-input"
+              type="search"
+              name="q"
+              placeholder="Search"
+              autocomplete="off"
+            >
+          </form>
+          <a href="{{ routes.account_url }}" class="hygen-menu__account" data-hygen-menu-close>
+            Account
+          </a>
+        </div>
       </div>
     </div>
 
@@ -214,6 +274,7 @@
     </main>
 
     {% unless template.name == 'gift_card' %}
+      {% render 'hygen-values' %}
       {% unless template.suffix == 'contact' or template.suffix == 'customs' %}
         {% render 'hygen-footer' %}
       {% endunless %}

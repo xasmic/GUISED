@@ -35,12 +35,12 @@ export const concept = {
 
 export const about = {
   title: "About",
-  headline: "Buy a piece for a lifetime",
+  headline: "Redefining Leathercraft",
   paragraphs: [
-    "All of our leathers are hides taken with intent, never exploitation — sourced from tanneries we know, trust, and hold to the same standard we hold ourselves.",
-    "Each Guised piece begins as horse culatta: a dense, unruly hide scarred by the life it once carried. No two panels share a memory.",
-    "Pale and waxen at first, it darkens the longer it is touched — its fibres swelling, compressing, hardening into a second skin shaped by your habits alone. This is not leather that resists wear. It feeds on it. Every crease is a record. Every mark, a quiet confession between you and the hide.",
+    "At Guised, leather is a medium of expression. Every piece is obsessively crafted by hand with the intention of challenging conventional ideas of traditional leathercraft.. No two pieces are ever the same, designed to evolve with their owner and reflect their story.",
   ],
+  cta: "Read our story",
+  ctaHref: "/about",
   leftImage: images.aboutLeft,
   rightImage: images.aboutRight,
   leftAlt: "Atelier craft",
@@ -240,3 +240,18 @@ export const parallaxImages = {
   mid: images.parallaxMid,
   lower: images.parallaxLower,
 };
+
+export const brandValues = [
+  {
+    title: "Handcrafted with intention",
+    body: "Every piece is entirely handmade. Cut, stitched, and finished by hand.",
+  },
+  {
+    title: "Ethically sourced materials",
+    body: "We work exclusively with ethically sourced leathers from trusted tanneries overseas. Every hide is chosen for its raw character, texture, and the stories within its scars.",
+  },
+  {
+    title: "Built to endure",
+    body: "Our pieces are made to age gracefully, designed to accompany you through time",
+  },
+] as const;

@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "hygen-list-collections",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

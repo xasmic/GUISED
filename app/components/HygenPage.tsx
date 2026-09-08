@@ -471,6 +471,13 @@ function AboutSection() {
               </p>
             ))}
           </div>
+          <a
+            href={about.ctaHref}
+            className="font-display mt-8 inline-flex items-center gap-4 border border-white/25 px-7 py-3.5 text-[11px] font-medium tracking-[0.2em] uppercase text-white transition-[border-color,opacity] duration-500 hover:border-white/55 hover:opacity-80 min-[700px]:mt-10"
+          >
+            {about.cta}
+            <span aria-hidden className="block h-px w-6 bg-white/70" />
+          </a>
         </div>
       </div>
     </section>

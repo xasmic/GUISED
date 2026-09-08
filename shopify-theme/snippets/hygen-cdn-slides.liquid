@@ -6,15 +6,15 @@
 
 {%- case preset -%}
   {%- when 'culatta' -%}
-    {%- assign slides = 'https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655&width=1200|Culatta Long Wallet|/products/culatta-long-wallet,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200|Forager Satchel (Black)|/products/forager-satchel-black,https://atelierguised.com/cdn/shop/files/FE132579-F3DB-4C72-9E16-8E2D47EBEBD2.jpg?v=1778824519&width=1200|Forager Satchel (Dirty White)|/products/forager-satchel-dirty-white,https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200|Girded Tote|/products/girded-tote,https://atelierguised.com/cdn/shop/files/72AAB699-775E-43B3-8DAF-CBE8BE5471A2.jpg?v=1770042139&width=1200|Horse Culatta Bifold|/products/horse-culatta-bifold' | split: ',' -%}
+    {%- assign slides = 'https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655|Culatta Long Wallet|/products/culatta-long-wallet,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610|Forager Satchel|/products/forager-satchel,https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753|Girded Tote|/products/girded-tote,https://atelierguised.com/cdn/shop/files/72AAB699-775E-43B3-8DAF-CBE8BE5471A2.jpg?v=1770042139|Horse Culatta Bifold|/products/culatta-bifold' | split: ',' -%}
   {%- when 'belts' -%}
     {%- capture slide_blob -%}
-{{ 'hygen-belts-look.png' | asset_url }}|Belts|/collections/belts,{{ 'hygen-belts-hang.png' | asset_url }}|Belt archive|/collections/belts,https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200|Girded Tote|/products/girded-tote,https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655&width=1200|Culatta Long Wallet|/products/culatta-long-wallet
+{{ 'hygen-belts-look.png' | asset_url }}|Belts|/collections/belts,{{ 'hygen-belts-hang.png' | asset_url }}|Belt archive|/collections/belts,https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753|Girded Tote|/products/girded-tote,https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655|Culatta Long Wallet|/products/culatta-long-wallet
     {%- endcapture -%}
     {%- assign slides = slide_blob | strip | split: ',' -%}
   {%- when 'wallets' -%}
     {%- capture slide_blob -%}
-{{ 'hygen-craft-atelier.png' | asset_url }}|Wallets|/collections/wallets,https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655&width=1200|Culatta Long Wallet|/products/culatta-long-wallet,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200|Forager Satchel (Black)|/products/forager-satchel-black,https://atelierguised.com/cdn/shop/files/FE132579-F3DB-4C72-9E16-8E2D47EBEBD2.jpg?v=1778824519&width=1200|Forager Satchel (Dirty White)|/products/forager-satchel-dirty-white,https://atelierguised.com/cdn/shop/files/72AAB699-775E-43B3-8DAF-CBE8BE5471A2.jpg?v=1770042139&width=1200|Horse Culatta Bifold|/products/horse-culatta-bifold
+{{ 'hygen-craft-atelier.png' | asset_url }}|Wallets|/collections/wallets,https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655|Culatta Long Wallet|/products/culatta-long-wallet,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610|Forager Satchel|/products/forager-satchel,https://atelierguised.com/cdn/shop/files/72AAB699-775E-43B3-8DAF-CBE8BE5471A2.jpg?v=1770042139|Horse Culatta Bifold|/products/culatta-bifold
     {%- endcapture -%}
     {%- assign slides = slide_blob | strip | split: ',' -%}
   {%- when 'campaign' -%}
@@ -24,18 +24,42 @@
     {%- assign slides = slide_blob | strip | split: ',' -%}
   {%- when 'collab' -%}
     {%- capture slide_blob -%}
-{{ 'hygen-campaign-2.png' | asset_url }}|Guised × Rei.Gloom|/collections/guised-x-rei-gloom,{{ 'hygen-campaign-1.png' | asset_url }}|Collaboration campaign|/collections/guised-x-rei-gloom,{{ 'hygen-about-right.png' | asset_url }}|Leather in wear|/collections/guised-x-rei-gloom,https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200|Girded Tote|/products/girded-tote,https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655&width=1200|Culatta Long Wallet|/products/culatta-long-wallet,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200|Forager Satchel (Black)|/products/forager-satchel-black
+{{ 'hygen-campaign-2.png' | asset_url }}|Guised × Rei.Gloom|/collections/guised-x-rei-gloom,{{ 'hygen-campaign-1.png' | asset_url }}|Collaboration campaign|/collections/guised-x-rei-gloom,{{ 'hygen-about-right.png' | asset_url }}|Leather in wear|/collections/guised-x-rei-gloom,https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753|Girded Tote|/products/girded-tote,https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655|Culatta Long Wallet|/products/culatta-long-wallet,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610|Forager Satchel|/products/forager-satchel
     {%- endcapture -%}
     {%- assign slides = slide_blob | strip | split: ',' -%}
   {%- else -%}
-    {%- assign slides = 'https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200|Girded Tote|/products/girded-tote,https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655&width=1200|Culatta Long Wallet|/products/culatta-long-wallet,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200|Forager Satchel (Black)|/products/forager-satchel-black,https://atelierguised.com/cdn/shop/files/FE132579-F3DB-4C72-9E16-8E2D47EBEBD2.jpg?v=1778824519&width=1200|Forager Satchel (Dirty White)|/products/forager-satchel-dirty-white,https://atelierguised.com/cdn/shop/files/4059315F-FB0F-41ED-89CC-CAE32C93365B.jpg?v=1770042003&width=1200|Clot Satchel|/products/satchel' | split: ',' -%}
+    {%- assign slides = 'https://atelierguised.com/cdn/shop/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753|Girded Tote|/products/girded-tote,https://atelierguised.com/cdn/shop/files/2721F6A0-63C4-46DE-B855-F5EB2CA238C8.jpg?v=1770042655|Culatta Long Wallet|/products/culatta-long-wallet,https://atelierguised.com/cdn/shop/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610|Forager Satchel|/products/forager-satchel,https://atelierguised.com/cdn/shop/files/4059315F-FB0F-41ED-89CC-CAE32C93365B.jpg?v=1770042003|Clot Satchel|/products/clot-satchel' | split: ',' -%}
 {%- endcase -%}
 
 {%- if mode == 'slides' -%}
   {%- for item in slides -%}
     {%- assign parts = item | split: '|' -%}
+    {%- liquid
+      assign slide_href = parts[2] | strip
+      if slide_href contains '/products/'
+        assign slide_handle = slide_href | split: '/products/' | last | split: '?' | first
+        assign slide_product = all_products[slide_handle]
+        if slide_product != blank
+          assign slide_href = slide_product.url
+        else
+          assign slide_href = routes.all_products_collection_url
+        endif
+      elsif slide_href contains '/collections/'
+        assign slide_handle = slide_href | split: '/collections/' | last | split: '?' | first
+        if slide_handle == 'all'
+          assign slide_href = routes.all_products_collection_url
+        else
+          assign slide_collection = collections[slide_handle]
+          if slide_collection != blank
+            assign slide_href = slide_collection.url
+          else
+            assign slide_href = routes.all_products_collection_url
+          endif
+        endif
+      endif
+    -%}
     <div class="hygen-slide{% if forloop.first %} is-active{% endif %}">
-      <a href="{{ parts[2] }}">
+      <a href="{{ slide_href }}">
         <img src="{{ parts[0] }}" alt="{{ parts[1] | escape }}" loading="lazy" width="600" height="800">
       </a>
     </div>

@@ -1,0 +1,97 @@
+{%- comment -%}
+  Product option picker — color swatches for Color, select for everything else.
+{%- endcomment -%}
+
+<div class="hygen-product__options">
+  {% for option in product.options_with_values %}
+    {%- liquid
+      assign option_index = forloop.index0
+      assign option_name_downcase = option.name | downcase
+    -%}
+    <div
+      class="hygen-product__option{% if option_name_downcase == 'color' %} hygen-product__option--color{% endif %}"
+      data-hygen-option
+      data-option-index="{{ option_index }}"
+    >
+      {% if option_name_downcase == 'color' %}
+        <p class="hygen-product__option-label" data-hygen-option-label>
+          {{ option.name }}
+          <span data-hygen-option-value>{{ option.selected_value }}</span>
+        </p>
+        <div class="hygen-product__swatches" role="listbox" aria-label="{{ option.name }}">
+          {% for value in option.values %}
+            {%- liquid
+              assign swatch_color = '#8a8a8a'
+              case value
+                when 'Black'
+                  assign swatch_color = '#0b0b0b'
+                when 'Burgundy'
+                  assign swatch_color = '#6b1f2a'
+                when 'Dirty White', 'Dirty white'
+                  assign swatch_color = '#e8e4dc'
+                when 'Grey', 'Gray'
+                  assign swatch_color = '#8a8a8a'
+              endcase
+
+              assign value_available = false
+              for variant in product.variants
+                if variant.options[option_index] == value and variant.available
+                  assign value_available = true
+                  break
+                endif
+              endfor
+            -%}
+            <button
+              type="button"
+              class="hygen-product__swatch{% if option.selected_value == value %} is-active{% endif %}{% unless value_available %} is-unavailable{% endunless %}"
+              role="option"
+              aria-selected="{% if option.selected_value == value %}true{% else %}false{% endif %}"
+              aria-label="{{ value }}{% unless value_available %} (sold out){% endunless %}"
+              data-hygen-swatch
+              data-value="{{ value | escape }}"
+              style="--hygen-swatch-color: {{ swatch_color }};"
+            >
+              <span class="hygen-product__swatch-fill" aria-hidden="true"></span>
+            </button>
+          {% endfor %}
+        </div>
+        <select
+          id="Option-{{ section.id }}-{{ option_index }}"
+          class="hygen-product__select hygen-product__select--hidden"
+          name="options[{{ option.name | escape }}]"
+          data-hygen-option-select
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          {% for value in option.values %}
+            <option
+              value="{{ value | escape }}"
+              {% if option.selected_value == value %}selected{% endif %}
+            >
+              {{ value }}
+            </option>
+          {% endfor %}
+        </select>
+      {% else %}
+        <label class="hygen-product__option-label" for="Option-{{ section.id }}-{{ option_index }}">
+          {{ option.name }}
+        </label>
+        <select
+          id="Option-{{ section.id }}-{{ option_index }}"
+          class="hygen-product__select"
+          name="options[{{ option.name | escape }}]"
+          data-hygen-option-select
+        >
+          {% for value in option.values %}
+            <option
+              value="{{ value | escape }}"
+              {% if option.selected_value == value %}selected{% endif %}
+            >
+              {{ value }}
+            </option>
+          {% endfor %}
+        </select>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>

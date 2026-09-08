@@ -1,0 +1,19 @@
+<section class="hygen-page">
+  <div class="hygen-page__inner">
+    <p class="hygen-page__eyebrow">{{ shop.name }}</p>
+    <h1 class="hygen-page__title">{{ page.title }}</h1>
+    <div class="hygen-page__body rte">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hygen page",
+  "tag": "section",
+  "class": "hygen-section-page",
+  "settings": [],
+  "presets": [{ "name": "Hygen page" }]
+}
+{% endschema %}

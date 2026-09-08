@@ -1,15 +1,5 @@
 {%- comment -%}
-  Collaborations page — Hygen archive layout with product detail for featured drops.
-
-  HOW TO ADD A NEW COLLABORATION (Theme Editor):
-  1. Online Store → Pages → Collaborations → Customize
-  2. Open the "Hygen collaborations" section
-  3. Add block:
-     - "Featured collaboration" → live drop (image, copy, detail, Shop CTA)
-     - "Coming soon teaser" → future drop hint (blurred image, no CTA)
-  4. Reorder blocks; featured blocks render first, then teasers.
-
-  Or edit this section’s blocks in templates/page.collaborations.json.
+  Collaborations page — featured drops link to dedicated detail pages.
 {%- endcomment -%}
 
 <section class="hygen-collabs">
@@ -29,10 +19,10 @@
             {% if block.settings.image != blank %}
               {{
                 block.settings.image
-                | image_url: width: 1600
+                | image_url: width: 2400
                 | image_tag:
                   loading: 'eager',
-                  widths: '600,900,1200,1600',
+                  widths: '600,900,1200,1600,2000,2400',
                   sizes: '(min-width: 900px) 46vw, 92vw',
                   alt: block.settings.image.alt | default: block.settings.partners
               }}
@@ -65,16 +55,15 @@
               </p>
             {% endif %}
 
-            {%- liquid
-              assign cta_label = block.settings.cta_label | default: 'Shop the collection'
-              assign cta_url = block.settings.cta_link
-              if cta_url == blank and block.settings.collection != blank
-                assign cta_url = block.settings.collection.url
-              endif
-              if cta_url == blank
-                assign cta_url = collections['guised-x-rei-gloom'].url | default: routes.all_products_collection_url
-              endif
-            -%}
+        {%- liquid
+          assign cta_label = block.settings.cta_label | default: 'Learn more'
+          assign cta_url = block.settings.cta_link
+          if cta_url == blank and block.settings.chapter_handle != blank
+            assign cta_url = '/pages/' | append: block.settings.chapter_handle
+          elsif cta_url == blank and block.settings.collection != blank
+            assign cta_url = block.settings.collection.url
+          endif
+        -%}
             {% if cta_label != blank and cta_url != blank %}
               <a class="hygen-collabs__cta" href="{{ cta_url }}">
                 {{ cta_label }}
@@ -84,87 +73,15 @@
           </div>
         </div>
 
-        {%- liquid
-          assign has_detail = false
-          if block.settings.about != blank or block.settings.production != blank or block.settings.specifications != blank or block.settings.features != blank or block.settings.material_notes != blank or block.settings.care != blank
-            assign has_detail = true
-          endif
-        -%}
-
-        {% if has_detail %}
-          <div class="hygen-collabs__detail">
-            {% if block.settings.about != blank %}
-              <section class="hygen-collabs__block">
-                <h3 class="hygen-collabs__block-title">About</h3>
-                <div class="hygen-collabs__prose">{{ block.settings.about | escape }}</div>
-              </section>
-            {% endif %}
-
-            {% if block.settings.production != blank %}
-              <section class="hygen-collabs__block">
-                <h3 class="hygen-collabs__block-title">Production</h3>
-                <div class="hygen-collabs__prose">{{ block.settings.production | escape }}</div>
-              </section>
-            {% endif %}
-
-            {% if block.settings.specifications != blank %}
-              <section class="hygen-collabs__block">
-                <h3 class="hygen-collabs__block-title">Specifications</h3>
-                <dl class="hygen-collabs__specs">
-                  {%- assign spec_lines = block.settings.specifications | newline_to_br | split: '<br />' -%}
-                  {% for line in spec_lines %}
-                    {%- assign trimmed = line | strip -%}
-                    {% if trimmed != blank %}
-                      {%- assign parts = trimmed | split: ': ' -%}
-                      {%- if parts.size > 1 -%}
-                        <div class="hygen-collabs__spec">
-                          <dt>{{ parts.first | strip }}</dt>
-                          <dd>{{ parts | slice: 1, 20 | join: ': ' | strip }}</dd>
-                        </div>
-                      {%- endif -%}
-                    {% endif %}
-                  {% endfor %}
-                </dl>
-              </section>
-            {% endif %}
-
-            {% if block.settings.features != blank %}
-              <section class="hygen-collabs__block">
-                <h3 class="hygen-collabs__block-title">Features</h3>
-                <ul class="hygen-collabs__list">
-                  {%- assign feature_lines = block.settings.features | newline_to_br | split: '<br />' -%}
-                  {% for line in feature_lines %}
-                    {%- assign trimmed = line | strip -%}
-                    {% if trimmed != blank %}
-                      <li>{{ trimmed }}</li>
-                    {% endif %}
-                  {% endfor %}
-                </ul>
-              </section>
-            {% endif %}
-
-            {% if block.settings.material_notes != blank %}
-              <section class="hygen-collabs__block">
-                <h3 class="hygen-collabs__block-title">Material notes</h3>
-                <div class="hygen-collabs__prose">{{ block.settings.material_notes | escape }}</div>
-              </section>
-            {% endif %}
-
-            {% if block.settings.care != blank %}
-              <section class="hygen-collabs__block">
-                <h3 class="hygen-collabs__block-title">Care &amp; maintenance</h3>
-                <ul class="hygen-collabs__list">
-                  {%- assign care_lines = block.settings.care | newline_to_br | split: '<br />' -%}
-                  {% for line in care_lines %}
-                    {%- assign trimmed = line | strip -%}
-                    {% if trimmed != blank %}
-                      <li>{{ trimmed }}</li>
-                    {% endif %}
-                  {% endfor %}
-                </ul>
-              </section>
-            {% endif %}
-          </div>
+        {% if block.settings.show_inline_detail %}
+          {% render 'hygen-collaboration-detail-content',
+            about: block.settings.about,
+            production: block.settings.production,
+            specifications: block.settings.specifications,
+            features: block.settings.features,
+            material_notes: block.settings.material_notes,
+            care: block.settings.care
+          %}
         {% endif %}
       </article>
     {% endif %}
@@ -177,7 +94,7 @@
     {% endif %}
   {% endfor %}
 
-  {% if coming_count > 0 or section.settings.forthcoming_title != blank %}
+  {% if coming_count > 0 %}
     <section class="hygen-collabs__forthcoming">
       <div class="hygen-collabs__forthcoming-inner">
         {% if section.settings.forthcoming_eyebrow != blank %}
@@ -199,10 +116,10 @@
                     {% if block.settings.image != blank %}
                       {{
                         block.settings.image
-                        | image_url: width: 1200
+                        | image_url: width: 2000
                         | image_tag:
                           loading: 'lazy',
-                          widths: '400,700,1000,1200',
+                          widths: '400,700,1000,1200,1600,2000',
                           sizes: '(min-width: 700px) 45vw, 92vw',
                           alt: ''
                       }}
@@ -343,6 +260,20 @@
           "default": "1-year craftsmanship coverage"
         },
         {
+          "type": "text",
+          "id": "chapter_handle",
+          "label": "Chapter URL handle",
+          "default": "rei-gloom-belt",
+          "info": "Used for Learn more links when CTA link is empty: /pages/handle"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_inline_detail",
+          "label": "Show detail sections on this page",
+          "default": false,
+          "info": "Turn off when detail lives on a separate page linked by the CTA."
+        },
+        {
           "type": "header",
           "content": "Detail sections"
         },
@@ -390,7 +321,7 @@
           "type": "text",
           "id": "cta_label",
           "label": "CTA label",
-          "default": "Shop the collection"
+          "default": "Learn more"
         }
       ]
     },
@@ -436,7 +367,7 @@
             "subtitle": "Belt (Abstract)",
             "summary": "A one-of-one statement piece combining handcrafted leatherwork with the expressive language of tattoo artistry.",
             "warranty": "1-year craftsmanship coverage",
-            "cta_label": "Shop the collection"
+            "cta_label": "Learn more"
           }
         },
         {

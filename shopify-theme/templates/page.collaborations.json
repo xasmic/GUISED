@@ -11,46 +11,28 @@
             "subtitle": "Belt (Abstract)",
             "summary": "A one-of-one statement piece combining handcrafted leatherwork with the expressive language of tattoo artistry.",
             "warranty": "1-year craftsmanship coverage",
+            "chapter_handle": "rei-gloom-belt",
+            "show_inline_detail": false,
             "about": "The Guised × Rei Gloom Belt is a one-of-one statement piece combining handcrafted leatherwork with the expressive language of tattoo artistry.\n\nFeaturing a hand-tattooed abstract design by Rei Gloom, each belt transforms traditional leather into a wearable canvas of expression. Its intentionally extended silhouette allows for draping, wrapping, and layered styling, creating a piece that evolves with the wearer.\n\nHandmade in Singapore, this collaboration celebrates the meeting point between craftsmanship, individuality, and personal expression.",
             "production": "Each Guised × Rei Gloom Belt is individually handcrafted with careful attention throughout the cutting, tattooing, finishing, and assembly process.\n\nCreated through a collaboration between traditional leathercraft and tattoo artistry, every piece reflects the time, precision, and individuality behind its creation.\n\nDue to the handmade nature of the leather and artwork, natural variations in texture, grain, and tattoo application are embraced as part of each piece’s identity.",
             "specifications": "Material: Full grain Italian natural vegetable-tanned leather\nDimensions: 130 × 4 cm\nArtwork: Hand-tattooed abstract design by Rei Gloom\nFinish: Protective gloss coating\nIncludes: Signature Guised box packaging & dust bag",
             "features": "Hand-tattooed abstract artwork created by Rei Gloom\nProtective gloss coating applied to preserve tattoo clarity and longevity\nExtended length designed for natural draping, wrapping, and versatile styling\nHand-cut, burnished, and assembled in-house\nCombines traditional leathercraft with contemporary tattoo artistry\nEach belt is unique due to natural leather variation and handmade artwork",
             "material_notes": "Italian Buttero cowhide is known for its smooth surface, durability, and ability to develop a rich patina through use.\n\nOver time, the leather softens and the tattooed surface evolves alongside the natural aging process, creating a unique relationship between the artwork and the material.\n\nEach belt matures differently, ensuring every piece becomes a personal and one-of-one object.",
             "care": "Avoid prolonged exposure to water.\nIf the leather becomes damp, allow it to air dry naturally.\nKeep away from direct heat and prolonged sunlight.\nApply a neutral leather balm occasionally to maintain the leather’s condition.\nAvoid applying products directly onto the tattooed surface.\nStore the belt in the provided dust bag when not in use.\nHandle with clean hands to preserve the artwork and leather patina.",
-            "cta_label": "Shop the collection",
-            "cta_link": "/collections/guised-x-rei-gloom"
-          }
-        },
-        "coming_chapter_ii": {
-          "type": "coming",
-          "settings": {
-            "label": "Chapter II",
-            "partners": "Guised × —",
-            "summary": "A forthcoming exchange with a Singapore-based maker. Details withheld until the hides are ready."
-          }
-        },
-        "coming_chapter_iii": {
-          "type": "coming",
-          "settings": {
-            "label": "Chapter III",
-            "partners": "Guised × —",
-            "summary": "An overseas collaboration in early conversation. Expect quieter hardware, denser leather, and a longer lead."
+            "cta_label": "Learn more",
+            "cta_link": "/pages/rei-gloom-belt"
           }
         }
       },
-      "block_order": [
-        "featured_rei_gloom",
-        "coming_chapter_ii",
-        "coming_chapter_iii"
-      ],
+      "block_order": ["featured_rei_gloom"],
       "settings": {
         "eyebrow": "Archive",
         "title": "Collaborations",
         "lede": "Occasional pairings between Guised and artists who share a language of material, shadow, and wear. Each chapter is finite — made slowly, released once.",
-        "forthcoming_eyebrow": "Forthcoming",
-        "forthcoming_title": "Coming soon",
-        "forthcoming_lede": "Further chapters are in motion. Names stay quiet until the work can speak for itself.",
-        "note": "<p>Future chapters will appear here as they open. For collaboration enquiries, write to <a href=\"mailto:atelierguise@gmail.com\">atelierguise@gmail.com</a>.</p>"
+        "forthcoming_eyebrow": "",
+        "forthcoming_title": "",
+        "forthcoming_lede": "",
+        "note": "<p>For collaboration enquiries, write to <a href=\"mailto:atelierguise@gmail.com\">atelierguise@gmail.com</a>.</p>"
       }
     }
   },

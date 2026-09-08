@@ -15,7 +15,7 @@
       {% if section.settings.left_image != blank %}
         {{
           section.settings.left_image
-          | image_url: width: 1800
+          | image_url: width: 2400
           | image_tag: loading: 'lazy', class: 'hygen-about__img hygen-about__img--mono', alt: section.settings.left_image.alt | default: 'Atelier craft'
         }}
       {% else %}
@@ -26,7 +26,7 @@
       {% if section.settings.right_image != blank %}
         {{
           section.settings.right_image
-          | image_url: width: 1800
+          | image_url: width: 2400
           | image_tag: loading: 'lazy', class: 'hygen-about__img', alt: section.settings.right_image.alt | default: 'Leather in wear'
         }}
       {% else %}
@@ -40,7 +40,7 @@
   <div class="hygen-about__copy">
     <div class="hygen-about__copy-inner">
       <h2 class="hygen-about__headline">
-        {{ section.settings.headline | default: 'Buy a piece for a lifetime' }}
+        {{ section.settings.headline | default: 'Redefining Leathercraft' }}
       </h2>
       {% if section.settings.paragraph_1 != blank %}
         <p class="hygen-about__body">{{ section.settings.paragraph_1 }}</p>
@@ -57,6 +57,19 @@
       {% if section.settings.paragraph_5 != blank %}
         <p class="hygen-about__body">{{ section.settings.paragraph_5 }}</p>
       {% endif %}
+      {%- liquid
+        assign about_cta_label = section.settings.cta_label | default: 'Read our story'
+        assign about_cta_url = section.settings.cta_link
+        if about_cta_url == blank
+          assign about_cta_url = pages.about.url | default: '/pages/about'
+        endif
+      -%}
+      {% if about_cta_label != blank and about_cta_url != blank %}
+        <a class="hygen-about__cta" href="{{ about_cta_url }}">
+          {{ about_cta_label }}
+          <span aria-hidden="true"></span>
+        </a>
+      {% endif %}
     </div>
   </div>
 </section>
@@ -71,25 +84,23 @@
       "type": "text",
       "id": "headline",
       "label": "Headline",
-      "default": "Buy a piece for a lifetime"
+      "default": "Redefining Leathercraft"
     },
     {
       "type": "textarea",
       "id": "paragraph_1",
       "label": "Paragraph 1",
-      "default": "All of our leathers are hides taken with intent, never exploitation — sourced from tanneries we know, trust, and hold to the same standard we hold ourselves."
+      "default": "At Guised, leather is a medium of expression. Every piece is obsessively crafted by hand with the intention of challenging conventional ideas of traditional leathercraft. No two pieces are ever the same, designed to evolve with their owner and reflect their story."
     },
     {
       "type": "textarea",
       "id": "paragraph_2",
-      "label": "Paragraph 2",
-      "default": "Each Guised piece begins as horse culatta: a dense, unruly hide scarred by the life it once carried. No two panels share a memory."
+      "label": "Paragraph 2"
     },
     {
       "type": "textarea",
       "id": "paragraph_3",
-      "label": "Paragraph 3",
-      "default": "Pale and waxen at first, it darkens the longer it is touched — its fibres swelling, compressing, hardening into a second skin shaped by your habits alone. This is not leather that resists wear. It feeds on it. Every crease is a record. Every mark, a quiet confession between you and the hide."
+      "label": "Paragraph 3"
     },
     {
       "type": "textarea",
@@ -100,6 +111,18 @@
       "type": "textarea",
       "id": "paragraph_5",
       "label": "Paragraph 5"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Read our story"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link",
+      "info": "Defaults to the About page"
     },
     {
       "type": "image_picker",

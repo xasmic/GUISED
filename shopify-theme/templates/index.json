@@ -4,7 +4,7 @@
       "type": "hygen-hero",
       "settings": {
         "brand": "GUISED",
-        "tagline": "obsessively crafted",
+        "tagline": "Obsessively Crafted",
         "cta_label": "Explore",
         "cta_link": "/collections/all",
         "image_url": "",
@@ -20,7 +20,7 @@
             "product": "soot-belt",
             "title": "Soot Belt",
             "price": "$180.00",
-            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/B5BD8FE3-26C0-41FA-B5E4-817314E6A776.jpg?v=1770042305&width=1200",
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/B5BD8FE3-26C0-41FA-B5E4-817314E6A776.jpg?v=1770042305",
             "href": "/products/soot-belt"
           }
         },
@@ -30,18 +30,18 @@
             "product": "guised-x-rei-gloom-belt-tan",
             "title": "Guised x Rei Gloom Belt (Abstract)",
             "price": "$360.00",
-            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/74715193-EE59-42D1-AF02-00B58DA0FB48.jpg?v=1724904754&width=1200",
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/74715193-EE59-42D1-AF02-00B58DA0FB48.jpg?v=1724904754",
             "href": "/products/guised-x-rei-gloom-belt-tan"
           }
         },
         "product_3": {
           "type": "product",
           "settings": {
-            "product": "forager-satchel-black",
-            "title": "Forager Satchel (Black)",
+            "product": "forager-satchel",
+            "title": "Forager Satchel",
             "price": "$760.00",
-            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610&width=1200",
-            "href": "/products/forager-satchel-black"
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/0BF22D3C-07CF-40B8-8F7E-D4D5F4D4CE42.jpg?v=1780573610",
+            "href": "/products/forager-satchel"
           }
         },
         "product_4": {
@@ -50,7 +50,7 @@
             "product": "untitled-jan12_14-09",
             "title": "Girded Tote",
             "price": "$990.00",
-            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753&width=1200",
+            "image_url": "https://cdn.shopify.com/s/files/1/0696/4533/6812/files/96C0807F-1943-4BBB-BAF0-A94D7A686ABA.jpg?v=1768209753",
             "href": "/products/untitled-jan12_14-09"
           }
         }
@@ -61,12 +61,13 @@
     "hygen_about": {
       "type": "hygen-about",
       "settings": {
-        "headline": "Buy a piece for a lifetime",
-        "paragraph_1": "All of our leathers are hides taken with intent, never exploitation — sourced from tanneries we know, trust, and hold to the same standard we hold ourselves.",
-        "paragraph_2": "Each Guised piece begins as horse culatta: a dense, unruly hide scarred by the life it once carried. No two panels share a memory.",
-        "paragraph_3": "Pale and waxen at first, it darkens the longer it is touched — its fibres swelling, compressing, hardening into a second skin shaped by your habits alone. This is not leather that resists wear. It feeds on it. Every crease is a record. Every mark, a quiet confession between you and the hide.",
+        "headline": "Redefining Leathercraft",
+        "paragraph_1": "At Guised, leather is a medium of expression. Every piece is obsessively crafted by hand with the intention of challenging conventional ideas of traditional leathercraft. No two pieces are ever the same, designed to evolve with their owner and reflect their story.",
+        "paragraph_2": "",
+        "paragraph_3": "",
         "paragraph_4": "",
         "paragraph_5": "",
+        "cta_label": "Read our story",
         "left_image_url": "",
         "right_image_url": ""
       }
@@ -78,7 +79,8 @@
           "type": "season",
           "settings": {
             "preset": "culatta",
-            "limit": 12
+            "collection": "culatta",
+            "limit": 4
           }
         }
       },
@@ -89,14 +91,15 @@
         "view_all_label": "View all",
         "view_all_link": "/collections/all",
         "cta_label": "Shop Culatta",
-        "cta_link": "/collections/all"
+        "cta_link": "/collections/all",
+        "cta_filter": "culatta"
       }
     },
     "hygen_parallax_1": {
       "type": "hygen-parallax",
       "settings": {
         "heading": "Craft",
-        "use_theme_video": true,
+        "use_theme_video": false,
         "image_url": ""
       }
     },
@@ -125,7 +128,7 @@
             "region": "Online",
             "store_name": "Online store",
             "note": "Worldwide shipping",
-            "href": "/",
+            "href": "/collections/all",
             "show_instagram": true,
             "instagram_url": "https://www.instagram.com/___guised"
           }

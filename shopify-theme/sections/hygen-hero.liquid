@@ -1,8 +1,18 @@
 {%- liquid
-  if section.settings.image_url != blank
-    assign poster = section.settings.image_url
+  if section.settings.image != blank
+    assign desktop_src = section.settings.image | image_url: width: 3200
+  elsif section.settings.image_url != blank
+    assign desktop_src = section.settings.image_url
   else
-    assign poster = 'hygen-hero-poster.jpg' | asset_url
+    assign desktop_src = 'hygen-hero-poster.jpg' | asset_url
+  endif
+
+  if section.settings.mobile_image != blank
+    assign mobile_src = section.settings.mobile_image | image_url: width: 1600
+  elsif section.settings.mobile_image_url != blank
+    assign mobile_src = section.settings.mobile_image_url
+  else
+    assign mobile_src = 'hygen-hero-mobile.jpg' | asset_url
   endif
 
   if section.settings.video_url != blank
@@ -13,7 +23,7 @@
 -%}
 
 <section class="hygen-hero" data-hygen-hero>
-  {% if section.settings.video != blank %}
+  {% if section.settings.use_video and section.settings.video != blank %}
     {{
       section.settings.video
       | video_tag:
@@ -21,10 +31,10 @@
         loop: true,
         muted: true,
         controls: false,
-        image_size: '1920x',
+        image_size: '3200x',
         class: 'hygen-hero__video'
     }}
-  {% else %}
+  {% elsif section.settings.use_video %}
     <video
       class="hygen-hero__video"
       autoplay
@@ -32,33 +42,27 @@
       loop
       playsinline
       preload="metadata"
-      poster="{% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 1920 }}{% else %}{{ poster }}{% endif %}"
+      poster="{{ desktop_src }}"
     >
       <source src="{{ video_src }}" type="video/mp4">
     </video>
   {% endif %}
 
-  {% if section.settings.image != blank %}
-    {{
-      section.settings.image
-      | image_url: width: 2400
-      | image_tag:
-        class: 'hygen-hero__image',
-        loading: 'eager',
-        widths: '750,1100,1500,1920,2400',
-        sizes: '100vw',
-        alt: section.settings.image.alt | default: shop.name
-    }}
-  {% else %}
+  <picture>
+    <source
+      media="(min-width: 1025px)"
+      srcset="{{ desktop_src }}"
+    >
     <img
       class="hygen-hero__image"
-      src="{{ poster }}"
+      src="{{ mobile_src }}"
       alt="{{ shop.name | escape }}"
       loading="eager"
-      width="1920"
-      height="1080"
+      fetchpriority="high"
+      width="819"
+      height="1024"
     >
-  {% endif %}
+  </picture>
 
   <div class="hygen-hero__veil"></div>
 
@@ -89,7 +93,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Defaults use theme assets (hygen-hero-poster.jpg / hygen-hero.mp4). Override with Shopify Files pickers or custom URLs."
+      "content": "Desktop uses the landscape hero. Mobile uses the portrait hero. They are independent images."
     },
     {
       "type": "text",
@@ -101,7 +105,7 @@
       "type": "text",
       "id": "tagline",
       "label": "Tagline",
-      "default": "obsessively crafted"
+      "default": "Obsessively Crafted"
     },
     {
       "type": "text",
@@ -118,12 +122,28 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Poster / mobile image (optional override)"
+      "label": "Desktop hero image (landscape)"
     },
     {
       "type": "text",
       "id": "image_url",
-      "label": "Poster image URL (blank = theme asset)"
+      "label": "Desktop hero URL (blank = hygen-hero-poster.jpg)"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile hero image (portrait)"
+    },
+    {
+      "type": "text",
+      "id": "mobile_image_url",
+      "label": "Mobile hero URL (blank = hygen-hero-mobile.jpg)"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_video",
+      "label": "Play desktop hero video over landscape image",
+      "default": false
     },
     {
       "type": "video",

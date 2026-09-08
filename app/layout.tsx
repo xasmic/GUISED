@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cinzel, Cormorant_Garamond, IBM_Plex_Mono } from "next/font/google";
+import { BrandValues } from "./components/BrandValues";
 import "./globals.css";
 
 const cinzel = Cinzel({
@@ -36,7 +37,10 @@ export default function RootLayout({
       lang="en"
       className={`${cinzel.variable} ${cormorant.variable} ${plexMono.variable} h-full`}
     >
-      <body className="min-h-full font-body antialiased">{children}</body>
+      <body className="min-h-full font-body antialiased">
+        {children}
+        <BrandValues />
+      </body>
     </html>
   );
 }

@@ -1,0 +1,39 @@
+{%- comment -%}
+  Shared lead-time copy for PDP.
+  style: 'status' → under availability; 'detail' → under main description.
+{%- endcomment -%}
+
+{%- liquid
+  assign lead_weeks = blank
+
+  case product.handle
+    when 'girded-tote', 'untitled-jan12_14-09'
+      assign lead_weeks = '5 weeks'
+    when 'forager-satchel', 'forager-satchel-black', 'forager-satchel-dirty-white', 'culatta-messenger-bag'
+      assign lead_weeks = '5 weeks'
+    when 'culatta-long-wallet', 'untitled-jan21_23-21'
+      assign lead_weeks = '3 weeks'
+    when 'culatta-bifold', 'horse-culatta-bifold-wallet'
+      assign lead_weeks = '2 weeks'
+    when 'horse-culatta-cardholder', 'untitled-aug29_17-15'
+      assign lead_weeks = '2 weeks'
+    when 'soot-belt'
+      assign lead_weeks = '2 weeks'
+    when 'military-keyfob', 'military-tactical-keyfob'
+      assign lead_weeks = '2 weeks'
+    when 'tassel-carabiner'
+      assign lead_weeks = '2 weeks'
+  endcase
+-%}
+
+{%- if lead_weeks != blank -%}
+  {%- if style == 'status' -%}
+    <p class="hygen-product__lead-note">
+      Made to order · Ships in approximately {{ lead_weeks }}
+    </p>
+  {%- else -%}
+    <p class="hygen-product__lead-time">
+      <span>Lead time</span> Approximately {{ lead_weeks }}
+    </p>
+  {%- endif -%}
+{%- endif -%}

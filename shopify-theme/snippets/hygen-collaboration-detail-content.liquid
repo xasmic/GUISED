@@ -1,0 +1,107 @@
+{%- liquid
+  assign has_story = false
+  if about != blank or production != blank or specifications != blank or features != blank
+    assign has_story = true
+  endif
+
+  assign has_care = false
+  if material_notes != blank or care != blank
+    assign has_care = true
+  endif
+-%}
+
+{% if has_story or has_care %}
+  <div class="hygen-product__accordion hygen-collab-detail__accordion">
+    {% if has_story %}
+      <details class="hygen-product__details" open>
+        <summary class="hygen-product__summary">
+          <span>Details</span>
+          <span class="hygen-product__summary-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="hygen-product__panel">
+          {% if about != blank %}
+            <div class="hygen-product__block">
+              <h3 class="hygen-product__block-title">About</h3>
+              {% render 'hygen-prose-paragraphs', text: about %}
+            </div>
+          {% endif %}
+
+          {% if production != blank %}
+            <div class="hygen-product__block">
+              <h3 class="hygen-product__block-title">Production</h3>
+              {% render 'hygen-prose-paragraphs', text: production %}
+            </div>
+          {% endif %}
+
+          {% if specifications != blank %}
+            <div class="hygen-product__block">
+              <h3 class="hygen-product__block-title">Specifications</h3>
+              <dl class="hygen-collabs__specs">
+                {%- assign spec_lines = specifications | newline_to_br | split: '<br />' -%}
+                {% for line in spec_lines %}
+                  {%- assign trimmed = line | strip -%}
+                  {% if trimmed != blank %}
+                    {%- assign parts = trimmed | split: ': ' -%}
+                    {%- if parts.size > 1 -%}
+                      <div class="hygen-collabs__spec">
+                        <dt>{{ parts.first | strip }}</dt>
+                        <dd>{{ parts | slice: 1, 20 | join: ': ' | strip }}</dd>
+                      </div>
+                    {%- endif -%}
+                  {% endif %}
+                {% endfor %}
+              </dl>
+            </div>
+          {% endif %}
+
+          {% if features != blank %}
+            <div class="hygen-product__block">
+              <h3 class="hygen-product__block-title">Features</h3>
+              <ul class="hygen-product__list">
+                {%- assign feature_lines = features | newline_to_br | split: '<br />' -%}
+                {% for line in feature_lines %}
+                  {%- assign trimmed = line | strip -%}
+                  {% if trimmed != blank %}
+                    <li>{{ trimmed }}</li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+      </details>
+    {% endif %}
+
+    {% if has_care %}
+      <details class="hygen-product__details">
+        <summary class="hygen-product__summary">
+          <span>Material and care</span>
+          <span class="hygen-product__summary-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="hygen-product__panel">
+          {% if material_notes != blank %}
+            <div class="hygen-product__block">
+              <h3 class="hygen-product__block-title">Material notes</h3>
+              {% render 'hygen-prose-paragraphs', text: material_notes %}
+            </div>
+          {% endif %}
+
+          {% if care != blank %}
+            <div class="hygen-product__block">
+              <h3 class="hygen-product__block-title">Care &amp; maintenance</h3>
+              <ul class="hygen-product__list">
+                {%- assign care_lines = care | newline_to_br | split: '<br />' -%}
+                {% for line in care_lines %}
+                  {%- assign trimmed = line | strip -%}
+                  {% if trimmed != blank %}
+                    <li>{{ trimmed }}</li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+      </details>
+    {% endif %}
+  </div>
+{% endif %}

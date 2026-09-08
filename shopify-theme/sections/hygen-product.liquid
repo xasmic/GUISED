@@ -17,33 +17,35 @@
               {% unless forloop.first %}hidden{% endunless %}
             >
               {% if media.media_type == 'image' %}
+                {% assign media_alt = media.alt | default: product.title %}
                 {% if forloop.first %}
                   {{
                     media
-                    | image_url: width: 1600
+                    | image_url: width: 2400
                     | image_tag:
                       loading: 'eager',
-                      widths: '600,900,1200,1600',
+                      fetchpriority: 'high',
+                      widths: '600,900,1200,1600,2000,2400',
                       sizes: '(min-width: 900px) 48vw, 92vw',
-                      alt: media.alt | default: product.title,
+                      alt: media_alt,
                       class: 'hygen-product__img'
                   }}
                 {% else %}
                   {{
                     media
-                    | image_url: width: 1600
+                    | image_url: width: 2400
                     | image_tag:
                       loading: 'lazy',
-                      widths: '600,900,1200,1600',
+                      widths: '600,900,1200,1600,2000,2400',
                       sizes: '(min-width: 900px) 48vw, 92vw',
-                      alt: media.alt | default: product.title,
+                      alt: media_alt,
                       class: 'hygen-product__img'
                   }}
                 {% endif %}
               {% elsif media.media_type == 'video' or media.media_type == 'external_video' %}
-                {{ media | media_tag: class: 'hygen-product__video', image_size: '1600x' }}
+                {{ media | media_tag: class: 'hygen-product__video', image_size: '2400x' }}
               {% else %}
-                {{ media | media_tag: class: 'hygen-product__img', image_size: '1600x' }}
+                {{ media | media_tag: class: 'hygen-product__img', image_size: '2400x' }}
               {% endif %}
             </div>
           {% endfor %}
@@ -52,6 +54,7 @@
         {% if product.media.size > 1 %}
           <ul class="hygen-product__thumbs" aria-label="Product images">
             {% for media in product.media %}
+              {% assign thumb_alt = media.alt | default: product.title %}
               <li>
                 <button
                   type="button"
@@ -68,7 +71,8 @@
                         loading: 'lazy',
                         widths: '100,200',
                         sizes: '64px',
-                        alt: media.alt | default: product.title
+                        alt: thumb_alt,
+                        class: 'hygen-product__thumb-img'
                     }}
                   {% endif %}
                 </button>
@@ -104,34 +108,13 @@
         {% endif %}
       </p>
 
+      {% render 'hygen-product-lead-time', product: product, style: 'status' %}
+
       {% form 'product', product, id: 'hygen-product-form', class: 'hygen-product__form', data-hygen-product-form: '' %}
         <input type="hidden" name="id" value="{{ current_variant.id }}" data-hygen-variant-id>
 
         {% unless product.has_only_default_variant %}
-          <div class="hygen-product__options">
-            {% for option in product.options_with_values %}
-              <div class="hygen-product__option" data-hygen-option data-option-index="{{ forloop.index0 }}">
-                <label class="hygen-product__option-label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
-                  {{ option.name }}
-                </label>
-                <select
-                  id="Option-{{ section.id }}-{{ forloop.index0 }}"
-                  class="hygen-product__select"
-                  name="options[{{ option.name | escape }}]"
-                  data-hygen-option-select
-                >
-                  {% for value in option.values %}
-                    <option
-                      value="{{ value | escape }}"
-                      {% if option.selected_value == value %}selected{% endif %}
-                    >
-                      {{ value }}
-                    </option>
-                  {% endfor %}
-                </select>
-              </div>
-            {% endfor %}
-          </div>
+          {% render 'hygen-product-options', product: product, section: section %}
         {% endunless %}
 
         <div class="hygen-product__qty">
@@ -166,11 +149,63 @@
         <p class="hygen-product__form-status" data-hygen-form-status role="status" hidden></p>
       {% endform %}
 
-      {% if product.description != blank %}
-        <div class="hygen-product__description rte">
-          {{ product.description }}
-        </div>
-      {% endif %}
+      {%- case product.handle -%}
+        {%- when 'girded-tote', 'untitled-jan12_14-09' -%}
+          {% render 'hygen-product-girded-tote' %}
+        {%- when 'soot-belt' -%}
+          {% render 'hygen-product-soot-belt' %}
+        {%- when 'culatta-long-wallet', 'untitled-jan21_23-21' -%}
+          {% render 'hygen-product-culatta-long-wallet' %}
+        {%- when 'forager-satchel', 'forager-satchel-black', 'forager-satchel-dirty-white', 'culatta-messenger-bag' -%}
+          {% render 'hygen-product-forager-satchel' %}
+        {%- when 'military-keyfob', 'military-tactical-keyfob' -%}
+          {% render 'hygen-product-military-keyfob' %}
+        {%- when 'culatta-bifold', 'horse-culatta-bifold-wallet' -%}
+          {% render 'hygen-product-culatta-bifold' %}
+        {%- when 'clot-satchel', 'satchel' -%}
+          {% render 'hygen-product-clot-satchel' %}
+        {%- when 'tassel-carabiner' -%}
+          {% render 'hygen-product-tassel-carabiner' %}
+        {%- when 'horse-culatta-cardholder', 'untitled-aug29_17-15' -%}
+          {% render 'hygen-product-horse-culatta-cardholder' %}
+        {%- when 'guised-x-rei-gloom-belt-abstract', 'guised-x-rei-gloom-belt-tan' -%}
+          {% render 'hygen-product-rei-gloom-belt-abstract' %}
+        {%- when 'guised-x-rei-gloom-belt-floral' -%}
+          {% render 'hygen-product-rei-gloom-belt-floral' %}
+        {%- when 'guised-x-rei-gloom-barb-handbag' -%}
+          {% render 'hygen-product-rei-gloom-barb-handbag' %}
+        {%- when 'guised-x-rei-gloom-floral-cardholder' -%}
+          {% render 'hygen-product-rei-gloom-floral-cardholder' %}
+        {%- else -%}
+          {% if product.description != blank %}
+            <div class="hygen-product__description rte">
+              {{ product.description }}
+            </div>
+          {% endif %}
+      {%- endcase -%}
+    </div>
+  </div>
+
+  <div class="hygen-product__sticky" data-hygen-product-sticky aria-hidden="true">
+    <div class="hygen-product__sticky-inner">
+      <div class="hygen-product__sticky-meta">
+        <p class="hygen-product__sticky-title">{{ product.title }}</p>
+        <p class="hygen-product__sticky-price" data-hygen-sticky-price>{{ current_variant.price | money }}</p>
+      </div>
+      <button
+        type="button"
+        class="hygen-product__sticky-submit"
+        data-hygen-sticky-add
+        {% unless current_variant.available %}disabled{% endunless %}
+      >
+        <span data-hygen-sticky-label>
+          {% if current_variant.available %}
+            Add to cart
+          {% else %}
+            Sold out
+          {% endif %}
+        </span>
+      </button>
     </div>
   </div>
 </section>
@@ -191,6 +226,10 @@
     var addBtn = root.querySelector('[data-hygen-add]');
     var addLabel = root.querySelector('[data-hygen-add-label]');
     var formStatus = root.querySelector('[data-hygen-form-status]');
+    var stickyBar = root.querySelector('[data-hygen-product-sticky]');
+    var stickyPrice = root.querySelector('[data-hygen-sticky-price]');
+    var stickyAdd = root.querySelector('[data-hygen-sticky-add]');
+    var stickyLabel = root.querySelector('[data-hygen-sticky-label]');
     var optionSelects = root.querySelectorAll('[data-hygen-option-select]');
     var variants = [];
 
@@ -237,9 +276,27 @@
       });
     }
 
+    function syncOptionUi() {
+      optionSelects.forEach(function (select) {
+        var optionRoot = select.closest('[data-hygen-option]');
+        if (!optionRoot) return;
+
+        optionRoot.querySelectorAll('[data-hygen-swatch]').forEach(function (btn) {
+          var active = btn.getAttribute('data-value') === select.value;
+          btn.classList.toggle('is-active', active);
+          btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+
+        var valueEl = optionRoot.querySelector('[data-hygen-option-value]');
+        if (valueEl) valueEl.textContent = select.value;
+      });
+    }
+
     function updateVariant() {
       var variant = findVariant();
       if (!variant) return;
+
+      syncOptionUi();
 
       variantInput.value = variant.id;
       priceEl.innerHTML = money(variant.price);
@@ -252,6 +309,10 @@
       addBtn.disabled = !variant.available;
       addLabel.textContent = variant.available ? 'Add to cart' : 'Sold out';
 
+      if (stickyPrice) stickyPrice.textContent = money(variant.price);
+      if (stickyAdd) stickyAdd.disabled = !variant.available;
+      if (stickyLabel) stickyLabel.textContent = variant.available ? 'Add to cart' : 'Sold out';
+
       if (variant.featured_media) {
         setMedia(variant.featured_media.id);
       }
@@ -263,6 +324,26 @@
 
     optionSelects.forEach(function (select) {
       select.addEventListener('change', updateVariant);
+    });
+
+    root.querySelectorAll('[data-hygen-swatch]').forEach(function (swatch) {
+      swatch.addEventListener('click', function () {
+        var optionRoot = swatch.closest('[data-hygen-option]');
+        var select = optionRoot && optionRoot.querySelector('[data-hygen-option-select]');
+        if (!select) return;
+
+        select.value = swatch.getAttribute('data-value');
+        optionRoot.querySelectorAll('[data-hygen-swatch]').forEach(function (btn) {
+          var active = btn === swatch;
+          btn.classList.toggle('is-active', active);
+          btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+
+        var valueEl = optionRoot.querySelector('[data-hygen-option-value]');
+        if (valueEl) valueEl.textContent = select.value;
+
+        updateVariant();
+      });
     });
 
     root.querySelectorAll('[data-hygen-product-thumb]').forEach(function (thumb) {
@@ -279,6 +360,8 @@
         var formData = new FormData(form);
         addBtn.disabled = true;
         addLabel.textContent = 'Adding…';
+        if (stickyAdd) stickyAdd.disabled = true;
+        if (stickyLabel) stickyLabel.textContent = 'Adding…';
         formStatus.hidden = true;
 
         fetch(window.Shopify && Shopify.routes ? Shopify.routes.root + 'cart/add.js' : '/cart/add.js', {
@@ -295,6 +378,8 @@
             formStatus.textContent = 'Added to cart.';
             addLabel.textContent = 'Add to cart';
             addBtn.disabled = false;
+            if (stickyAdd) stickyAdd.disabled = false;
+            if (stickyLabel) stickyLabel.textContent = 'Add to cart';
             document.dispatchEvent(new CustomEvent('hygen:cart:update'));
           })
           .catch(function () {
@@ -302,10 +387,52 @@
             formStatus.textContent = 'Could not add to cart. Please try again.';
             addLabel.textContent = 'Add to cart';
             addBtn.disabled = false;
+            if (stickyAdd) stickyAdd.disabled = false;
+            if (stickyLabel) stickyLabel.textContent = 'Add to cart';
           });
       });
     }
+
+    if (stickyBar && addBtn && stickyAdd && 'IntersectionObserver' in window) {
+      var stickyObserver = new IntersectionObserver(
+        function (entries) {
+          var show = !entries[0].isIntersecting;
+          stickyBar.classList.toggle('is-visible', show);
+          stickyBar.setAttribute('aria-hidden', show ? 'false' : 'true');
+        },
+        { threshold: 0, rootMargin: '0px 0px -8px 0px' }
+      );
+
+      stickyObserver.observe(addBtn);
+
+      stickyAdd.addEventListener('click', function () {
+        if (addBtn.disabled || !form) return;
+        form.requestSubmit();
+      });
+    }
   })();
+</script>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ shop.url | append: product.url | json }},
+    "image": {{ product.featured_media | image_url: width: 1200 | json }},
+    "description": {{ product.description | strip_html | truncate: 300 | json }},
+    "brand": {
+      "@type": "Brand",
+      "name": {{ product.vendor | default: shop.name | json }}
+    },
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      "price": {{ current_variant.price | divided_by: 100.0 | json }},
+      "availability": "{% if current_variant.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+      "url": {{ shop.url | append: product.url | json }}
+    }
+  }
 </script>
 
 {% schema %}

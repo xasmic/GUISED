@@ -1,9 +1,13 @@
 <section class="hygen-contact">
+  <a href="{{ routes.root_url }}" class="hygen-contact__brand" aria-label="{{ shop.name | upcase | default: 'GUISED' }} home">
+    {{ shop.name | upcase | default: 'GUISED' }}
+  </a>
+
   <div class="hygen-contact__grid">
     <div class="hygen-contact__panel hygen-contact__panel--media">
       <img
         class="hygen-contact__bg"
-        src="{{ 'contact-panel.png' | asset_url }}"
+        src="{{ 'contact-panel.jpg' | asset_url }}"
         alt=""
         width="1200"
         height="1600"
@@ -13,10 +17,6 @@
       <div class="hygen-contact__ring" aria-hidden="true"></div>
       <div class="hygen-contact__crosshair hygen-contact__crosshair--v" aria-hidden="true"></div>
       <div class="hygen-contact__crosshair hygen-contact__crosshair--h" aria-hidden="true"></div>
-
-      <a href="{{ routes.root_url }}" class="hygen-contact__brand">
-        {{ shop.name | upcase | default: 'GUISED' }}
-      </a>
 
       <h1 class="hygen-contact__label">Contact</h1>
 

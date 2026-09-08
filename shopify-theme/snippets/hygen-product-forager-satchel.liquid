@@ -1,0 +1,93 @@
+{%- comment -%}
+  Structured PDP content for Forager Satchel (Black / Dirty White).
+{%- endcomment -%}
+
+{%- liquid
+  assign forager_colour = product.selected_or_first_available_variant.option1 | default: 'Black'
+  assign forager_dims = '30 × 25 cm'
+  assign forager_material = 'Vegetable-tanned full reverse horse culatta'
+  if forager_colour == 'Dirty White'
+    assign forager_dims = '40 × 30 cm'
+    assign forager_material = 'Vegetable-tanned full horse culatta'
+  endif
+-%}
+
+<p class="hygen-product__lede">
+  The Messenger Bag is designed as a structured everyday companion, balancing utility with a refined silhouette. Crafted entirely by hand from full reverse vegetable-tanned horse culatta, it celebrates the raw beauty of the hide through its natural grain, scars, and character.
+</p>
+{% render 'hygen-product-lead-time', product: product, style: 'detail' %}
+
+<div class="hygen-product__accordion">
+  <details class="hygen-product__details">
+    <summary class="hygen-product__summary">
+      <span>Details</span>
+      <span class="hygen-product__summary-icon" aria-hidden="true"></span>
+    </summary>
+    <div class="hygen-product__panel">
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">Production</h3>
+        <p>Every Messenger Bag is made to order and handcrafted individually after your order is placed.</p>
+        <p>We do not carry stock or mass produce our products. Each bag is crafted from start to finish with careful attention to detail, ensuring every piece receives the time it deserves.</p>
+        <p>Natural variations in texture, scars, and grain are embraced as part of the material’s character—not imperfections.</p>
+      </div>
+
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">About</h3>
+        <p>The Messenger Bag is designed as a structured everyday companion, balancing utility with a refined silhouette. Crafted entirely by hand from full reverse vegetable-tanned horse culatta, it celebrates the raw beauty of the hide through its natural grain, scars, and character.</p>
+        <p>Its signature wrap closure secures the bag while maintaining a clean, uninterrupted profile. Fully handsewn and left unlined, the construction allows the leather to age naturally and develop a rich patina unique to its owner.</p>
+        <p>Every piece is handcrafted in our atelier in Singapore and is unique to the hide from which it was made.</p>
+      </div>
+
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">Specifications</h3>
+        <dl class="hygen-product__specs">
+          <div><dt>Material</dt><dd>{{ forager_material }}</dd></div>
+          <div><dt>Dimensions</dt><dd>{{ forager_dims }}</dd></div>
+          <div><dt>Closure</dt><dd>Wrap closure</dd></div>
+          <div><dt>Interior</dt><dd>One internal pocket</dd></div>
+          <div><dt>Colour</dt><dd>{{ forager_colour }}</dd></div>
+          <div><dt>Includes</dt><dd>Signature Guised packaging &amp; dust bag</dd></div>
+        </dl>
+      </div>
+
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">Features</h3>
+        <ul class="hygen-product__list">
+          <li>Handcrafted entirely from full reverse horse culatta</li>
+          <li>Signature wrap closure for secure everyday use while maintaining a clean silhouette</li>
+          <li>Fully handsewn using traditional saddle stitching</li>
+          <li>One internal pocket for everyday organization</li>
+          <li>Hand-cut, hand-shaped, burnished, and assembled in-house</li>
+          <li>Built for daily use while developing a richer patina over time</li>
+          <li>Every hide carries its own unique grain, scars, and markings, ensuring no two bags are ever alike</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <details class="hygen-product__details">
+    <summary class="hygen-product__summary">
+      <span>Material and care</span>
+      <span class="hygen-product__summary-icon" aria-hidden="true"></span>
+    </summary>
+    <div class="hygen-product__panel">
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">Material notes</h3>
+        <p>Horse culatta is one of the densest and most character-rich cuts of leather, prized for its durability, natural texture, and ability to age beautifully.</p>
+        <p>Without an inner lining, the leather is free to breathe and evolve naturally, creating a patina unique to its owner. Each messenger bag reflects the distinctive character of the hide from which it was crafted.</p>
+      </div>
+
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">Care &amp; maintenance</h3>
+        <ul class="hygen-product__list">
+          <li>Avoid prolonged exposure to water.</li>
+          <li>If the leather becomes damp, allow it to air dry naturally.</li>
+          <li>Keep away from direct heat and prolonged sunlight.</li>
+          <li>Apply a neutral leather balm lightly every few months to maintain the leather’s condition.</li>
+          <li>Store the bag in the provided dust bag when not in use.</li>
+          <li>Avoid excessive overloading to help preserve its structure.</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+</div>

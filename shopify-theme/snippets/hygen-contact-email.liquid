@@ -1,0 +1,13 @@
+{%- comment -%}
+  Outputs a contact email: theme setting, then shop email, then atelier fallback.
+{%- endcomment -%}
+{%- liquid
+  assign contact_email = settings.custom_orders_email | strip
+  if contact_email == blank
+    assign contact_email = shop.email | strip
+  endif
+  if contact_email == blank
+    assign contact_email = 'atelierguise@gmail.com'
+  endif
+-%}
+{{- contact_email -}}

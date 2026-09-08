@@ -4,8 +4,8 @@
     "theme_name": "GUISED Hygen",
     "theme_version": "1.0.0",
     "theme_author": "GUISED",
-    "theme_documentation_url": "https://atelierguised.com",
-    "theme_support_url": "https://atelierguised.com/pages/contact"
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://www.instagram.com/___guised"
   },
   {
     "name": "Social",
@@ -24,7 +24,8 @@
         "type": "text",
         "id": "custom_orders_email",
         "label": "Custom orders email",
-        "info": "Used on the Customs page and Email us links. Leave blank to show [company email]."
+        "default": "atelierguise@gmail.com",
+        "info": "Used in the footer, Customs page, and Email us links. Falls back to the shop email if blank."
       }
     ]
   }

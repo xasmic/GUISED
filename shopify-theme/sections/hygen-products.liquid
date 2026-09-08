@@ -87,17 +87,23 @@
               assign categories = ''
               assign type_lower = product.type | downcase
               assign title_lower = product.title | downcase
+              assign tags_lower = product.tags | join: ' ' | downcase
 
-              if title_lower contains 'culatta' or type_lower contains 'culatta'
+              if title_lower contains 'culatta' or type_lower contains 'culatta' or tags_lower contains 'culatta'
                 assign categories = categories | append: ' culatta'
               endif
-              if type_lower contains 'belt' or title_lower contains 'belt'
+              for collection_ref in product.collections
+                if collection_ref.handle == 'culatta' or collection_ref.handle == 'bags' or collection_ref.handle == 'belts' or collection_ref.handle == 'wallets'
+                  assign categories = categories | append: ' ' | append: collection_ref.handle
+                endif
+              endfor
+              if type_lower contains 'belt' or title_lower contains 'belt' or tags_lower contains 'belts'
                 assign categories = categories | append: ' belts'
               endif
-              if type_lower contains 'wallet' or title_lower contains 'wallet'
+              if type_lower contains 'wallet' or title_lower contains 'wallet' or title_lower contains 'cardholder' or title_lower contains 'bifold' or tags_lower contains 'wallets'
                 assign categories = categories | append: ' wallets'
               endif
-              if type_lower contains 'bag' or type_lower contains 'tote' or type_lower contains 'satchel' or title_lower contains 'bag' or title_lower contains 'tote' or title_lower contains 'satchel'
+              if type_lower contains 'bag' or type_lower contains 'tote' or type_lower contains 'satchel' or title_lower contains 'bag' or title_lower contains 'tote' or title_lower contains 'satchel' or tags_lower contains 'bags'
                 assign categories = categories | append: ' bags'
               endif
               if product.available
@@ -108,18 +114,19 @@
               class="hygen-collection__item hygen-products__item"
               data-categories="{{ categories | strip }}"
             >
-              <a class="hygen-collection__link" href="{{ product.url }}">
+              <a class="hygen-collection__link" href="{{ product.url }}" data-hygen-product-card-link>
                 <div class="hygen-collection__media">
                   {% if product.featured_media %}
+                    {% assign card_alt = product.featured_media.alt | default: product.title %}
                     {{
                       product.featured_media
-                      | image_url: width: 1200
+                      | image_url: width: 2000
                       | image_tag:
                         loading: 'lazy',
                         class: 'hygen-collection__img',
-                        widths: '400,600,800,1200',
+                        widths: '400,600,800,1200,1600,2000',
                         sizes: '(min-width: 1320px) 18vw, (min-width: 1100px) 28vw, (min-width: 600px) 40vw, 45vw',
-                        alt: product.featured_media.alt | default: product.title
+                        alt: card_alt
                     }}
                   {% endif %}
                   {% unless product.available %}
@@ -127,6 +134,9 @@
                   {% endunless %}
                 </div>
                 <p class="hygen-collection__name">{{ product.title }}</p>
+              </a>
+              {% render 'hygen-product-card-swatches', product: product %}
+              <a class="hygen-collection__link hygen-collection__link--meta" href="{{ product.url }}">
                 <div class="hygen-products__meta">
                   <p class="hygen-collection__price">
                     {% if product.available %}
@@ -207,6 +217,29 @@
       setDrawerOpen(false);
     }
 
+    function applyFilter(filter) {
+      if (!nav || !grid) return;
+
+      var activeButton = nav.querySelector('[data-filter="' + filter + '"]');
+      if (!activeButton) {
+        filter = 'all';
+        activeButton = nav.querySelector('[data-filter="all"]');
+      }
+
+      nav.querySelectorAll('[data-filter]').forEach(function (item) {
+        item.classList.toggle('is-active', item === activeButton);
+      });
+
+      grid.querySelectorAll('.hygen-products__item').forEach(function (item) {
+        var categories = ' ' + (item.getAttribute('data-categories') || '') + ' ';
+        var show = filter === 'all' || categories.indexOf(' ' + filter + ' ') !== -1;
+        item.hidden = !show;
+        item.classList.toggle('is-filter-hidden', !show);
+      });
+
+      updateCount();
+    }
+
     if (toggle && drawer) {
       toggle.addEventListener('click', function () {
         setDrawerOpen(!drawer.classList.contains('is-open'));
@@ -228,20 +261,20 @@
         var button = event.target.closest('[data-filter]');
         if (!button) return;
 
-        var filter = button.getAttribute('data-filter');
-        nav.querySelectorAll('[data-filter]').forEach(function (item) {
-          item.classList.toggle('is-active', item === button);
-        });
-
-        grid.querySelectorAll('.hygen-products__item').forEach(function (item) {
-          var categories = ' ' + (item.getAttribute('data-categories') || '') + ' ';
-          var show = filter === 'all' || categories.indexOf(' ' + filter + ' ') !== -1;
-          item.hidden = !show;
-        });
-
-        updateCount();
+        applyFilter(button.getAttribute('data-filter'));
         closeDrawer();
       });
+
+      var initialFilter = new URLSearchParams(window.location.search).get('filter');
+      if (!initialFilter && window.location.hash.indexOf('filter=') === 1) {
+        initialFilter = window.location.hash.slice(8);
+      }
+      if (!initialFilter && {{ collection.handle | json }} !== 'all') {
+        initialFilter = {{ collection.handle | json }};
+      }
+      if (initialFilter) {
+        applyFilter(initialFilter);
+      }
     }
 
     if (sortSelect) {
@@ -250,6 +283,10 @@
         var url = collectionUrl || window.location.pathname;
         var next = new URL(url, window.location.origin);
         next.searchParams.set('sort_by', sortBy);
+        var activeFilter = new URLSearchParams(window.location.search).get('filter');
+        if (activeFilter) {
+          next.searchParams.set('filter', activeFilter);
+        }
         window.location.assign(next.pathname + next.search);
       });
     }

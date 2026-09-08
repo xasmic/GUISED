@@ -9,34 +9,57 @@
   endif
 
   assign fallback = section.settings.image_url
+  assign fallback_desktop = blank
   if fallback == blank
     if section.settings.heading == 'Collaboration'
       assign fallback = 'hygen-parallax-lower.png' | asset_url
+      assign fallback_desktop = 'hygen-parallax-lower-desktop.jpg' | asset_url
+    elsif section.settings.heading == 'Craft'
+      assign fallback = 'hygen-parallax-craft.jpg' | asset_url
+      assign fallback_desktop = 'hygen-parallax-craft-desktop.jpg' | asset_url
     else
       assign fallback = 'hygen-parallax-mid.png' | asset_url
     endif
   endif
 -%}
 
-<section class="hygen-parallax" aria-label="{{ section.settings.heading | escape }}">
+<section class="hygen-parallax{% if section.settings.heading == 'Craft' %} hygen-parallax--craft{% endif %}" aria-label="{{ section.settings.heading | escape }}">
   {% if use_video %}
+    <div
+      class="hygen-parallax__bg hygen-parallax__bg--poster"
+      style="background-image: url({{ fallback }});"
+      role="img"
+      aria-label="{{ section.settings.heading | escape }}"
+    ></div>
     <video
       class="hygen-parallax__video"
-      autoplay
+      data-hygen-desktop-video
+      data-src="{{ video_src }}"
       muted
       loop
       playsinline
-      preload="metadata"
+      preload="none"
       aria-label="{{ section.settings.heading | escape }}"
-    >
-      <source src="{{ video_src }}" type="video/mp4">
-    </video>
+    ></video>
   {% elsif section.settings.image != blank %}
     <div
       class="hygen-parallax__bg"
       style="background-image: url({{ section.settings.image | image_url: width: 2400 }});"
       role="img"
       aria-label="{{ section.settings.image.alt | default: section.settings.heading | escape }}"
+    ></div>
+  {% elsif fallback_desktop != blank %}
+    <div
+      class="hygen-parallax__bg hygen-parallax__bg--mobile"
+      style="background-image: url({{ fallback }});"
+      role="img"
+      aria-label="{{ section.settings.heading | escape }}"
+    ></div>
+    <div
+      class="hygen-parallax__bg hygen-parallax__bg--desktop"
+      style="background-image: url({{ fallback_desktop }});"
+      role="img"
+      aria-label="{{ section.settings.heading | escape }}"
     ></div>
   {% else %}
     <div

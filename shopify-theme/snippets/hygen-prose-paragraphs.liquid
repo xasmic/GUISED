@@ -1,0 +1,14 @@
+{%- comment -%}
+  Renders textarea copy as paragraphs. Pass `text` with blank lines between paragraphs.
+{%- endcomment -%}
+{%- if text != blank -%}
+  <div class="hygen-collabs__prose">
+    {%- assign paragraphs = text | newline_to_br | split: '<br /><br />' -%}
+    {%- for paragraph in paragraphs -%}
+      {%- assign trimmed = paragraph | strip_html | strip -%}
+      {%- if trimmed != blank -%}
+        <p>{{ trimmed }}</p>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

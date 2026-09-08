@@ -1,0 +1,167 @@
+{%- liquid
+  assign collaborations_url = pages.collaborations.url | default: '/pages/collaborations'
+  assign shop_url = section.settings.product_link
+  if shop_url == blank and section.settings.product != blank
+    assign shop_url = section.settings.product.url
+  endif
+-%}
+
+<section class="hygen-collab-detail">
+  <div class="hygen-collab-detail__hero">
+    <div class="hygen-collab-detail__hero-inner">
+      <div class="hygen-collab-detail__media">
+        {% if section.settings.image != blank %}
+          {{
+            section.settings.image
+            | image_url: width: 2400
+            | image_tag:
+              loading: 'eager',
+              widths: '600,900,1200,1600,2000,2400',
+              sizes: '(min-width: 900px) 46vw, 92vw',
+              alt: section.settings.image.alt | default: section.settings.partners
+          }}
+        {% else %}
+          <img
+            src="{{ 'hygen-campaign-2.png' | asset_url }}"
+            alt="{{ section.settings.partners | escape }}"
+            width="1200"
+            height="1500"
+            loading="eager"
+          >
+        {% endif %}
+      </div>
+
+      <div class="hygen-collab-detail__intro">
+        <a class="hygen-collab-detail__back" href="{{ collaborations_url }}">
+          <span aria-hidden="true">←</span>
+          Collaborations
+        </a>
+
+        {% if section.settings.season != blank %}
+          <p class="hygen-collabs__season">{{ section.settings.season }}</p>
+        {% endif %}
+        <h1 class="hygen-collabs__partners">{{ section.settings.partners }}</h1>
+        {% if section.settings.subtitle != blank %}
+          <p class="hygen-collabs__subtitle">{{ section.settings.subtitle }}</p>
+        {% endif %}
+        {% if section.settings.summary != blank %}
+          <p class="hygen-collabs__summary">{{ section.settings.summary }}</p>
+        {% endif %}
+        {% if section.settings.warranty != blank %}
+          <p class="hygen-collabs__warranty">
+            <span>Warranty</span>
+            {{ section.settings.warranty }}
+          </p>
+        {% endif %}
+
+        {% if shop_url != blank %}
+          <a class="hygen-collabs__cta" href="{{ shop_url }}">
+            {{ section.settings.shop_label | default: 'View product' }}
+            <span aria-hidden="true"></span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="hygen-collab-detail__body">
+    {% render 'hygen-collaboration-detail-content',
+      about: section.settings.about,
+      production: section.settings.production,
+      specifications: section.settings.specifications,
+      features: section.settings.features,
+      material_notes: section.settings.material_notes,
+      care: section.settings.care
+    %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hygen collab detail",
+  "tag": "section",
+  "class": "hygen-section-collab-detail",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "season",
+      "label": "Chapter / season label",
+      "default": "Chapter I"
+    },
+    {
+      "type": "text",
+      "id": "partners",
+      "label": "Partners",
+      "default": "GUISED × REI GLOOM"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Series title",
+      "default": "Belt (Abstract)"
+    },
+    {
+      "type": "textarea",
+      "id": "summary",
+      "label": "Hero summary"
+    },
+    {
+      "type": "text",
+      "id": "warranty",
+      "label": "Warranty"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Linked product"
+    },
+    {
+      "type": "url",
+      "id": "product_link",
+      "label": "Shop link (overrides product)"
+    },
+    {
+      "type": "text",
+      "id": "shop_label",
+      "label": "Shop button label",
+      "default": "View product"
+    },
+    {
+      "type": "textarea",
+      "id": "about",
+      "label": "About"
+    },
+    {
+      "type": "textarea",
+      "id": "production",
+      "label": "Production"
+    },
+    {
+      "type": "textarea",
+      "id": "specifications",
+      "label": "Specifications (one Label: value per line)"
+    },
+    {
+      "type": "textarea",
+      "id": "features",
+      "label": "Features (one per line)"
+    },
+    {
+      "type": "textarea",
+      "id": "material_notes",
+      "label": "Material notes"
+    },
+    {
+      "type": "textarea",
+      "id": "care",
+      "label": "Care & maintenance (one per line)"
+    }
+  ],
+  "presets": [{ "name": "Hygen collab detail" }]
+}
+{% endschema %}

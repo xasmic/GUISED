@@ -1,0 +1,88 @@
+{%- comment -%}
+  Structured PDP content for Horse Culatta Bifold.
+{%- endcomment -%}
+
+{%- liquid
+  assign bifold_colour = product.selected_or_first_available_variant.option1 | default: 'Black'
+-%}
+
+<p class="hygen-product__lede">
+  The Bifold Wallet is a refined everyday essential, designed around functionality, durability, and timeless character. Hand-stitched entirely from full reverse vegetable-tanned horse culatta, it highlights the raw beauty of the leather through its natural calluses, scars, and grain variation.
+</p>
+{% render 'hygen-product-lead-time', product: product, style: 'detail' %}
+
+<div class="hygen-product__accordion">
+  <details class="hygen-product__details">
+    <summary class="hygen-product__summary">
+      <span>Details</span>
+      <span class="hygen-product__summary-icon" aria-hidden="true"></span>
+    </summary>
+    <div class="hygen-product__panel">
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">Production</h3>
+        <p>Every Bifold Wallet is made to order and handcrafted individually after your order is placed.</p>
+        <p>Each wallet is carefully constructed from start to finish, with every detail receiving dedicated attention. We do not mass produce our products, allowing each piece to retain the character and craftsmanship behind its creation.</p>
+        <p>Natural variations in texture, scars, and grain are embraced as part of the leather’s identity—not imperfections.</p>
+        <p class="hygen-product__lead-time"><span>Warranty</span> 1-year craftsmanship coverage</p>
+      </div>
+
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">About</h3>
+        <p>The Bifold Wallet is a refined everyday essential, designed around functionality, durability, and timeless character.</p>
+        <p>Hand-stitched entirely from full reverse vegetable-tanned horse culatta, it highlights the raw beauty of the leather through its natural calluses, scars, and grain variation. Its minimalist structure provides practical storage while allowing the material to age and develop a unique patina over time.</p>
+        <p>Proudly handmade in our atelier in Singapore, every wallet carries the individuality of the hide from which it was crafted—ensuring no two pieces are ever identical.</p>
+      </div>
+
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">Specifications</h3>
+        <dl class="hygen-product__specs">
+          <div><dt>Material</dt><dd>Vegetable-tanned full reverse horse culatta</dd></div>
+          <div><dt>Dimensions</dt><dd>11 × 9 cm</dd></div>
+          <div><dt>Layout</dt><dd>6 card slots, 2 hidden pockets, 1 cash slot</dd></div>
+          <div><dt>Colour</dt><dd>{{ bifold_colour }}</dd></div>
+          <div><dt>Includes</dt><dd>Signature Guised box packaging &amp; dust bag</dd></div>
+        </dl>
+      </div>
+
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">Features</h3>
+        <ul class="hygen-product__list">
+          <li>Constructed entirely from full reverse horse culatta</li>
+          <li>Fully hand-sewn using traditional saddle stitching for enhanced durability</li>
+          <li>Hand-cut, shaped, burnished, and assembled in Singapore</li>
+          <li>Compact silhouette designed for everyday carry</li>
+          <li>Raw leather surface showcasing natural calluses, scars, and grain variation</li>
+          <li>Built to soften and develop a distinctive patina through daily use</li>
+          <li>Each wallet is one-of-one due to natural hide variation</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <details class="hygen-product__details">
+    <summary class="hygen-product__summary">
+      <span>Material and care</span>
+      <span class="hygen-product__summary-icon" aria-hidden="true"></span>
+    </summary>
+    <div class="hygen-product__panel">
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">Material notes</h3>
+        <p>Full reverse horse culatta preserves the raw and organic character of the hide, revealing natural textures that evolve beautifully with time.</p>
+        <p>The dense fibre structure provides durability and resilience, while continued use allows the leather to soften and develop a patina unique to its owner.</p>
+      </div>
+
+      <div class="hygen-product__block">
+        <h3 class="hygen-product__block-title">Care &amp; maintenance</h3>
+        <ul class="hygen-product__list">
+          <li>Avoid prolonged exposure to water.</li>
+          <li>If the leather becomes damp, allow it to air dry naturally.</li>
+          <li>Keep away from direct heat and prolonged sunlight.</li>
+          <li>Apply a neutral leather balm lightly every few months when needed.</li>
+          <li>Store the wallet in the provided dust bag when not in use.</li>
+          <li>Avoid overstuffing to maintain its structure.</li>
+          <li>Handle with clean hands to encourage an even patina.</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+</div>

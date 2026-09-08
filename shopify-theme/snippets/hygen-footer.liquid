@@ -24,7 +24,8 @@
       {% else %}
         <a href="https://www.instagram.com/___guised" target="_blank" rel="noreferrer">Instagram</a>
       {% endif %}
-      <a href="mailto:[company email]">[company email]</a>
+      {%- capture contact_email -%}{% render 'hygen-contact-email' %}{%- endcapture -%}
+      <a href="mailto:{{ contact_email | strip }}">{{ contact_email | strip }}</a>
       <p class="hygen-footer__copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name | default: 'GUISED' }}</p>
     </div>
   </div>

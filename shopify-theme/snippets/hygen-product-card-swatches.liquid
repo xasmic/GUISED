@@ -1,0 +1,81 @@
+{%- comment -%}
+  Compact color swatches for product cards (listing + collection grids).
+  Only renders when the product has a Color option with 2+ values.
+{%- endcomment -%}
+
+{%- liquid
+  assign color_option = blank
+  assign color_option_index = 0
+
+  unless product.has_only_default_variant
+    for option in product.options_with_values
+      assign option_name_downcase = option.name | downcase
+      if option_name_downcase == 'color' and option.values.size > 1
+        assign color_option = option
+        assign color_option_index = forloop.index0
+        break
+      endif
+    endfor
+  endunless
+-%}
+
+{% if color_option != blank %}
+  <div
+    class="hygen-card-swatches"
+    data-hygen-card-swatches
+    aria-label="{{ color_option.name }} options for {{ product.title | escape }}"
+  >
+    {% for value in color_option.values %}
+      {%- liquid
+        assign swatch_color = '#8a8a8a'
+        case value
+          when 'Black'
+            assign swatch_color = '#0b0b0b'
+          when 'Burgundy'
+            assign swatch_color = '#6b1f2a'
+          when 'Dirty White', 'Dirty white'
+            assign swatch_color = '#e8e4dc'
+          when 'Grey', 'Gray'
+            assign swatch_color = '#8a8a8a'
+        endcase
+
+        assign variant_for_value = blank
+        assign value_available = false
+        for variant in product.variants
+          if variant.options[color_option_index] == value
+            assign variant_for_value = variant
+            if variant.available
+              assign value_available = true
+            endif
+            break
+          endif
+        endfor
+
+        assign swatch_href = product.url
+        if variant_for_value != blank
+          assign swatch_href = product.url | append: '?variant=' | append: variant_for_value.id
+        endif
+
+        assign swatch_image = blank
+        if variant_for_value != blank and variant_for_value.featured_media
+          assign swatch_image = variant_for_value.featured_media | image_url: width: 2000
+        elsif variant_for_value != blank and variant_for_value.featured_image
+          assign swatch_image = variant_for_value.featured_image | image_url: width: 2000
+        elsif variant_for_value != blank and variant_for_value.image
+          assign swatch_image = variant_for_value.image | image_url: width: 2000
+        endif
+      -%}
+      <a
+        class="hygen-card-swatch{% if forloop.first %} is-active{% endif %}{% unless value_available %} is-unavailable{% endunless %}"
+        href="{{ swatch_href }}"
+        aria-label="{{ value }}{% unless value_available %} (sold out){% endunless %}"
+        {% if swatch_image != blank %}
+          data-image="{{ swatch_image }}"
+        {% endif %}
+        style="--hygen-swatch-color: {{ swatch_color }};"
+      >
+        <span class="hygen-card-swatch__fill" aria-hidden="true"></span>
+      </a>
+    {% endfor %}
+  </div>
+{% endif %}

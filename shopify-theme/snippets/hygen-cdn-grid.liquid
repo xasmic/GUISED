@@ -4,14 +4,20 @@
 {%- endcomment -%}
 
 {%- liquid
-  assign contact_email = shop.email | default: 'info@atelierguised.com'
+  assign contact_email = settings.custom_orders_email | strip
+  if contact_email == blank
+    assign contact_email = shop.email | strip
+  endif
+  if contact_email == blank
+    assign contact_email = 'atelierguise@gmail.com'
+  endif
 -%}
 
 {%- case preset -%}
   {%- when 'culatta' -%}
-    {%- assign products = 'hygen-culatta-long-wallet.jpg|Culatta Long Wallet|/products/culatta-long-wallet|$420.00|false,hygen-forager-satchel-black.jpg|Forager Satchel (Black)|/products/forager-satchel-black|$760.00|false,hygen-forager-satchel-dirty-white.jpg|Forager Satchel (Dirty White)|/products/forager-satchel-dirty-white|$760.00|true,hygen-girded-tote.jpg|Girded Tote|/products/girded-tote|$990.00|false,hygen-horse-culatta-bifold.jpg|Horse Culatta Bifold|/products/horse-culatta-bifold|$290.00|false' | split: ',' -%}
+    {%- assign products = 'hygen-culatta-long-wallet.jpg|Culatta Long Wallet|/products/untitled-jan21_23-21|$470.00|false,hygen-forager-satchel-black.jpg|Forager Satchel|/products/forager-satchel-black|$760.00|false,hygen-girded-tote.jpg|Girded Tote|/products/untitled-jan12_14-09|$990.00|false,hygen-horse-culatta-bifold.jpg|Horse Culatta Bifold|/products/horse-culatta-bifold-wallet|$320.00|false' | split: ',' -%}
   {%- else -%}
-    {%- assign products = 'hygen-girded-tote.jpg|Girded Tote|/products/girded-tote|$990.00|false,hygen-culatta-long-wallet.jpg|Culatta Long Wallet|/products/culatta-long-wallet|$420.00|false,hygen-forager-satchel-black.jpg|Forager Satchel (Black)|/products/forager-satchel-black|$760.00|false,hygen-forager-satchel-dirty-white.jpg|Forager Satchel (Dirty White)|/products/forager-satchel-dirty-white|$760.00|true,hygen-horse-culatta-bifold.jpg|Horse Culatta Bifold|/products/horse-culatta-bifold|$290.00|false' | split: ',' -%}
+    {%- assign products = 'hygen-girded-tote.jpg|Girded Tote|/products/untitled-jan12_14-09|$990.00|false,hygen-culatta-long-wallet.jpg|Culatta Long Wallet|/products/untitled-jan21_23-21|$470.00|false,hygen-forager-satchel-black.jpg|Forager Satchel|/products/forager-satchel-black|$760.00|false,hygen-horse-culatta-bifold.jpg|Horse Culatta Bifold|/products/horse-culatta-bifold-wallet|$320.00|false' | split: ',' -%}
 {%- endcase -%}
 
 {%- for item in products -%}
@@ -35,7 +41,13 @@
       <div class="hygen-collection__media">
         <img
           class="hygen-collection__img"
-          src="{{ image_asset | asset_url }}"
+          src="{{ image_asset | asset_img_url: '600x' }}"
+          srcset="
+            {{- image_asset | asset_img_url: '400x' }} 400w,
+            {{- image_asset | asset_img_url: '600x' }} 600w,
+            {{- image_asset | asset_img_url: '800x' }} 800w
+          "
+          sizes="(min-width: 1320px) 18vw, (min-width: 1100px) 28vw, (min-width: 600px) 40vw, 85vw"
           alt="{{ title | escape }}"
           loading="lazy"
           width="600"

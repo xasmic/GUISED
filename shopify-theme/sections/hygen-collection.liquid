@@ -3,6 +3,12 @@
   assign season_collection = season_block.settings.collection
   assign preset = season_block.settings.preset | default: 'culatta'
   assign product_limit = season_block.settings.limit | default: 12
+  if season_collection == blank and collections[preset] != blank
+    assign season_collection = collections[preset]
+  endif
+  if season_collection == blank and collections['culatta'] != blank
+    assign season_collection = collections['culatta']
+  endif
 -%}
 
 <section class="hygen-collection" id="collection">
@@ -12,10 +18,18 @@
         <p class="hygen-collection__eyebrow">{{ section.settings.heading }}</p>
         <h2 class="hygen-collection__title">{{ section.settings.subheading }}</h2>
       </div>
-      {% if section.settings.view_all_link != blank %}
-        <a class="hygen-collection__view-all" href="{{ section.settings.view_all_link }}">
+      {% if section.settings.view_all_label != blank %}
+        {%- liquid
+          assign view_all_href = section.settings.view_all_link
+          if section.settings.cta_filter != blank
+            assign view_all_href = routes.all_products_collection_url | append: '?filter=' | append: section.settings.cta_filter
+          endif
+        -%}
+        {% if view_all_href != blank %}
+        <a class="hygen-collection__view-all" href="{{ view_all_href }}">
           {{ section.settings.view_all_label }}
         </a>
+        {% endif %}
       {% endif %}
     </div>
 
@@ -23,18 +37,19 @@
       {% if season_collection != blank and season_collection.products_count > 0 %}
         {% for product in season_collection.products limit: product_limit %}
           <li class="hygen-collection__item{% unless product.available %} is-sold-out{% endunless %}">
-            <a class="hygen-collection__link" href="{{ product.url }}">
+            <a class="hygen-collection__link" href="{{ product.url }}" data-hygen-product-card-link>
               <div class="hygen-collection__media">
                 {% if product.featured_media %}
+                  {% assign card_alt = product.featured_media.alt | default: product.title %}
                   {{
                     product.featured_media
-                    | image_url: width: 1200
+                    | image_url: width: 2000
                     | image_tag:
                       loading: 'lazy',
                       class: 'hygen-collection__img',
-                      widths: '400,600,800,1200',
-                      sizes: '(min-width: 1320px) 18vw, (min-width: 1100px) 28vw, (min-width: 600px) 40vw, 85vw',
-                      alt: product.featured_media.alt | default: product.title
+                      widths: '400,600,800,1200,1600,2000',
+                      sizes: '(min-width: 1320px) 18vw, (min-width: 1100px) 28vw, (min-width: 600px) 40vw, 45vw',
+                      alt: card_alt
                   }}
                 {% endif %}
                 {% unless product.available %}
@@ -42,6 +57,9 @@
                 {% endunless %}
               </div>
               <p class="hygen-collection__name">{{ product.title }}</p>
+            </a>
+            {% render 'hygen-product-card-swatches', product: product %}
+            <a class="hygen-collection__link hygen-collection__link--meta" href="{{ product.url }}">
               <p class="hygen-collection__price">
                 {% if product.available %}
                   {{ product.price | money }}
@@ -52,9 +70,10 @@
             </a>
             {% unless product.available %}
               {%- capture notify_subject -%}Back in stock — {{ product.title }}{%- endcapture -%}
+              {%- capture contact_email -%}{% render 'hygen-contact-email' %}{%- endcapture -%}
               <a
                 class="hygen-collection__notify"
-                href="mailto:{{ shop.email | default: 'info@atelierguised.com' }}?subject={{ notify_subject | url_encode }}"
+                href="mailto:{{ contact_email | strip }}?subject={{ notify_subject | url_encode }}"
               >
                 Email us
               </a>
@@ -66,12 +85,21 @@
       {% endif %}
     </ul>
 
-    {% if section.settings.cta_label != blank and section.settings.cta_link != blank %}
+    {% if section.settings.cta_label != blank %}
+      {%- liquid
+        assign cta_href = section.settings.cta_link
+        if section.settings.cta_filter != blank
+          assign cta_href = routes.all_products_collection_url | append: '?filter=' | append: section.settings.cta_filter
+        endif
+      -%}
+      {% if cta_href != blank %}
       <div class="hygen-collection__cta-wrap">
-        <a class="hygen-collection__cta" href="{{ section.settings.cta_link }}">
+        <a class="hygen-collection__cta" href="{{ cta_href }}">
           {{ section.settings.cta_label }}
+          <span aria-hidden="true"></span>
         </a>
       </div>
+      {% endif %}
     {% endif %}
   </div>
 </section>
@@ -114,7 +142,15 @@
     {
       "type": "url",
       "id": "cta_link",
-      "label": "CTA button link"
+      "label": "CTA button link",
+      "info": "Used when no CTA filter is set below."
+    },
+    {
+      "type": "text",
+      "id": "cta_filter",
+      "label": "CTA filter preset",
+      "default": "culatta",
+      "info": "When set, the CTA links to Online Store with this filter active (e.g. culatta, belts, wallets)."
     },
     {
       "type": "paragraph",
